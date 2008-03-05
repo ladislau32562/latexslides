@@ -342,6 +342,7 @@ There are three types of slides.
 * BulletSlide
 
 * Slide
+
 The last one can consist of several objects, whereas the first two slides are
 meant for plain text or plain bullets, respectively.
 === TextSlide ===
@@ -448,6 +449,7 @@ objects, and we will look at them now:
 * BulletBlock
 
 * CodeBlock
+
 The difference between the a plain object (like BulleList) and a block object
 (like BulletBlock), is that the
 latter is surrounded by a shadow'ed box (depending on the slide format,
@@ -734,6 +736,7 @@ Several latexstyles are included with this package. These are:
 * beamerthemsimula.sty
 
 * beamerthemehpl1.sty
+
 for Beamer and:
 
 * PPRhplplain.sty
@@ -741,6 +744,7 @@ for Beamer and:
 * PPRhplplain2.sty
 
 * PPRhplplainsmall.sty
+
 for Prosper. These are located in the folder `styles`. If you want to use
 these, you might want to set the following in your shell start-up file (for
 Bash, this is `~/.bashrc`:
