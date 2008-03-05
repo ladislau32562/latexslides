@@ -99,8 +99,7 @@ arguments for the constructor:
 
   * type: bool
 
-  * comment: If set to False, the titlepage is skipped. If there is a figure
-    on the titlepage, however, the figure will be displayed.
+  * comment: If set to False, the titlepage is skipped. If there is a figure on the titlepage, however, the figure will be displayed.
 
 * `titlepage_figure`
 
@@ -280,11 +279,7 @@ arguments for the constructor:
 
   * package: Prosper
 
-  * comment: all default Prosper styles are available. In addition the style
-    'hplplainsmall' is included with the latexslides package. The use of
-    'hplplainsmall' is recommended, as it matches the font sizes of the Beamer
-    themes better, making it less likely for text not to fit on the slides when
-    switching from Beamer to Prosper then 'default'.
+  * comment: all default Prosper styles are available. In addition the style 'hplplainsmall' is included with the latexslides package. The use of 'hplplainsmall' is recommended, as it matches the font sizes of the Beamer themes better, making it less likely for text not to fit on the slides when switching from Beamer to Prosper then 'default'.
 
 * `header_footer`
 
