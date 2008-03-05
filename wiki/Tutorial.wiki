@@ -148,8 +148,7 @@ arguments for the constructor:
    * default: False
    * type: bool
    * package: Beamer
-   * comment: Makes the slides more suited for printing. Table of contence is dropped, and colours are removed from the background. Different behaviour for the different packages. The same as 'colour', but without 'seahorse'
-    as the forced colour theme.
+   * comment: Makes the slides more suited for printing. Table of contence is dropped, and colours are removed from the background. Different behaviour for the different packages. The same as 'colour', but without 'seahorse' as the forced colour theme.
  * `theme`
    * default: 'shadow'
    * type: str
