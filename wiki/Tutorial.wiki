@@ -1,3 +1,5 @@
+= PDF version =
+A PDF version of this tutorial can be found [http://folk.uio.no/ilmarw/latexslides/doc.pdf here.]
 = Introduction =
 == Background ==
 If the background doesn't interest you, and you just want to get started with
