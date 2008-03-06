@@ -51,9 +51,11 @@ slide generation in Python. The old API of `LaTeXSlides` is still
 supported for backward compatibility.
 = Usage =
 If you want to get started with latexslides, it is recommended
-that you take a look at the file `presentation.py` which has many of the
-functionality that is available. This file is included as part of the
-distribution. You can also generate a new, empty presentation by typing
+that you take a look at the file `doc/exampletalk.py` which has many of the
+functionalities that are available. Going through the source code of this talk
+at the same time as reading the pdf, should get you started in less then half
+an hour.
+You can also generate a new, empty presentation by typing
 {{{
 python -c "import latexslides; latexslides.generate("myfile.py")"`
 }}}
@@ -85,7 +87,7 @@ arguments for the constructor:
  * `titlepage`
    * default: True
    * type: bool
-   * comment: If set to False, the titlepage is skipped. If there is a figure on the titlepage, however, the figure will be displayed.
+   * comment: If set to 'False', the titlepage is skipped. If there is a figure on the titlepage, however, the figure will be displayed.
  * `titlepage_figure`
    * default: None
    * type: str
@@ -105,7 +107,7 @@ arguments for the constructor:
    * default: 0.5
    * type: float
    * package: Beamer
-   * comment: If the figure is positioned to the left or right, two columns are used. This value sets the size of the left column, the size of the right column in 1.0 minus this value.
+   * comment: If the figure is positioned to the left or right, two columns are used. This value sets the size of the left column, the size of the right column is 1.0 minus this value.
  * `short_title`
    * default: ''
    * type: str
@@ -124,7 +126,7 @@ arguments for the constructor:
    * default: 'Outline'
    * type: str
    * package: Beamer
-   * comment: The heading of table of contence, shown between all sections and subsections. If set to None or an empty string, these are skipped. This might be preferable for shorter presentations.
+   * comment: The heading of table of contence, shown between all sections and subsections. If set to 'None' or an empty string, these are skipped. This might be preferable for shorter presentations.
  * `toc_figure`
    * default: None
    * type: str
@@ -139,7 +141,7 @@ arguments for the constructor:
    * default: 0.5
    * type: float
    * package: Beamer
-   * comment: The figure is positioned to the left of the toc, hence two columns are used. This value sets the size of the left column, the size of the right column in 1.0 minus this value.
+   * comment: The figure is positioned to the left of the toc, hence two columns are used. This value sets the size of the left column, the size of the right column is 1.0 minus this value.
  * `colour`
    * default: True
    * type: bool
@@ -148,7 +150,7 @@ arguments for the constructor:
    * default: False
    * type: bool
    * package: Beamer
-   * comment: Makes the slides more suited for printing. Table of contence is dropped, and colours are removed from the background. Different behaviour for the different packages. The same as 'colour', but without 'seahorse' as the forced colour theme.
+   * comment: Makes the slides more suited for printing. Table of contence is dropped, and colours are removed from the background. Different behaviour for the different packages. The same as `colour`, but without 'seahorse' as the forced colour theme.
  * `theme`
    * default: 'shadow'
    * type: str
@@ -158,12 +160,12 @@ arguments for the constructor:
    * default: 'default'
    * type: str
    * package: Beamer
-   * comment: All default Beamer colour themes are available. For printing, the colour theme 'seahorse' is recommended, as it is almost black and white. Take care not to use the 'simula' theme with this one, as not all colours that are set there are overridden by this colour theme, resulting in some orange. If 'colour' is set to False, this argument is overriden and the theme set to 'seahorse'.
+   * comment: All default Beamer colour themes are available. For printing, the colour theme 'seahorse' is recommended, as it is almost black and white. Take care not to use the 'simula' theme with this one, as not all colours that are set there are overridden by this colour theme, resulting in some orange. If `colour` is set to 'False', this argument is overriden and the theme set to 'seahorse'.
  * `style`
    * default: 'default'  
    * type: str
    * package: Prosper
-   * comment: all default Prosper styles are available. In addition the style 'hplplainsmall' is included with the latexslides package. The use of 'hplplainsmall' is recommended, as it matches the font sizes of the Beamer themes better, making it less likely for text not to fit on the slides when switching from Beamer to Prosper then 'default'.
+   * comment: all default Prosper styles are available. In addition the style 'hplplainsmall' is included with the latexslides package. The use of 'hplplainsmall' is recommended, as it matches the font sizes of the Beamer themes better, making it less likely for text not to fit on the slides when switching from Beamer to Prosper then with 'default'.
  * `header_footer`
    * default: True
    * type: bool
@@ -173,7 +175,7 @@ arguments for the constructor:
    * default: False
    * type: bool
    * package: Beamer
-   * comment: This enables the possibility to dump the slides to HTML. Setting this variable to True gives the same result as using HTMLSlides instead of BeamerSlides (HTMLSlides simply sets this variable to True).  Requires the package tex4ht to be installed. The following commands should be used when the name of the fil is foo.tex: 'latex foo; latex foo; latex foo; tex4ht foo; t4ht foo;'
+   * comment: This enables the possibility to dump the slides to HTML. Setting this variable to 'True' and `toc_heading` to an empty string gives the same result as using HTMLSlides instead of BeamerSlides (HTMLSlides simply sets this variable to 'True' and `toc_heading` to an empty string). Requires the package tex4ht to be installed.
  * `newcommands`
    * default: []
    * type: list or str
@@ -208,7 +210,7 @@ TextSlide has the following keyword arguments:
  * `hidden`
    * default: False
    * type: bool
-   * comment: If True, the slide is skipped. The properties 'hide' and 'unhide' can also be used, and will return the slide element itself, see the sections 'Organizing the objects' and 'Writing to file' further down.
+   * comment: If 'True', the slide is skipped. The properties `hide` and `unhide` can also be used, and will return the slide element itself, see the sections 'Organizing the objects' and 'Writing to file' further down.
 === BulletSlide ===
 BulletSlide has four keyword arguments:
  * `title`
@@ -226,7 +228,7 @@ BulletSlide has four keyword arguments:
  * `hidden`
    * default: False
    * type: bool
-   * comment: If True, the slide is skipped.
+   * comment: If 'True', the slide is skipped.
  * `dim`
    * default: None
    * type: str
@@ -336,16 +338,16 @@ slide instance itself. All arguments are keyword arguments:
  * `left_column_width`
    * default: 0.5
    * type: float
-   * comment: If the figure is positioned to the left or right, two columns are used. This value sets the size of the left column, the size of the right column in 1.0 minus this value. 
+   * comment: If the figure is positioned to the left or right, two columns are used. This value sets the size of the left column, the size of the right column is 1.0 minus this value. 
  * `hidden`
    * default: False
    * type: bool
-   * comment: If True, the slide is skipped.
+   * comment: If 'True', the slide is skipped.
  * `dim`
    * default: None
    * type: str
    * package: Beamer
-   * comment: Available dimming settings are: `progressive` (one by one bullet), `single` (only one bullet at the time), `single_then_all` (only one bullet at the time, then all), and `blocks` (one block at the time). Subitems will always be shown together with their parent. If a spesific block has the option `dim` set to False, the dim option for the slide is overridden. Setting `dim` for a block to False should only be used with `progressive`. When adding something to a slide that is not part of a block, the result can be unsatisfactory.
+   * comment: Available dimming settings are: `progressive` (one by one bullet), `single` (only one bullet at the time), `single_then_all` (only one bullet at the time, then all), and `blocks` (one block at the time). Subitems will always be shown together with their parent. If a spesific block has the option `dim` set to 'False', the dim option for the slide is overridden. Setting `dim` for a block to False should only be used with `progressive`. When adding something to a slide that is not part of a block, the result can be unsatisfactory.
 == Adding sections ==
 Sections are added as in the same way as normal slides, except they are of
 type Section. If no section is defined, normal slides are simply added to a
@@ -369,8 +371,7 @@ defined. It has two keyword arguments:
 == Organizing the objects ==
 Instead of creating a slide and adding it immediately, it might be better to
 generate all the slide objects, and then add all the slides in the end of the
-file. This way, it is easier to change the order of the slides. See
-`presentation.py` in the documentation folder for an example.
+file. This way, it is easier to change the order of the slides. 
 == latextable ==
 The package includes a function called latextable, which returns the code for
 a latextable based on a two-dimensional list of data. It takes the
@@ -386,16 +387,40 @@ commandline arguments:
    * comment: The position of the text for each row. If only a single character, it is the same for every row. Else, the character are used one-by-one for every row. For instance, the string 'crl' would mean that the first ordinary row is centered, the seconde one right justified, and the third one left justified.
 == Writing to file ==
 When finished writing the presentation, we can dump the LaTeX code to
-file. This done by simply calling the function `slides.get_latex` and dumping it
-to file.
+file. This done by simply calling the function `write` for the slides
+object. The arguments are the filename and the list of slides that you want
+included in the talk. A list of all slide objects can be generated from the
+file exampletalk.py by running the executable `extract_slidenames`:
+{{{
+extract_slidenames exampletalk.py
+}}}
+The list can be included at the bottoom of the file. Afterwards, one simply
+needs to include the following command:
+{{{
+filename = 'mytalk.tex'
+slides.write(filename, collection)
+}}}
+== Compiling the talk ==
+If the function `slides.write()` is used, the necessary latex commands are
+outputted to screen. If not, one simply uses `latex mytalk.tex`. Please note
+that the generation of HTML slides requires som additional compiling after
+running `latex`, namely `tex4ht` and `t4ht`.
 == About figure support ==
 Because Prosper cannot be used with `pdflatex`, `latex` is recommended. This
 means, however, that only .ps images can be used, not .png, if portability
 between Prosper and Beamer is desirable. It is recommended that you use the
 ImageMagick `convert` tool for converting .png to .ps, and including them as
-.ps. Alternatively, the script `subst.py`, which is included as part of this
-package, allows you to replace all instances of .ps with .png, and vice
-versa. 
+.ps.
+= Package spesifics =
+== ProsperSlides ==
+Some of the keyword arguments are only available to BeamerSlides and
+HTMLSlides. If these keyword arguments are present when using ProsperSlides,
+they are simply ignored.
+== HTMLSlides ==
+HTMLSlides differs from BeamerSlides only in the following way:
+ * The `html` keyword for Slides is set to 'True'.
+ * The `toc_heading` keyword for Slides is set to en empty string, removes the table of contence.
+ * All sections and subsections are removed.
 = Styles =
 Several latexstyles are included with this package. These are:
  * beamerthemsimula.sty
