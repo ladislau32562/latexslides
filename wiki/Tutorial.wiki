@@ -147,7 +147,7 @@ arguments for the constructor:
  * `colour`
    * default: True
    * type: bool
-   * comment: Makes the slides more suited for printing. Table of contence is dropped, and colours are removed from the background. Different behaviour for the different packages. 
+   * comment: Makes the slides more suited for printing. Table of contence is dropped, and colours are removed from the background. Different behaviour for the different packages. Beamer forces the use of the theme 'seahorse'.
  * `handout`
    * default: False
    * type: bool
@@ -390,17 +390,20 @@ commandline arguments:
 == Writing to file ==
 When finished writing the presentation, we can dump the LaTeX code to
 file. This done by simply calling the function `write` for the slides
-object. The arguments are the filename and the list of slides that you want
-included in the talk. A list of all slide objects can be generated from the
-file exampletalk.py by running the executable `extract_slidenames`:
+object. The argument is the filename. A list of all slide objects can be
+generated from the file exampletalk.py by running the executable
+`extract_slidenames`:
 {{{
 extract_slidenames exampletalk.py
 }}}
-The list can be included at the bottoom of the file. Afterwards, one simply
-needs to include the following command:
+The list can be included at the bottom of the file. Afterwards, one simply
+needs to include the following command, where `collection` is the (generated)
+list of slides:
 {{{
+for c in collection:
+    slides.add_slide(c)
 filename = 'mytalk.tex'
-slides.write(filename, collection)
+slides.write(filename)
 }}}
 == Compiling the talk ==
 If the function `slides.write()` is used, the necessary latex commands are
