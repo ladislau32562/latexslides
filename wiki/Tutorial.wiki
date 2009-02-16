@@ -148,9 +148,6 @@ displays the second slide.
 
 intro2.png>
 
-% #if "code" in ADVANCED
-% #include "exampledoc.p.tex"
-% #endif
 = Documentation of the classes =
 == Keyword arguments. ==
 Objects in Latexslides makes heavily use of keyword arguments. This
