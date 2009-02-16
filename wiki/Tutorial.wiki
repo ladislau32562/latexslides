@@ -137,7 +137,7 @@ defining the slide. Rather, we give the `Code` class an argument `file=code.py`,
 resulting in the Python code being read from the file `code.py`. Figure
 fig:intro1 displays the first slide.
 
-intro1.png>
+http://folk.uio.no/ilmarw/latexslides/intro1.png
 
 The second slide is a `BulletSlide`, which is less general than the super class
 `Slide`. This means that we have a less complicated interface at the cost of
@@ -146,7 +146,7 @@ allowed, as is shown. Finally, we opted to add a heading to the block making
 up the bullets. If omitted, no heading is displayed. Figure fig:intro2
 displays the second slide.
 
-intro2.png>
+http://folk.uio.no/ilmarw/latexslides/intro2.png
 
 = Documentation of the classes =
 == Keyword arguments. ==
