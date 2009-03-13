@@ -1,0 +1,7 @@
+recursive-include doc/ *.py *.html *.pdf *.ps
+recursive-include styles/ *
+include bin/HOWTO
+include setup.py
+include README
+include CHANGELOG
+include TODO

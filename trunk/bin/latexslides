@@ -1,0 +1,16 @@
+#!/usr/bin/env python
+"""Executable script associated with latexslides module.
+Creates template presentation."""
+
+import latexslides
+import sys, os
+if len(sys.argv) < 2:
+    print 'usage: latexslides filename'
+    filename = "tmp.py"
+else:
+    filename = sys.argv[1]
+try:
+    latexslides.generate(filename)
+    print 'created template file %s' %filename
+except:
+    print 'error generating template file'

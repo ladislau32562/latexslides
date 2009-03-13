@@ -1,0 +1,79 @@
+Installing latexslides
+======================
+
+Installing latexslides is done by
+
+python setup.py install
+
+with the usual Distutils options available.
+
+Location of LaTeX files
+=======================
+
+As part of latexslides, several style files (*.sty) are provided
+in the folder 'styles'. When running the above installation command,
+the style files are written to
+os.path.join(sys.prefix, 'share', 'texmf', 'tex', 'latex', 'latexslides')
+The location can be changed in the following ways:
+
+python setup.py install --install-data=/tmp
+
+The style files are now written to
+os.path.join('/tmp', 'share', 'texmf', 'tex', 'latex', 'latexslides')
+
+python setup.py install --home=/tmp
+
+and
+
+python setup.py install --prefix=/tmp
+
+work as usual, the style files are then written to
+os.path.join('/tmp', 'share', 'texmf', 'tex', 'latex', 'latexslides')
+as well.
+
+Note that the option --install-data only works for the style files, and
+overwrite the options --home and --prefix for these files (as it should).
+
+If none of these options behaves as required (for instance, you would like 
+to install them to $HOME/texmf), then the variable 'styles_dir' in setup.py 
+should be set to this directory.
+
+After the script finishes, you should make sure that the latex command can
+find the files. If the files are located in one of the directories where 
+LaTeX knows about them, it should suffice to run the following command:
+
+texconfig rehash
+
+To check which directories are available to LaTeX, you can use one of the
+following two commands:
+
+texconfig conf
+
+or
+
+kpsepath tex
+
+As a last resort, it is possible to set the environment variable TEXINPUTS,
+demonstrated for the Bash shell:
+
+export TEXINPUTS=:.:/path/to/style_files
+
+Note the first semi-colon; it ensures that the systemwide directories are
+searched first.
+
+Handouts
+========
+To convert slides to handouts with multiple slides per page, use the 
+psnup command from the psutils package. Here is an example of how to use 
+this command:
+psnup -Pa4 -4 -l -m10 -b5 -d5 infile.pdf outfile.ps
+see 'man psnup' and 'psnup --help'
+
+Authors
+=======
+Latexslides is based on a package now called oldlatexslides, 
+developed by Hans Petter Langtangen and Åsmund Ødegård. 
+Ilmar Wilbers redesigned and reimplemented that package partially based
+on changes already made by Arve Knudsen. New features were also added. 
+All four authors work at Simula Research Laboratory in Norway, 
+www.simula.no.

@@ -1,0 +1,60 @@
+Version 0.3
+===========
+- Changed keywords style and theme to prosper_Style and beamer_theme.
+
+- Changed the latextable function to act as other class: Table and
+  TableBlock. Also added TableSlide.
+
+Version 0.21
+============
+- Added emacs commands to exampletalk.
+
+- Fixed "Slide Objects 2" in exampletalk.
+
+- Removed keyword argument 'slides' from function write.
+
+- Added 'How to write mathematics' and slide about exampletalk to exampletalk.
+
+- Divided lib/latexslides/__init__.py in four files core.py, beamer.py, html.py, prosper.py.
+
+- Add authors to README.
+
+- Changed the use av the 'latexslides' command to create template file.
+
+Version 0.2
+===========
+- Translated exampletalk.py from LaTeXTools
+
+- Added keyword argument 'text' to TextBlock, such that the header can 
+  come first. Goes for all Block objects.
+
+- Add beamer styles that are suitable for printing. Same size as on
+  screen. Enable by 'colour=False'.
+
+- When running only 'latexslides' create a template file with
+  multiline strings that explains how the presentation should be written.
+
+- Avoid stripping Code objects or LaTeX in general. Keep blanks, at least in Code objects.
+
+- Add support for figure=tuple.
+
+- Added a space character after \noindent so that one can write a string
+  immidiately after: '\noindentThis is important'
+
+- Possiblility of dumping latexslides to HTML.
+  See http://www.cse.ohio-state.edu/~gurari/TeX4ht/mn37.html and http://www.cse.ohio-state.edu/~gurari/TeX4ht/mn-commands.html
+
+- Enabled the uasge 'TextBlock(Code("..."))', avoiding having to write 'TextBlock(' ' + Code("..."))'.
+
+- Prosper: to get the same size as for beamer, we should use hplplainsmall,
+  def emp as relsize{-2} instead of \smaller, and fontsize=\tiny in verbatim.
+  Figures should be scaled with a factor 0.8 in prosper.
+  Fixed using Content.font_scale and Content.fig_scale. Not sure about using hplplainsmall, 
+  want the package to be independent of special LaTeX files.
+
+- Added following functionality:
+  Should be possible to get the correct output from latexslides
+  executable for the correct commands for generating the slides with
+  LaTeX. See bin/main.py for ideas.
+
+- Removed sections from HTMLSlides class.

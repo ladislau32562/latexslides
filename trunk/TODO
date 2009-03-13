@@ -1,0 +1,14 @@
+- Add functionality for 'note':
+  It would have been nice with e keyword 'note' for a slide. If True,
+  the slide is considered a note to be used by the presenter. When dumping
+  the slides to file, one could choose wether the note slides should be
+  enabled or disabled. The title of the slide should also be proceded 
+  by 'Note: '. Enabling/disabling could be done using 
+  get_latex(notes=True).
+
+- Make 'block' a keyword argument to Text, Code and BulletList instead
+  of having classes especially for Block versions of those. 'blocktitle'
+  will be ignored if block=False (which is default). No point in having 
+  own classes, and for Prosper this seems weird anyway.
+
+- Implement CodeSlide.
