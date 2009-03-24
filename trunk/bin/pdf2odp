@@ -23,7 +23,7 @@ if not os.path.isfile(filename):
     sys.exit(3)
 file, ext = os.path.splitext(filename)
 file = os.path.basename(file)
-if ext != 'pdf':
+if ext != '.pdf':
     print "%s only accepts pdf files, exiting." %sys.argv[0]
     sys.exit(4)
 
