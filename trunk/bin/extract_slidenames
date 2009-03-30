@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: latin-1 -*-
 description = """
-This script searhes a latexslide (.py) file for variable names
+This script searches a Latexslides (.py) file for variable names
 referring to Slide or Section instances and prints these
 variable names as a list. With this script it is easy to
 extract the name of slides and compose them in lists for further
