@@ -371,7 +371,7 @@ class BeamerSlides(Slides):
             if self._dim:
                 dims = []
                 for i in range(len(bulletlist.bullets)):
-                    if isinstance(bulletlist.bullets[i], (list, tuple)):
+                    if isinstance(bulletlist.bullets[i], (list, tuple)) and bulletlist._dim:
                         self._dimi -= 1
                     dims.append('<%d->' % self._dimi)
                     if bulletlist._dim:
@@ -389,11 +389,14 @@ class BeamerSlides(Slides):
                 dims = []
                 step = self._dimi # Step to show all in one block
                 length = 0 # Shorten list
+                if not bulletlist._dim:
+                    length -= len(bulletlist.bullets)
+                    self._dimi += 1
                 for i in bulletlist.bullets:
-                    if isinstance(i, (list,tuple)):
+                    if isinstance(i, (list,tuple)) and bulletlist._dim:
                         length -= 1
                 for i in bulletlist.bullets:
-                    if not isinstance(i, (list,tuple)):
+                    if not isinstance(i, (list,tuple)) and bulletlist._dim:
                         self._dimi += 1
                     dims.append('<%d,%d>' % (self._dimi-1, len(bulletlist.bullets)+length+step))
                 self._dimi += 1
@@ -402,7 +405,7 @@ class BeamerSlides(Slides):
                 dims = []
                 step = 0
                 for i in range(len(bulletlist.bullets)):
-                    if isinstance(bulletlist.bullets[i], (list,tuple)):
+                    if isinstance(bulletlist.bullets[i], (list,tuple)) and bulletlist._dim:
                         self._dimi -= 1
                     dims.append('<%d>' % (self._dimi))
                     if bulletlist._dim:
