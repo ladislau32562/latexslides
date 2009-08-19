@@ -212,7 +212,7 @@ class ProsperSlides(Slides):
 
     def _renderBlock(self, block):
         if block.heading:
-            self.buf.write(block.heading)
+            self.buf.write('\n\n'+ block.heading + '\n\n')
 
         if isinstance(block, TableBlock):
             if block.center:
