@@ -1,120 +1,112 @@
 \ProvidesPackage{beamerthemesimula}
 
-\DeclareOptionBeamer{shadow}[true]{\def\beamer@themerounded@shadow{#1}}
-\ExecuteOptionsBeamer{shadow=true}
-\ProcessOptionsBeamer
+% A stripped down theme for Simula
 
 \mode<presentation>
 
-\definecolor{simula_orange}{rgb}{1.0,0.46,0.10}
-\definecolor{simula_grey}{rgb}{0.6,0.6,0.6}
+\institute{Simula Research Laboratory AS}
 
-\setbeamertemplate{blocks}[rounded][shadow=\beamer@themerounded@shadow]
-\setbeamertemplate{items}[ball]
-\setbeamertemplate{sections/subsections in toc}[ball]
-\setbeamercolor{item}{fg=simula_orange}
-\setbeamercolor{section in toc}{fg=simula_orange!75!black}
+% Use the simula outer-theme; this defines some sizes and set up the standard
+% slidestyle with the Simula footer. It also set the footer with swoosh as
+% default for the first page, the simulatitlepage command turns this one off
+% again for subsequent slides. This must be done manually if a regular
+% titlepage command is used.
+\useoutertheme{simula}
 
+% Use the simula inner-theme; this defines rounded blocks, turn off shadows,
+% defines the titlepage and the partpages.
+\useinnertheme{simula}
 
-\setbeamertemplate{title page}[default]
-[colsep=-4bp,rounded=true,shadow=\beamer@themerounded@shadow]
-\setbeamertemplate{part page}[default]
-[colsep=-4bp,rounded=true,shadow=\beamer@themerounded@shadow]
-\setbeamertemplate{frametitle}[default][center]
-%[colsep=-4bp,rounded=true,shadow=\beamer@themerounded@shadow]
-
-\setbeamercolor{section in head/foot}{parent=palette quaternary}
-\setbeamercolor{subsection in head/foot}{parent=palette primary}
-
-\setbeamercolor{author in head/foot}{parent=section in head/foot}
-\setbeamercolor{title in head/foot}{parent=subsection in head/foot}
-%\setbeamerfont{title in head/foot}{size=\normalsize}
-
-\setbeamercolor{lower separation line head}{fg = black}
-\setbeamercolor{simula_logo}{fg=black,bg=simula_orange}
-\setbeamerfont{simula_logo}{size*={9pt}{1}}
+\usefonttheme[onlysmall]{structurebold}
+% ensure the Simula font-style (basically, it turns on bold for a few fields)
+\usefonttheme{simula}
 
 
-\usesectionheadtemplate
-  {\hfill\insertsectionhead}
-  {\hfill\color{fg!50!bg}\insertsectionhead}
+% This is not created yet, but should be...
+%\usecolortheme{simula}
 
-\setbeamertemplate{headline}
+% Suppress navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+\definecolor{simulaorange}{rgb}{1.0,0.53,0.0}
+\definecolor{simulaorange2}{rgb}{1.0,0.6,0.0}
+\definecolor{simulaorange3}{rgb}{1.0,0.4,0.0}
+\definecolor{simulaorange4}{rgb}{1.0,0.2667,0.0}
+
+\setbeamercolor{simula}{fg=white,bg=simulaorange}
+\setbeamercolor{title}{fg=simulaorange,bg=}
+\setbeamercolor{frametitle}{fg=black!65!white,bg=white}
+\setbeamercolor{normal text}{fg=black!75!white,bg=white}
+\setbeamercolor{structure}{fg=black,bg=white}
+\setbeamercolor{itemize item}{fg=simulaorange}
+
+
+% Define a global default for @usetwocolumns
+\global\let\@usetwocolumns\@empty
+
+% Turn on the swoosh-background
+\newcommand{\turnonBackground}{%
+\setbeamertemplate{background canvas}{
+% we want the footer at the bottom, so we use a phantom ruler
+\color{green}\vrule width 0cm height\paperheight%
+\includegraphics[width=\paperwidth]{simula_swoosh_footer_HEX}%
+}
+}
+
+% Turn off the swoosh-background
+\newcommand{\turnoffBackground}{%
+\usebackgroundtemplate{}%
+}
+
+% Definition of Simla title page. Should have the swoosh background, but we
+% don't force that - if use turns off background immediately, the swoosh wil be
+% gone.
+% The simulatitlepage accept the [twocolumn] option - in this case text goes to
+% the left and a picture to the right, in a 2/3 ratio. The ratio should be
+% customizeable in the future.
+\newcommand{\simulatitlepage}[1][]{%
+\def\@usetwocolumns{#1}%
+\begin{frame}[plain]%
+\ifx\@usetwocolumns\@empty%
+{\titlepage%
+\begin{centering}%
+{\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}%
+\end{centering}%
+}%
+\else%
 {%
-  \leavevmode%
-  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex]{section in head/foot}%
-    \insertsectionnavigationhorizontal{.5\paperwidth}{\hskip0pt plus1filll}{}%
-  \end{beamercolorbox}%
-  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex]{subsection in head/foot}%
-    \insertsubsectionnavigationhorizontal{.5\paperwidth}{}{\hskip0pt plus1filll}%
-  \end{beamercolorbox}%
+\begin{columns}%
+\column{0.6\textwidth}%
+\titlepage%
+\column{0.4\textwidth}
+{\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic\par}%
+\end{columns}%
+}%
+\fi%
+\end{frame}%
+\turnoffBackground%
+}
+
+% Set a backgroud image
+\newcommand\BackgroundPicture[1]{%
+  \setbeamertemplate{background}{%
+   \parbox[c][\paperheight]{\paperwidth}{%
+   \vfill \hfill
+   \includegraphics[width=1\paperwidth,height=1\paperheight]{#1}
+   \hfill \vfill
+}}}
+
+% Turn background picture off
+\newcommand\BackgroundPictureOff{%
+   \setbeamertemplate{background}{\relax}
 }
 
 
-%\setbeamertemplate{headline}
-%{
-%  \leavevmode%
-%  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex]{section in head/foot}%
-%    \insertsectionnavigationhorizontal{.5\paperwidth}{\hskip0pt plus1filll}{}%
-%  \end{beamercolorbox}%
-%  \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex]{subsection in head/foot}
-%    \insertsubsectionnavigationhorizontal{.5\paperwidth}{\hskip0pt plus1filll}{}%
-%  \end{beamercolorbox}%
-%}
+% Not sure about this one, it was in the one I tweaked. Should test.
+\setbeamerfont{block title}{size={}}
 
-\setbeamertemplate{footline}
-{%
-  \leavevmode%
-  \hbox{\begin{beamercolorbox}[wd=.5\paperwidth,ht=3.5ex,dp=1.125ex,leftskip=.1cm  plus1fill,rightskip=.2cm]{author in head/foot}%
-    \usebeamerfont{author in head/foot}\insertdate ,~~\insertshortauthor
-  \end{beamercolorbox}%
-  \begin{beamercolorbox}[wd=.5\paperwidth,ht=3.5ex,dp=1.125ex,leftskip=.2cm plus1fill,rightskip=.1cm]{title in head/foot}%
-    \usebeamerfont*{simula_logo} \color{simula_grey}[\color{white}~simula~\color{simula_grey}.\color{black}~research~laboratory~\color{simula_grey}]
-  \end{beamercolorbox}}%
-  \vskip0pt%
-}
-
-\setbeamercolor*{palette primary}{use=structure,fg=black,bg=simula_orange}
-\setbeamercolor*{palette secondary}{use=structure,fg=black,bg=structure.fg!75!black}
-\setbeamercolor*{palette tertiary}{use=structure,fg=black,bg=structure.fg!50!black}
-\setbeamercolor*{palette quaternary}{fg=black,bg=simula_grey}
-
-\setbeamercolor*{sidebar}{use=structure,bg=structure.fg}
-  
-\setbeamercolor*{palette sidebar primary}{use=structure,fg=structure.fg!10}
-\setbeamercolor*{palette sidebar secondary}{fg=white}
-\setbeamercolor*{palette sidebar tertiary}{use=structure,fg=structure.fg!50}
-\setbeamercolor*{palette sidebar quaternary}{fg=white}
-
-\setbeamercolor*{titlelike}{parent=palette primary}
-
-\setbeamercolor*{separation line}{}
-\setbeamercolor*{fine separation line}{}
-
-\setbeamercolor{block title}{use=structure,fg=black,bg=simula_orange}
-\setbeamercolor{block title alerted}{use=alerted text,fg=white,bg=alerted text.fg!75!black}
-\setbeamercolor{block title example}{use=example text,fg=white,bg=example text.fg!75!black}
-
-\setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg!10!bg}
-\setbeamercolor{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg!10!bg}
-\setbeamercolor{block body example}{parent=normal text,use=block title example,bg=block title example.bg!10!bg}
-
-\setbeamerfont{block body}{size*={11pt}{1.2}}
-\setbeamerfont{block title}{size*={11pt}{1.2}}%???
-\setbeamerfont{subsection}{size*={9pt}{1.2}}%<---
-%\setbeamerfont{title}{size=\Large,parent=structure,series=\bfseries}
-%\setbeamerfont{frametitle}{parent=structure,size=\Large,series=\bfseries}
-%\setbeamerfont{titlelike}{}
-\mode<all>
-
-\usepackage[english]{babel}
-% or whatever
-
-\usepackage[latin1]{inputenc}
-% or whatever
-
-\usepackage{times}
-\usepackage[T1]{fontenc}
-% Or whatever. Note that the encoding and the font should match. If T1
-% does not look nice, try deleting the line with the fontenc.
-
+%Setting the following to anything (true,false,foo,bar) turns on pagenumbering
+%TODO: make this an option somewhere...
+\def\@pagenumbering{}
+\mode
+<all>
