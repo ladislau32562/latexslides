@@ -204,6 +204,7 @@ class Table(Content):
         Content.__init__(self, _latextable(table, column_headline_pos, column_pos))
 
 class Block(Content):
+    unblock = False  # can be used to turn off block formatting for all blocks
     def __init__(self, heading='', content=[], code=False):
         self.heading = heading
         self.content = content

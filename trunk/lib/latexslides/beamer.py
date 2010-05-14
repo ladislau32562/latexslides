@@ -2,7 +2,8 @@ from core import *
 import os
 
 class BeamerSlides(Slides):
-    """ Class for creating a presentation using the Beamer LaTeX package.
+    """ 
+    Class for creating a presentation using the Beamer LaTeX package.
 
     Instances contain a number of slides, that may be arranged in sections and subsections.
     @ivar slides: Top-level slides that appear before the first section.
@@ -446,11 +447,18 @@ class BeamerSlides(Slides):
 """)
 
     def _renderBlock(self, block):
-        if block.heading:
-            block.heading = "{%s}" % block.heading
-        self.buf.write(r"""\begin{block}%s
+        if Block.ublock:
+            if block.heading:
+                self.buf.write(r"""{\bf %s
 
 """ % block.heading)
+        else:
+            if block.heading:
+                block.heading = "{%s}" % block.heading
+            self.buf.write(r"""\begin{block}%s
+
+""" % block.heading)
+
         if isinstance(block, TableBlock):
             if block.center:
                 self.buf.write(r"""\begin{center}""")
@@ -462,7 +470,11 @@ class BeamerSlides(Slides):
         if isinstance(block, TableBlock):
             if block.center:
                 self.buf.write(r"""\end{center}""")
-        self.buf.write(r"""
+
+        if Block.ublock:
+            pass
+        else:
+            self.buf.write(r"""
 \end{block}
 """)
         if self._dim == 'blocks':

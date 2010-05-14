@@ -1,6 +1,6 @@
 _______Introduction_______
 
-_____Background._____
+_____Background_____
 
 If the background doesn't interest you, and you just want to get started with
 Latexslides, jump to the 'Getting started' section.
@@ -45,7 +45,7 @@ Another important point is, of course, that whatever can be done in Python,
 should be done in Python :-) Also slides...
 
 
-_____History._____
+_____History_____
 
 Initially, `LaTeXSlides` was a module and script written by Hans Petter
 Langtangen and later improved by Åsmund Ødegård, both at Simula Research 
@@ -68,7 +68,7 @@ at the same time as reading the PDF generated from it, should get you started in
 an hour. 
 # #endif
 
-_____Introductory example._____
+_____Introductory example_____
 
 You can generate a new, empty presentation by typing
 !bc
@@ -133,14 +133,14 @@ Second slide of introductory example.
 
 _______Documentation of the classes_______
 
-_____Keyword arguments._____
+_____Keyword arguments_____
 
 Objects in Latexslides makes heavily use of keyword arguments. This
 means that when creating a new object, there are very few, if any,
 arguments that are mandatory. A lot of arguments are optional, and will
 be ignored if not present, or suitable default values will be used.
 
-_____Initialization._____
+_____Initialization_____
 
 After an 
 !bc
@@ -270,7 +270,7 @@ Here is a list of keyword arguments for the constructor of a `Slide` instance:
    * Type: str
    * Comment: Adds additional packages to the list of packages at the beginning of the \LaTeX~file. In order to allow options to the packages, it is a simple multi-line string, e.g. the exact string otherwise written in the \LaTeX~file.
 
-_____Adding slides._____
+_____Adding slides_____
 
 After having created the `BeamerSlides` or `ProsperSlides` object,
 we are ready to start creating individual slides. 
@@ -365,7 +365,7 @@ Python lists, or plain \LaTeX, respectively. For these, blocks are used when ava
    * Type: bool
    * Comment: If `True`, the slide is skipped.
 
-_____Slide._____
+_____Slide_____
 
 A general slide can consist of several
 objects, and we will look at them now:
@@ -382,7 +382,8 @@ The difference between a plain object (like `BulletList`) and a block object
 (like `BulletBlock`), is that the
 latter is surrounded by a shadowed box (depending on the slide format,
 Beamer or Prosper, for instance), and has an optional heading for that
-box. 
+box. It is possible to turn off the block formatting for all slides
+of type `TextBlock`, `BulletBlock`, `CodeBlock`, and `TableBlock`.
 
 `Text` takes only one argument, and that is the text.
 
@@ -484,6 +485,18 @@ general than the three block objects that follow:
    * Type: bool
    * Comment: If `True`, center the table within the block.
 
+The special formatting of the `Block` slides can be turned off by setting
+the class variable `unblock` to `False` before the slides are rendered
+a particular format:
+!bc
+Block.unblock = True
+!ec
+Sometimes unblocking blocks is desired for achieving a simpler layout.
+If you want to turn off the block format for some selected slides only,
+you have to explicitly change the slide object from, e.g.,
+`TextBlock` to `Text` and comment out the `heading` argument if that is
+present.
+
 ___Creating the slide instance___
 
 Once we have all the objects we want a slide to consist of, we can create the
@@ -526,7 +539,7 @@ slide instance itself. All arguments are keyword arguments:
    * Package: Beamer
    * Comment: Available dimming settings are: `progressive` (one by one bullet), `single` (only one bullet at the time), `single_then_all` (only one bullet at the time, then all), and `blocks` (one block at the time). Sub-items will always be shown together with their parent. If a specific block has the option `dim` set to `False`, the `dim` option for the slide is overridden. Setting `dim` for a block to `False` should only be used with `progressive`, as adding something to a slide that is not part of a block, can cuase the result to be unsatisfactory.
 
-_____Adding sections._____
+_____Adding sections_____
 
 One can insert special slides to mark sections in the talk. The section slides
 will automatically appear in a table of contents and optionally in the header in Beamer
@@ -545,7 +558,7 @@ keyword arguments:
    * Type: str
    * Comment: Used when there is no space for the main title, for instance in the header.
 
-_____Adding subsections._____
+_____Adding subsections_____
 
 Class `SubSection` is added in the same way as `Section`. If a subsection
 is added before a section is added, an error is issued and the generation of
@@ -561,7 +574,7 @@ defined. It has two keyword arguments:
    * Type: str
    * Comment: Used when there is no space for the main title, for instance in the header.
 
-_____Organizing the objects._____
+_____Organizing the objects_____
 
 Instead of creating a slide and adding it immediately to the initial `Slides`
 object using the the function `add_slide` in `Slides`, it might be better to
@@ -588,7 +601,7 @@ the next section.
 
 _______Additional scripts_______
 
-_____Naming slide objects._____
+_____Naming slide objects_____
 
 The slide object that one creates need to be stored in a Python variable, and
 instead of naming these object `slide1`, `slide2` etc. it would be preferable
@@ -646,7 +659,7 @@ create_slidenames exampletalk.py
 would result in `exampletalk.py` now containing the variable names as well,
 whereas `exampletalk.py.old~~` would contain the original file.
 
-_____Extracting slide names._____ 
+_____Extracting slide names_____ 
 
 Once you are finished writing the talk you need to add all the slide objects
 to the main instance of the `Slides` class used (e.g. `BeamerSlides`). The
@@ -667,7 +680,7 @@ extract_slidenames exampletalk.py >> exampletalk.py
 !ec
 Note that if we add or remove slides, we need to regenerate this list.
 
-_____Converting talks to the OpenOffice format._____
+_____Converting talks to the OpenOffice format_____
 
 Another script that comes as part of Latexslides is `pdf2odp`. It is used for
 converting PDF files in general to a format recognized by OpenOffice. This
@@ -677,12 +690,13 @@ further down.
 _______Writing to file_______
 
 When finished writing the presentation, we can dump the \LaTeX~code to
-file. This is done by simply calling the function `write` for the initial `Slides`
-object (of class `BeamerSlides`, `ProsperSlides` etc.). The argument is the
-file name. The `write` function also outputs the necessary commands one needs
-to run for creating the slides for the specific package used (Prosper, Beamer,
-HTML). So if all slide instances are collected in a list `collection`, these
-are dumped to file by writing
+file. This is done by simply calling the function `write` for the
+initial `Slides` object (of class `BeamerSlides`, `ProsperSlides`
+etc.). The argument is the file name. The `write` function also
+outputs the necessary commands one needs to run for creating the
+slides for the specific package used (Prosper, Beamer, HTML). So if
+all slide instances are collected in a list `collection`, these are
+dumped to file by writing
 !bc
 for c in collection:
     slides.add_slide(c)
@@ -712,10 +726,10 @@ slides.add_slide(titleslide.hide)
 
 _______Compiling the talk_______
 
-If the function `slides.write()` is used, the necessary commands for compiling
-the talk are
-output to screen. If not, one simply uses `latex mytalk.tex`. Please note
-that the generation of HTML slides requires running `tex4ht` and `t4ht` afterwards.
+If the function `slides.write()` is used, the necessary commands for
+compiling the talk are output to screen. If not, one simply uses
+`latex mytalk.tex`. Please note that the generation of HTML slides
+requires running `tex4ht` and `t4ht` afterwards.
 
 _______About figure support_______
 
@@ -736,48 +750,49 @@ as a .ppt file, or through a commandline script like
 http://www.artofsolving.com/opensource/pyodconverter<PyODConverter>
 (http://www.artofsolving.com/opensource/pyodconverter). 
 
-Sometimes
-when  giving a presentation, you might experience that the organizers only
-accept .ppt or .odp files. `pdf2odp`, which comes as part of Latexslides,
-solves this problem. Of course, not
-accepting PDF files these days would be surprising, and hence this is not the
-main objective of the script. The reason it was written is that sometimes,
-one might want to add a few extras to the presentation. For instance, one
-could highlight certain words by adding a circle, drawing some arrows, or one
-could use
-some of the advanced possibilities provided by presentation tools
-like Impress and PowerPoint without having to write the whole presentation
-with this tool, something that we already agreed upon can be rather
-tedious. In this way, we can combine the best from two worlds; the simplicity
-of Latexslides and the advanced interactive functionality of Impress or PowerPoint.
+Sometimes when giving a presentation, you might experience that the
+organizers only accept .ppt or .odp files. `pdf2odp`, which comes as
+part of Latexslides, solves this problem. Of course, not accepting PDF
+files these days would be surprising, and hence this is not the main
+objective of the script. The reason it was written is that sometimes,
+one might want to add a few extras to the presentation. For instance,
+one could highlight certain words by adding a circle, drawing some
+arrows, or one could use some of the advanced possibilities provided
+by presentation tools like Impress and PowerPoint without having to
+write the whole presentation with this tool, something that we already
+agreed upon can be rather tedious. In this way, we can combine the
+best from two worlds; the simplicity of Latexslides and the advanced
+interactive functionality of Impress or PowerPoint.
 
-The script `pdf2odp` uses a Python module called `odfpy`. An error is given before
-exiting the script in case this module is unavailable. If the module is found,
-Ghostscript is used for converting the input file, which should be a PDF
-file, to a set of PNG files, one for each page in the input file. This
-conversion process can take some time. If Ghostscript is unavailable, the
-script will exit with an error. When the conversion is finished, `odfpy` is
-used to create the OpenOffice file. Each slide in the new presentation contains an
-image that corresponds to the slide in the input file, and this image covers
-the whole slide. Finally, the OpenOffice file is saved and the scripts exits.
+The script `pdf2odp` uses a Python module called `odfpy`. An error is
+given before exiting the script in case this module is unavailable. If
+the module is found, Ghostscript is used for converting the input
+file, which should be a PDF file, to a set of PNG files, one for each
+page in the input file. This conversion process can take some time. If
+Ghostscript is unavailable, the script will exit with an error. When
+the conversion is finished, `odfpy` is used to create the OpenOffice
+file. Each slide in the new presentation contains an image that
+corresponds to the slide in the input file, and this image covers the
+whole slide. Finally, the OpenOffice file is saved and the scripts
+exits.
 
-As the slides from the original PDF file merely are images in the new .odp
-file, we loose some of the functionality from the PDF file, mainly the
-linking within the document. With Beamer, for instance, there are links in the
-presentation allowing one to navigate within the slides. These links will now
-simply be part of the image, and cannot be clicked. Also, as all the text is
-part of an image, it is no longer possible to copy the text or index the file
-in any way.
+As the slides from the original PDF file merely are images in the new
+.odp file, we loose some of the functionality from the PDF file,
+mainly the linking within the document. With Beamer, for instance,
+there are links in the presentation allowing one to navigate within
+the slides. These links will now simply be part of the image, and
+cannot be clicked. Also, as all the text is part of an image, it is no
+longer possible to copy the text or index the file in any way.
 
-_______Package specifics_______
+_______Package specific information_______
 
-_____ProsperSlides._____
+_____ProsperSlides_____
 
 Some of the keyword arguments are only available to BeamerSlides and
 HTMLSlides. If these keyword arguments are present when using ProsperSlides,
 they are simply ignored.
 
-_____HTMLSlides._____
+_____HTMLSlides_____
 
 HTMLSlides is really the same as BeamerSlides, with the following modifications:
  * The `html` keyword for Slides is set to `True`.
