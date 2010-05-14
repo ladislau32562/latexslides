@@ -447,7 +447,7 @@ class BeamerSlides(Slides):
 """)
 
     def _renderBlock(self, block):
-        if Block.ublock:
+        if Block.unblock:
             if block.heading:
                 self.buf.write(r"""{\bf %s
 
@@ -471,7 +471,7 @@ class BeamerSlides(Slides):
             if block.center:
                 self.buf.write(r"""\end{center}""")
 
-        if Block.ublock:
+        if Block.unblock:
             pass
         else:
             self.buf.write(r"""
