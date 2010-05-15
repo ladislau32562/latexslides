@@ -122,6 +122,7 @@ class BeamerSlides(Slides):
 \end{frame}
 """ % (self.short_title, self.title, self.short_author, self.author_cmd, self.institute_cmd,
        self.date, toc_slides, option, titlepage)
+
         else:
             # Figure to the right or below?
             if self.titlepage_figure_pos == 's':
@@ -188,6 +189,9 @@ class BeamerSlides(Slides):
        1.0 - self.titlepage_left_column_width, self.titlepage_figure,
        self.titlepage_figure_fraction_width)
 
+        if self.beamer_theme == 'simula':  # hack!
+            tp_fig += '\n\n' + r'\turnoffBackground' + '\n\n'
+                
         self.buf.write(tp_fig) # Dump titlepage
         
         if self.toc_heading:
