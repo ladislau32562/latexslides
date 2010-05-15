@@ -189,7 +189,7 @@ class BeamerSlides(Slides):
        1.0 - self.titlepage_left_column_width, self.titlepage_figure,
        self.titlepage_figure_fraction_width)
 
-        if self.beamer_theme == 'simula':  # hack!
+        if self.beamer_theme == 'simula' or self.beamer_theme == 'cbc':  # hack!
             tp_fig += '\n\n' + r'\turnoffBackground' + '\n\n'
                 
         self.buf.write(tp_fig) # Dump titlepage
@@ -480,6 +480,7 @@ class BeamerSlides(Slides):
         else:
             self.buf.write(r"""
 \end{block}
+
 """)
         if self._dim == 'blocks':
             self.buf.write(r"\pause" + "\n")
