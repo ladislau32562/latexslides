@@ -7,7 +7,7 @@ Usage:
 
 unix> python exampletalk.py
 unix> # run last output line from the above command:
-unix> latex exampletalk.tex; dvips exampletalk.dvi; ps2pdf exampletalk.ps; acroread exampletalk.pdf
+unix> latex tmp_exampletalk.tex; dvipdf tmp_exampletalk.dvi; acroread tmp_exampletalk.pdf
 
 Read the PDF file and this source code file in parallel. It takes 10 minutes,
 and afterwards you are probably ready to write your own talk.
@@ -42,7 +42,7 @@ ilmarw = 'Ilmar M. Wilbers'
 
 slides = package(title='Using Python and Latexslides to Make Slides',
                  author_and_inst=[(hpl,simula,ifi), (ilmarw,simula,math)],
-                 date='March 2008',
+                 date='June 2010',
                  beamer_theme=beamer_theme,
                  prosper_style=prosper_style,
                  header_footer=header_footer,
@@ -54,6 +54,7 @@ slides = package(title='Using Python and Latexslides to Make Slides',
                  toc_figure='python1.ps',
                  toc_figure_fraction_width=1,
                  toc_left_column_width=0.5,
+                 handout=False,
                  newcommands=newcommands)
 
 # Exemplify raw LaTeX, please note that the code is for Beamer,
@@ -494,19 +495,42 @@ that is easy to solve.
 that is easy to solve.
 """),],)
 
+mapping_slide1 = \
+Slide('There is support for mapping slides',
+content=[Text(r"""Michael Alley-style mapping slides can be created, 
+using \texttt{MappingSlide} and a list of heading-figure pairs
+(optionally heading-figure-width triples, where width denotes
+the relative width of the figure). Here is an example:""" + Code(r"""
+
+mapping_slide2 = \   
+MappingSlide([('Wave motion', 'wave-dueto-slide.ps'),
+              ('Some Python', 'python1.ps'),
+              ])
+""") + """See the next slide for the result (the headings are placed
+to the right of the figures, and the figure-heading pairs appear
+diagonally on the slide).""")])
+
+
+# mapping slide with two sections (heading-figure pairs)
+mapping_slide2 = \
+MappingSlide([('Wave motion', 'wave-dueto-slide.ps'),
+              ('Some Python', 'python1.ps'),
+              ])
+
 learning = \
 Slide('Learning Latexslides',
-      [BulletBlock(['Have a look at the source code for this presentation, '
-                    r'it can be found in the file \emp{exampletalk.py}. '
-                    'Going through the presentation and the source code '
-                    'simultaneously should get you started.'],),
-       BulletBlock(['When running' +
+      content=[
+      BulletBlock(['Have a look at the source code for this presentation, '
+                   r'it can be found in the file \emp{exampletalk.py}. '
+                   'Going through the presentation and the source code '
+                   'simultaneously should get you started.'],),
+      BulletBlock(['When running' +
                    Code(r"""
 unix> latexslides mytalk.py
 """) +
-                    'the file \emp{mytalk.py} is created. This file '
-                    'contains the basics and will help you get started '
-                    'on a new talk.',],),],)
+                   'the file \emp{mytalk.py} is created. This file '
+                   'contains the basics and will help you get started '
+                   'on a new talk.',],),],)
           
 # Make a couple of dummy slides:
 dummy1 = BulletSlide('Dummy1', ['...'])
@@ -543,6 +567,8 @@ code_obj_result,
 sec_specials,
 sections,
 navigation,
+mapping_slide1,
+mapping_slide2,
 ex_header,
 prosper,
 ex_titlepage,
@@ -559,7 +585,7 @@ dummy2,
 for c in collection:
     slides.add_slide(c)
 # Write slides to file:
-filename = 'exampletalk.tex'
+filename = 'tmp_exampletalk.tex'
 slides.write(filename)
 
 

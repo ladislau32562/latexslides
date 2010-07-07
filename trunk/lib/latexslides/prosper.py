@@ -1,5 +1,5 @@
 from core import *
-import os
+import os, sys
 
 class ProsperSlides(Slides):
     """ Class for creating a presentation using the Prosper LaTeX package.
@@ -17,7 +17,17 @@ class ProsperSlides(Slides):
                 
     # Document header
     def _header(self):
-        self.buf.write(r'\documentclass[%')
+        message = """\
+%%
+%% This latex beamer file was automatically generated from running the program
+%%     %s
+%% by latexslides (available from  googlecode.com).
+%% Do not update this latex file - instead edit %s
+%%
+
+""" % (sys.argv[0], sys.argv[0])
+
+        self.buf.write(message + r'\documentclass[%')
         if self.colour:
             self.buf.write('\npdf,colorBG,slideColor,\n')
         else:

@@ -9,9 +9,10 @@ content in a certain area. The area is painted in a certain colour and can also 
 Primitive content is represented by different subclasses of class Content. There are classes for text, bullet lists,
 figures and computer code.
 """
-__all__ = ["BulletSlide", "Slide", "TextSlide", "TableSlide", "RawSlide", "Block", 
-           "Content", "TextBlock", "CodeBlock", "BulletBlock", "TableBlock", "Text", 
-           "Table", "BulletList", "Code", "generate", "Section", "SubSection", "Slides"]
+__all__ = ["BulletSlide", "Slide", "TextSlide", "TableSlide", "RawSlide", 
+           "MappingSlide", "Block", "Content", "TextBlock", "CodeBlock", 
+           "BulletBlock", "TableBlock", "Text", "Table", "BulletList", 
+           "Code", "generate", "Section", "SubSection", "Slides"]
 
 import re, os, sys
 from cStringIO import StringIO
@@ -79,7 +80,7 @@ for c in collection:
 
 # Dump to file:
 slides.write("%s.tex")
-""" %filebase
+""" % filebase
     ofile = open(filename, 'w')
     ofile.write(filecontent)
     ofile.close()
@@ -379,6 +380,47 @@ class TableSlide(Slide):
         self.add_content(TableBlock(heading=block_heading, table=table, center=center,
                                     column_headline_pos=column_headline_pos,
                                     column_pos=column_pos))
+
+def generate_mapping_slide_table(heading_figure_pairs):
+    fp = heading_figure_pairs # short form
+    #text = r"""\begin{frame}[plain]"""
+    text = ""
+    nrows = len(fp)
+    ncolumns = len(fp) + 1
+    column_width = 1.0/ncolumns 
+    for r in range(nrows):
+        text += r"""
+\begin{columns}
+"""
+        for c in range(ncolumns-1):  # c==r writes two columns, skip the last
+            if c == r:
+                if len(fp[r]) == 3:
+                    # 3rd element is the figure width
+                    figure_width = fp[r][2]
+                else:
+                    figure_width = 1.0  # default
+                text += r"""\column{%s\textwidth}
+    \centerline{\includegraphics[width=%s\linewidth,keepaspectratio]{%s}}
+\column{%s\textwidth}
+    %s
+    """ % (column_width, figure_width, fp[r][1], column_width, fp[r][0])
+            else:
+                text += r"""\column{%s\textwidth}
+""" % column_width
+        text += r"""\end{columns}
+    """
+    return text
+
+class MappingSlide(Slide):
+    """ 
+    Michael Alley-style mapping slide: tabular format of images and text
+    to communicate the contents of a talk.
+    """
+    def __init__(self, heading_figure_pairs=[]):
+        Slide.__init__(self, title="", hidden=False, dim=False)
+        rawtext = generate_mapping_slide_table(heading_figure_pairs)
+        self.add_content(Raw(rawtext))
+
 
 class LatexBuffer(object):
     """ Verifying LaTeX buffer """

@@ -1,5 +1,5 @@
 from core import *
-import os
+import os, sys
 
 class BeamerSlides(Slides):
     """ 
@@ -16,24 +16,46 @@ class BeamerSlides(Slides):
         
     # Document header
     def _header(self):
+        message = """\
+%%
+%% This latex prosper file was automatically generated from running the program
+%%     %s
+%% by latexslides (available from  googlecode.com).
+%% Do not update this latex file - instead edit %s
+%%
+
+""" % (sys.argv[0], sys.argv[0])
+
         if not self.colour:
             self.beamer_colour_theme = 'seahorse'
         if not self.colour or self.handout or self.html:
-            self.buf.write(r"""\documentclass[handout]{beamer}
-""")
+            self.buf.write(r"""%s\documentclass[handout,xcolor=dvipsnames]{beamer}
+""" % message)
         else:
-            self.buf.write(r"""\documentclass{beamer}
-""")
+            self.buf.write(r"""%s\documentclass[xcolor=dvipsnames]{beamer}
+""" % message)
 
         self.buf.write(r"""
 \usetheme{%s}
 \usecolortheme{%s}
+
+%% turn off the almost invisible, yet disturbing, navigation symbols:
+\setbeamertemplate{navigation symbols}{}  
+
+%% Examples on customization:
+%%\usecolortheme[named=RawSienna]{structure}
+%%\usetheme[height=7mm]{Rochester} 
+%%\setbeamerfont{frametitle}{family=\rmfamily,shape=\itshape}
+%%\setbeamertemplate{items}[ball] 
+%%\setbeamertemplate{blocks}[rounded][shadow=true] 
+%%\useoutertheme{infolines}
+%%
+%%\usefonttheme{}
+%%\useinntertheme{}
+
 %% fine for B/W printing:
 %%\usecolortheme{seahorse}
 
-%%\usefonttheme{}
-%%\useinntertheme{}
-%%\useoutertheme{}
 
 \usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
 \usepackage{graphicx}
@@ -76,7 +98,9 @@ class BeamerSlides(Slides):
         if not self.header_footer:
             option = "[plain]"
         
-        if self.toc_heading:
+        if True:    # self.toc_heading: # we always want section tocs, but
+                    # toc_heading='' removes the initial toc (fine for
+                    # using MappingSlide instead, and still get section tocs)
             toc_slides = r"""%% Delete this, if you do not want the table of contents to pop up at
 %% the beginning of each section:
 \AtBeginSection[]
@@ -120,7 +144,8 @@ class BeamerSlides(Slides):
 \begin{frame}%s
 %s
 \end{frame}
-""" % (self.short_title, self.title, self.short_author, self.author_cmd, self.institute_cmd,
+""" % (self.short_title, self.title, self.short_author, 
+       self.author_cmd, self.institute_cmd,
        self.date, toc_slides, option, titlepage)
 
         else:
@@ -148,7 +173,8 @@ class BeamerSlides(Slides):
 \begin{frame}%s
 %s
 \end{frame}
-""" % (self.short_title, self.title, self.short_author, self.author_cmd, self.institute_cmd,
+""" % (self.short_title, self.title, self.short_author, 
+       self.author_cmd, self.institute_cmd,
        self.date, self.titlepage_figure, self.titlepage_figure_fraction_width,
        toc_slides, option, titlepage)
 
@@ -184,7 +210,8 @@ class BeamerSlides(Slides):
 \end{columns}
 
 \end{frame}
-""" % (self.short_title, self.title, self.short_author, self.author_cmd, self.institute_cmd,
+""" % (self.short_title, self.title, self.short_author, 
+       self.author_cmd, self.institute_cmd,
        self.date, toc_slides, self.titlepage_left_column_width, titlepage,
        1.0 - self.titlepage_left_column_width, self.titlepage_figure,
        self.titlepage_figure_fraction_width)
@@ -218,7 +245,7 @@ class BeamerSlides(Slides):
 \end{frame}
 """ % (self.toc_heading, self.toc_left_column_width, 1.0 - self.toc_left_column_width, fig)
         )
-            else:
+            else: # plain toc, no figure
                 self.buf.write(r"""
 %% table of contents:
 \begin{frame}[plain]
@@ -253,9 +280,10 @@ class BeamerSlides(Slides):
         else:
             options = ""
 
-        self.buf.write(r"""\begin{frame}%s
-\frametitle{%s}
+        self.buf.write(r"""
 
+\begin{frame}%s
+\frametitle{%s}
 """ % (options, slide.title))
 
         # If figure is to the north:
@@ -459,13 +487,15 @@ class BeamerSlides(Slides):
         else:
             if block.heading:
                 block.heading = "{%s}" % block.heading
-            self.buf.write(r"""\begin{block}%s
+            self.buf.write(r"""
+\begin{block}%s
 
 """ % block.heading)
 
         if isinstance(block, TableBlock):
             if block.center:
                 self.buf.write(r"""\begin{center}""")
+
         for c in block.content:
             if isinstance(c, basestring):
                 c = Text(c)
@@ -480,7 +510,6 @@ class BeamerSlides(Slides):
         else:
             self.buf.write(r"""
 \end{block}
-
 """)
         if self._dim == 'blocks':
             self.buf.write(r"\pause" + "\n")
@@ -501,4 +530,4 @@ class BeamerSlides(Slides):
         Slides.write(self, filename)
         filename = os.path.splitext(filename)[0]
         print 'latex %s.tex; latex %s.tex;' %(filename, filename),
-        print 'dvipdf %s.dvi' %(filename)
+        print 'dvipdf %s.dvi' % (filename)

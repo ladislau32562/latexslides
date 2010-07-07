@@ -5,21 +5,23 @@ _____Background_____
 If the background doesn't interest you, and you just want to get started with
 Latexslides, jump to the 'Getting started' section.
 
-For many people in the fields of natural sciences, \LaTeX~is the preferred
-typesetting tool. Therefore, it didn't take long before different
-packages where developed allowing people to also create slides with
-\LaTeX. Out of many, Prosper and Beamer are probably the best known. The most popular
-package of these two is Prosper, while Beamer is the latest, the fanciest, and the most
-PowerPoint-like package for \LaTeX~slides. Unfortunately, there is a lot of
-\LaTeX~commands that you need to insert to make \LaTeX~slides. What if we could
-just write the basic slide contents and insert a minimum of tags? That is, it
-could be nice with a simpler syntax than what \LaTeX~slide packages require.
+For many people in the fields of natural sciences, LaTeX is the
+preferred typesetting tool. Therefore, it didn't take long before
+different packages where developed allowing people to also create
+slides with LaTeX. Out of many, Prosper and Beamer are probably the
+best known. The most popular package of these two is Prosper, while
+Beamer is the latest, the fanciest, and the most PowerPoint-like
+package for LaTeX slides. Unfortunately, there is a lot of
+LaTeX commands that you need to insert to make LaTeX slides. What if
+we could just write the basic slide contents and insert a minimum of
+tags? That is, it could be nice with a simpler syntax than what
+LaTeX slide packages require.
 
 Another point is that it takes quite some boring work to update old
 presentations, written in Prosper or even older syntax, to a new
-package like Beamer. And what about the next super-package for \LaTeX~
+package like Beamer. And what about the next super-package for LaTeX 
 slides? It would be good if all your slides were written with a
-\LaTeX-independent syntax such that the slides can easily be ported
+LaTeX-independent syntax such that the slides can easily be ported
 to a new (or old) format.
 
 A third point is that sometimes we would like to automate the writing
@@ -29,17 +31,17 @@ cut and paste operations. It would be better to have a program doing this.
 
 From these points, it became natural to specify slides as program code
 and automate the generation of the specific syntax for different
-\LaTeX~packages. Our solution is Latexslides, which is written in Python
+LaTeX packages. Our solution is Latexslides, which is written in Python
 and requires you to write your slides in Python. Typically, each
 slide is a `Slide` object, to which you assign a name, and then you
 can collect the names in lists to compose a particular presentation.
 It is easy to have your slides in modules such that new presentations
 can import slides from other presentations. This gives great flexibility
 in reusing slides from presentation to presentation without making a
-copy of the slides. The \LaTeX~knowledge required from the end-user is also
-less when using Latexslides than using plain \LaTeX~(then again, the Python
+copy of the slides. The LaTeX knowledge required from the end-user is also
+less when using Latexslides than using plain LaTeX (then again, the Python
 knowledge needed is much larger). But some of the advanced arguments to
-Latexslides functions might still require a good \LaTeX~book.
+Latexslides functions might still require a good LaTeX book.
 
 Another important point is, of course, that whatever can be done in Python, 
 should be done in Python :-) Also slides...
@@ -264,25 +266,26 @@ Here is a list of keyword arguments for the constructor of a `Slide` instance:
  * `newcommands`
    * Default: `[]`
    * Type: list or str
-   * Comment: Adds the user's own commands to the top of the \LaTeX~file, useful because Latexslides supports raw \LaTeX~code. Can be given as a list of strings or a string separated by newline. Only `\newcommand` \LaTeX~commands can be given. The initial command (`\newcommand`) can be skipped.
+   * Comment: Adds the user's own commands to the top of the LaTeX file, useful because Latexslides supports raw LaTeX code. Can be given as a list of strings or a string separated by newline. Only `\newcommand` LaTeX commands can be given. The initial command (`\newcommand`) can be skipped.
  * `latexpackages`
    * Default: `""`
    * Type: str
-   * Comment: Adds additional packages to the list of packages at the beginning of the \LaTeX~file. In order to allow options to the packages, it is a simple multi-line string, e.g. the exact string otherwise written in the \LaTeX~file.
+   * Comment: Adds additional packages to the list of packages at the beginning of the LaTeX file. In order to allow options to the packages, it is a simple multi-line string, e.g. the exact string otherwise written in the LaTeX file.
 
 _____Adding slides_____
 
 After having created the `BeamerSlides` or `ProsperSlides` object,
 we are ready to start creating individual slides. 
-There are five types of slides:
+There are six types of slides:
  * `TextSlide`
  * `BulletSlide`
- * `Rawslide`
+ * `RawSlide`
+ * `MappingSlide`
  * `TableSlide`
  * `Slide`
 The last one can consist of several objects, whereas the first four slides are
-meant for plain text, plain bullet lists, creation of \LaTeX~tables based on
-Python lists, or plain \LaTeX, respectively. For these, blocks are used when available.
+meant for plain text, plain bullet lists, creation of LaTeX tables based on
+Python lists, or plain LaTeX, respectively. For these, blocks are used when available.
 
 `TextSlide` has the following keyword arguments:
  * `title`
@@ -329,13 +332,19 @@ Python lists, or plain \LaTeX, respectively. For these, blocks are used when ava
  * `rawtext`
    * Default: `""`
    * Type: str
-   * Comment: Enables the user to design her own slide using \LaTeX~commands directly. For example, one can include pure \LaTeX~code from old presentations. One should ensure that the string is a raw string preserving backslash and the like. If this class is used, changing between the different packages (e.g. Beamer and Prosper) would no longer be possible, as the code for these two differ quite a bit. As `HTMLSlides` is compatible with `BeamerSlides` these two, however, can still be interchanged.
+   * Comment: Enables the user to design her own slide using LaTeX commands directly. For example, one can include pure LaTeX code from old presentations. One should ensure that the string is a raw string preserving backslash and the like. If this class is used, changing between the different packages (e.g. Beamer and Prosper) would no longer be possible, as the code for these two differ quite a bit. As `HTMLSlides` is compatible with `BeamerSlides` these two, however, can still be interchanged.
  * `hidden`
    * Default: `False`
    * Type: bool
    * Comment: If `True`, the slide is skipped.
 
-`TableSlide` enables the generation of \LaTeX~tables based on nested Python lists, and has seven keyword arguments:
+`MappingSlide` has one argument:
+ * `heading_figure_pairs`
+   * Default: `[]`
+   * Type: list
+   * Comment: This is a list of (heading,figure) pairs, with a heading for each section of the talk and a filename for a corresponding figure. One can also add a relative width of the figure, i.e., supply (heading,figure,width) if the figure needs to be shrinked. The headings are placed to the right of the figures, and the figure-heading pairs appear along the "diagonal" of the slide, according to a traditional Michael Alley mapping slide layout.
+
+`TableSlide` enables the generation of LaTeX tables based on nested Python lists, and has seven keyword arguments:
 * `title`
   * Default: `""`
   * Type: str
@@ -343,7 +352,7 @@ Python lists, or plain \LaTeX, respectively. For these, blocks are used when ava
 * `table`:
   * Default: `[[],[]]`
   * Type: Nested list of strings
-  * Comment: The first entry in the outer list should contain the column heading for the \LaTeX~table to be generated. The remaining entries are the lines in the table. See also the documentation of `Table` further down.
+  * Comment: The first entry in the outer list should contain the column heading for the LaTeX table to be generated. The remaining entries are the lines in the table. See also the documentation of `Table` further down.
 * `column_heading_pos`
    * Default: `"c"`
    * Type: str
@@ -424,13 +433,13 @@ a start and a stop expression:
  * `fontsize`
    * Default: `"footnotesize"` (if the string does not start with a backslash, it is added automatically).
    * Type: str
-   * Comment: Sets the size of the code font. Needs to be a valid \LaTeX~command ranging from `tiny` to `Huge` (if the string does not start with a backslash, it as added automatically).
+   * Comment: Sets the size of the code font. Needs to be a valid LaTeX command ranging from `tiny` to `Huge` (if the string does not start with a backslash, it as added automatically).
 
-`Table` gives us the possibility for creating \LaTeX~tables directly based on
-(nested) Python lists. Writing tables in \LaTeX~is a tedious task, so automatically generating
+`Table` gives us the possibility for creating LaTeX tables directly based on
+(nested) Python lists. Writing tables in LaTeX is a tedious task, so automatically generating
 it based on the Python lists saves us the effort of having to do it
 manually. Also, if we need to make changes to our table, we can simply change
-the Python lists, as the \LaTeX~table is built over again every time we run Latexslides.
+the Python lists, as the LaTeX table is built over again every time we run Latexslides.
 `Table` has `table` as argument in addition to two keyword arguments:
  * `table`
    * Default: `[[],[]]`
@@ -519,8 +528,8 @@ slide instance itself. All arguments are keyword arguments:
    * Comments: Figure can be placed north (`n`), east (`e`), south (`s`), and west (`w`) on the slide. The same for all figures.
  * `figure_fraction_width`
    * Default: `1.0`
-   * Type: float
-   * Comment: Scales the picture, keeps aspect ratio. `figure_size` can be used as well. In case both options are given, `figure_size` is chosen. If multiple figures are given with figure, the length of this argument is expected to be the same as the number of figures, or else the program exits with an error. The exception is if the length of the argument is 1 (or it is omitted), then this value (or the default of 1) will be used for all figures.
+   * Type: float or tuple of floats
+   * Comment: Scales the picture, but keeps aspect ratio. `figure_size` can be used as well (in case both options are given, `figure_size` is chosen). If multiple figures are given with `figure`, `figure_fraction_width` is assumed to be a tuple with figure fractions (the length corresponding to the number of figures given), or else the program exits with an error. The exception is if the length of the argument is 1 (or it is omitted), then this value (or the default of 1) will be used for all figures.
  * `figure_angle`
    * Default: `None`
    * Type: int or str
@@ -689,7 +698,7 @@ further down.
 
 _______Writing to file_______
 
-When finished writing the presentation, we can dump the \LaTeX~code to
+When finished writing the presentation, we can dump the LaTeX code to
 file. This is done by simply calling the function `write` for the
 initial `Slides` object (of class `BeamerSlides`, `ProsperSlides`
 etc.). The argument is the file name. The `write` function also
@@ -798,12 +807,12 @@ HTMLSlides is really the same as BeamerSlides, with the following modifications:
  * The `html` keyword for Slides is set to `True`.
  * The `toc_heading` keyword for Slides is set to en empty string, removing the table of contents.
  * All sections and subsections are removed.
-After Latexslides has generated the \LaTeX~code, the commands `tex4ht` and
+After Latexslides has generated the LaTeX code, the commands `tex4ht` and
 `t4ht` are used to generate the actual HTML file.
 
 _______Styles_______
 
-Several \LaTeX~styles are included with this package. These are:
+Several LaTeX styles are included with this package. These are:
  * beamerthemsimula.sty
  * beamerthemehpl1.sty
 for Beamer and:
