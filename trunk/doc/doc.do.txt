@@ -877,5 +877,6 @@ initialization of the main slides class, and is the same for all slides.
 
 _______Support_______
 
-Please contact `ilmarw@simula.no` for bug reports, feature requests and
-general help.
+Please contact the authors,
+`ilmarw@simula.no` or `hpl@simula.no`, for bug reports, 
+feature requests and general help.

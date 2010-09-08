@@ -6,6 +6,8 @@ psselect -p2 intro.ps > intro2.eps
 
 doconce2format HTML doc.do.txt
 doconce2format gwiki doc.do.txt
+scitools subst '\(the URL of the image file intro1.png must be inserted here\)' 'https://latexslides.googlecode.com/svn/trunk/doc/intro1.png' doc.gwiki
+scitools subst '\(the URL of the image file intro2.png must be inserted here\)' 'https://latexslides.googlecode.com/svn/trunk/doc/intro2.png' doc.gwiki
 
 cp doc.do.txt _tmp.do.txt
 
