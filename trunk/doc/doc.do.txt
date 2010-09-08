@@ -1,4 +1,34 @@
+TITLE: Latexslides: From Python Slide Objects to LaTeX Beamer Code
+AUTHOR: Ilmar Wilbers at Simula Research Laboratory
+AUTHOR: Hans Petter Langtangen at Simula Research Laboratory and University of Oslo
+DATE: September 2, 2010
+
 _______Introduction_______
+
+_____What Is Latexslides?_____
+
+Latexslides is a tool that allows you to write slides in Python:
+each slide is a Python object, and a talk is a list of such objects.
+This list can converted to LaTeX beamer or prosper code.
+One can compose talks by importing slide objects from Python modules
+and hence reuse individual slides.
+
+Latexslides simplifies many of the constructions in LaTeX beamer.
+For example, a figure can be placed to the right, left, under or over
+a bullet list by simply specifying its position as n, s, e, w (north,
+south, east, or west). Each slide object is composed of various Python
+objects reflecting basic building blocks in slides: text block,
+bullet block, figure, etc. Take a look at a
+https://latexslides.googlecode.com/svn/trunk/doc/exampletalk.pdf<sample talk>,
+which explains the basics of Latexslides, and compare this PDF file
+with the Latexslides 
+https://latexslides.googlecode.com/svn/trunk/doc/exampletalk.py<source>
+in Python. A more manual-style documentation is also available as a
+https://latexslides.googlecode.com/svn/trunk/doc/latexslides_doc.html<web page>
+or as a
+https://latexslides.googlecode.com/svn/trunk/doc/latexslides_doc.pdf<PDF> file.
+
+
 
 _____Background_____
 
@@ -49,26 +79,24 @@ should be done in Python :-) Also slides...
 
 _____History_____
 
-Initially, `LaTeXSlides` was a module and script written by Hans Petter
-Langtangen and later improved by Åsmund Ødegård, both at Simula Research 
-Laboratory, Oslo, Norway. `LaTeXSlides` soon became quite popular as
-it auto-generated both Beamer and Prosper slides from a minimum of
-Python commands specifying the slides. However, `LaTeXSlides`
-needed a complete redesign to better scale with future demands.
-Arve Knudsen, also from Simula, started this effort, while this author
-did the complete job of creating the new Latexslide package for
-slide generation in Python. The old API of `LaTeXSlides` is still
-supported for backward compatibility.
+Initially, this software was a module and script written by Hans
+Petter Langtangen and later improved by Åsmund Ødegård, both at Simula
+Research Laboratory, Oslo, Norway. Generating talks by writing Python
+code that was more compact than the corresponding LaTeX code attracted
+interest.  Arve Knudsen, also from Simula, started an effort to extend
+the initial software and perform a complete redesign. Then Ilmar
+Wilbers took Knudsen's ideas and completed the job of creating the new
+Latexslide package for slide generation in Python. (The old API is
+still supported for backward compatibility.)
 
 _______Getting started_______
 
-# #if "null" in ADVANCED
-If you want to get started with a more advanced example, it is recommended
-that you take a look at the file `doc/exampletalk.py` which demonstrates many of the
-functionalities that are available. Going through the source code of this talk
-at the same time as reading the PDF generated from it, should get you started in less than half
-an hour. 
-# #endif
+If you want to get started with a more advanced example, it is
+recommended that you take a look at the file `doc/exampletalk.py`,
+which demonstrates many of the functionalities that are
+available. Going through the source code of this talk at the same time
+as reading the PDF generated from it, should get you started in less
+than half an hour.
 
 _____Introductory example_____
 
@@ -114,9 +142,7 @@ defining the slide. Rather, we give the `Code` class an argument `file=code.py`,
 resulting in the Python code being read from the file `code.py`. Figure
 ref{fig:intro1} displays the first slide.
 
-FIGURE:[intro1.eps, height=2000] 
-
-First slide of introductory example.  
+FIGURE:[intro1.eps, height=2000]  First slide of introductory example.  
 
 The second slide is a `BulletSlide`, which is less general than the super class
 `Slide`. This means that we have a less complicated interface at the cost of
@@ -125,13 +151,7 @@ allowed, as is shown. Finally, we opted to add a heading to the block making
 up the bullets. If omitted, no heading is displayed. Figure ref{fig:intro2}
 displays the second slide.
 
-FIGURE:[intro2.eps, height=2000] 
-
-Second slide of introductory example.
-
-% #if "code" in ADVANCED
-% #include "exampledoc.p.tex"
-% #endif
+FIGURE:[intro2.eps, height=2000] Second slide of introductory example.
 
 _______Documentation of the classes_______
 
@@ -617,34 +637,22 @@ instead of naming these object `slide1`, `slide2` etc. it would be preferable
 to name them according to the slide title. When writing many slides, it would
 be easier to just create the slide objects without naming them, and to run a
 script to automatically name these objects when finished. The executable
-`create_slidenames` which is part of Latexslides does exactly that. Running
+`create_slidenames`, which is part of Latexslides, does exactly that. Running
 !bc
 create_slidenames exampletalk.py
 !ec
-means the script searches the given file for lines starting with `= Slide`, `=
-Section`, or `= SubSection`, and adds a line consisting of the title of the
+means the script searches the given file for lines starting with `= Slide`, 
+`= Section`, or `= SubSection`, and adds a line consisting of the title of the
 slide before these lines. Special characters as well as spaces and Norwegian
 characters are substituted so the variable name is valid in Python. Spaces
-and the character `'='` are substituted by underscores, Norwegian characters are
-substituted by plain ASCII letters (\o~by o, \aa~by aa and \ae~by ae), and
-other characters are simply removed.
-
-Let's look at an example. The line
-!bc
-= BulletSlide('Character test !"#%&/()[]^ØÆÅ',)
-!ec
-becomes
-!bc
-Character_test_OAEAA \
-= BulletSlide('Character test !"#%&/()[]^ØÆÅ',)
-!ec
-and the line
+and the character `'='` are substituted by underscores.
+For example,
 !bc
 = Section('More about {if "__name__" == __main__}',)
 !ec
 becomes
 !bc
-More_about_if___name________main__ \
+More_about_if___name________main__ \ 
 = Section('More about {if "__name__" == __main__}',)
 !ec
 In this way, we don't need to worry about naming the Python objects. Note that
@@ -852,14 +860,12 @@ In order for these to work, the commands need to be included in the file
 
 _______Oldlatexslides_______
 
-The source code from the old `LaTeXSlides` package can still be used. However it
-needs a few modifications. We start by importing the module:
+The source code from the old version of this package can still be used. 
+However it needs a few modifications. We start by importing the module:
 !bc 
 import latexslides.old as LaTeXSlides
 !ec
-Here, we assume that the import statement in
-your old presentations was\\ `import LaTeXSlides`, not 
-`from LaTeXSlides import *`. If you used the latter, you might want to try 
+If you used the `from module import things` style, you might want to try 
 !bc
 from latexslides.old import *
 !ec

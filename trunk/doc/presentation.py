@@ -41,7 +41,7 @@ table = latextable([('x', 'x**2'), (3, 9), (5, 25)], column_headline_pos = 'r', 
 block1 = Text(table)
 
 # Create code Object:
-block2 = Code(file='code.py', from_regex='import', to_regex='fileheader')
+block2 = Code(file='sample_code.py', from_regex='import', to_regex='fileheader')
 
 # Add two previous objects to a slide:
 genslide = Slide(content=[block1, block2])
