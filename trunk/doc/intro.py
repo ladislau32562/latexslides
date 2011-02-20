@@ -12,7 +12,7 @@ slide1 = Slide("Slide 1",
 Program for computing the height of a ball thrown up in the air:
 $y=v_0t- {1\over 2} gt^2$""") ,
                         Code(file='sample_code.py')],
-               figure='brainhurts.ps',
+               figure='figs/brainhurts.ps',
                figure_pos='w',
                figure_fraction_width=0.4,
                left_column_width=0.3,

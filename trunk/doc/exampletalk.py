@@ -46,12 +46,12 @@ slides = package(title='Using Python and Latexslides to Make Slides',
                  beamer_theme=beamer_theme,
                  prosper_style=prosper_style,
                  header_footer=header_footer,
-                 titlepage_figure='wave-dueto-slide.ps',
+                 titlepage_figure='figs/wave-dueto-slide.ps',
                  titlepage_figure_pos='s', # Figure to the south
                  titlepage_figure_fraction_width=0.5,
                  #titlepage_left_column_width=1., # If figure to the east 
                  toc_heading='List of Topics',
-                 toc_figure='python1.ps',
+                 toc_figure='figs/python1.ps',
                  toc_figure_fraction_width=1,
                  toc_left_column_width=0.5,
                  handout=False,
@@ -219,9 +219,9 @@ Slide('Handling figures is really easy',
                     'of the figure and move them around later',
                     r'Here is what you do with Latexslides, just add' +
                     Code("""
-figure='python1.ps',   # filename
-figure_pos='e',        # east ('e'), west ('w'),
-                       # north ('n'), south ('e')
+figure='figs/python1.ps',   # filename
+figure_pos='e',             # east ('e'), west ('w'),
+                            # north ('n'), south ('e')
 figure_fraction_width=0.5,
 left_column_width=0.6  # => 0.4 fraction width for figure
 """),],),
@@ -235,7 +235,7 @@ Slide('Slide with a figure',
                     r"\texttt{'w'}",
                     '...and then text is to the right',
                     ],),],
-      figure='python1.ps',
+      figure='figs/python1.ps',
       figure_pos='e',
       figure_fraction_width=0.5,
       left_column_width=0.6  # 0.4 left for figure
@@ -249,7 +249,7 @@ Slide('Slide with a figure',
                     r"\texttt{'n'}",
                     '...and then text below the figure',
                     ],),],
-      figure='python1.ps',
+      figure='figs/python1.ps',
       figure_pos='w',
       figure_fraction_width=0.5,
       left_column_width=0.6  # 0.4 left for figure
@@ -263,7 +263,7 @@ Slide('Slide with a figure',
                     r"\texttt{'s'}",
                     '...and then text is above the figure',
                     ],),],
-      figure='python1.ps',
+      figure='figs/python1.ps',
       figure_pos='n',
       figure_fraction_width=0.5,
       left_column_width=0.6  # 0.4 left for figure
@@ -274,11 +274,11 @@ Slide('Several figures in one slide',
       [BulletList(['You simply provide a tuple (or list) of figure '
                    'file names and a tuple of fraction widths',
                   r'Example:' + Code("""
-figure=('python2.ps','python3.ps'),
+figure=('figs/python2.ps','figs/python3.ps'),
 figure_fraction_width=(0.45,0.55),
 figure_pos='n',
 """),],),],
-      figure=('python2.ps','python3.ps'),
+      figure=('figs/python2.ps','figs/python3.ps'),
       figure_fraction_width=(0.45,0.55),
       figure_pos='n',)
 
@@ -387,14 +387,14 @@ package(title='Using Python and Latexslides to Make Slides',
         author_and_inst=[(hpl, simula, ifi),
                          (ilmarw, simula, math)],
         date='March 2008',
-        titlepage_figure='wave-dueto-slide.ps',
+        titlepage_figure='figs/wave-dueto-slide.ps',
         # Figure to the south of the title:
         titlepage_figure_pos='s',  
         titlepage_figure_fraction_width=0.5,
         # Used if titlepage_figure_pos is 'e':
         #titlepage_left_column_width=1.0,  
         toc_heading='List of Topics',
-        toc_figure='clipart/python1.ps',
+        toc_figure='figs/python1.ps',
         toc_figure_fraction_width=1,
         toc_left_column_width=0.5,
         newcommands=newcommands)
@@ -503,8 +503,8 @@ using \texttt{MappingSlide} and a list of heading-figure pairs
 the relative width of the figure). Here is an example:""" + Code(r"""
 
 mapping_slide2 = \   
-MappingSlide([('Wave motion', 'wave-dueto-slide.ps'),
-              ('Some Python', 'python1.ps'),
+MappingSlide([('Wave motion', 'figs/wave-dueto-slide.ps'),
+              ('Some Python', 'figs/python1.ps'),
               ])
 """) + """See the next slide for the result (the headings are placed
 to the right of the figures, and the figure-heading pairs appear
@@ -513,8 +513,8 @@ diagonally on the slide).""")])
 
 # mapping slide with two sections (heading-figure pairs)
 mapping_slide2 = \
-MappingSlide([('Wave motion', 'wave-dueto-slide.ps'),
-              ('Some Python', 'python1.ps'),
+MappingSlide([('Wave motion', 'figs/wave-dueto-slide.ps'),
+              ('Some Python', 'figs/python1.ps'),
               ])
 
 learning = \

@@ -15,13 +15,13 @@ slides = BeamerSlides(title="""Easy Presentation Generation""",
                       author_and_inst=authors,
                       #date="Today",
                       #titlepage=False,
-                      #titlepage_figure="brainhurts.ps",
+                      #titlepage_figure="figs/brainhurts.ps",
                       #titlepage_figure_fraction_width=0.5,
                       #titlepage_left_column_width=0.7,
                       #short_title="Easyslides",
                       #short_author="Elmo et al.",
                       #toc_heading="Heading for TOC", 
-                      #toc_figure="brainhurts.ps",
+                      #toc_figure="figs/brainhurts.ps",
                       #toc_figure_fraction_width=0.5,
                       #theme="Darmstadt",                      
                       #colour=False,
@@ -113,7 +113,7 @@ Con&In development,&May break,&Only Windows,&Large files,&Limited to\\
 }
 """)
 
-lastslide = Slide("Methods pros/ cons", content=[block,])
+lastslide = Slide("Methods pros/cons", content=[block,])
 
 for i in [bslide, genslide, tslide, onelineslide, sect, bbslide, subsect,
           nslide, sect1, lastslide]:

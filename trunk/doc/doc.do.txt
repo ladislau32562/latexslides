@@ -3,9 +3,9 @@ AUTHOR: Ilmar Wilbers at Simula Research Laboratory
 AUTHOR: Hans Petter Langtangen at Simula Research Laboratory and University of Oslo
 DATE: September 2, 2010
 
-_______Introduction_______
+======= Introduction =======
 
-_____What Is Latexslides?_____
+===== What Is Latexslides? =====
 
 Latexslides is a tool that allows you to write slides in Python:
 each slide is a Python object, and a talk is a list of such objects.
@@ -30,7 +30,7 @@ https://latexslides.googlecode.com/svn/trunk/doc/latexslides_doc.pdf<PDF> file.
 
 
 
-_____Background_____
+===== Background =====
 
 If the background doesn't interest you, and you just want to get started with
 Latexslides, jump to the 'Getting started' section.
@@ -77,7 +77,7 @@ Another important point is, of course, that whatever can be done in Python,
 should be done in Python :-) Also slides...
 
 
-_____History_____
+===== History =====
 
 Initially, this software was a module and script written by Hans
 Petter Langtangen and later improved by Åsmund Ødegård, both at Simula
@@ -89,7 +89,7 @@ Wilbers took Knudsen's ideas and completed the job of creating the new
 Latexslide package for slide generation in Python. (The old API is
 still supported for backward compatibility.)
 
-_______Getting started_______
+======= Getting started =======
 
 If you want to get started with a more advanced example, it is
 recommended that you take a look at the file `doc/exampletalk.py`,
@@ -98,7 +98,7 @@ available. Going through the source code of this talk at the same time
 as reading the PDF generated from it, should get you started in less
 than half an hour.
 
-_____Introductory example_____
+===== Introductory example =====
 
 You can generate a new, empty presentation by typing
 !bc
@@ -153,16 +153,16 @@ displays the second slide.
 
 FIGURE:[intro2.eps, height=2000] Second slide of introductory example.
 
-_______Documentation of the classes_______
+======= Documentation of the classes =======
 
-_____Keyword arguments_____
+===== Keyword arguments =====
 
 Objects in Latexslides makes heavily use of keyword arguments. This
 means that when creating a new object, there are very few, if any,
 arguments that are mandatory. A lot of arguments are optional, and will
 be ignored if not present, or suitable default values will be used.
 
-_____Initialization_____
+===== Initialization =====
 
 After an 
 !bc
@@ -292,7 +292,7 @@ Here is a list of keyword arguments for the constructor of a `Slide` instance:
    * Type: str
    * Comment: Adds additional packages to the list of packages at the beginning of the LaTeX file. In order to allow options to the packages, it is a simple multi-line string, e.g. the exact string otherwise written in the LaTeX file.
 
-_____Adding slides_____
+===== Adding slides =====
 
 After having created the `BeamerSlides` or `ProsperSlides` object,
 we are ready to start creating individual slides. 
@@ -394,7 +394,7 @@ Python lists, or plain LaTeX, respectively. For these, blocks are used when avai
    * Type: bool
    * Comment: If `True`, the slide is skipped.
 
-_____Slide_____
+===== Slide =====
 
 A general slide can consist of several
 objects, and we will look at them now:
@@ -526,7 +526,7 @@ you have to explicitly change the slide object from, e.g.,
 `TextBlock` to `Text` and comment out the `heading` argument if that is
 present.
 
-___Creating the slide instance___
+=== Creating the slide instance ===
 
 Once we have all the objects we want a slide to consist of, we can create the
 slide instance itself. All arguments are keyword arguments:
@@ -568,16 +568,17 @@ slide instance itself. All arguments are keyword arguments:
    * Package: Beamer
    * Comment: Available dimming settings are: `progressive` (one by one bullet), `single` (only one bullet at the time), `single_then_all` (only one bullet at the time, then all), and `blocks` (one block at the time). Sub-items will always be shown together with their parent. If a specific block has the option `dim` set to `False`, the `dim` option for the slide is overridden. Setting `dim` for a block to `False` should only be used with `progressive`, as adding something to a slide that is not part of a block, can cuase the result to be unsatisfactory.
 
-_____Adding sections_____
+===== Adding sections =====
 
-One can insert special slides to mark sections in the talk. The section slides
-will automatically appear in a table of contents and optionally in the header in Beamer
-(but not in Prosper).
-Sections are added in the same way as normal slides, except they are of
-type `Section`. If no section is defined, normal slides are simply added to a
-list of slides. If a section is defined, all slides added after that object
-will be part of this section, until a new section is defined. It has two
-keyword arguments:
+One can insert special slides to mark sections in the talk. The
+section slides will automatically appear in a table of contents and
+optionally in the header in Beamer (but not in Prosper).  Sections are
+added in the same way as normal slides, except they are of type
+`Section`. If no section is defined, normal slides are simply added to
+a list of slides. If a section is defined, all slides added after that
+object will be part of this section, until a new section is
+defined. It has two keyword arguments:
+
  * `title`
    * Default: `""`
    * Type: str
@@ -585,9 +586,9 @@ keyword arguments:
  * `short_title`
    * Default: `""`
    * Type: str
-   * Comment: Used when there is no space for the main title, for instance in the header.
+   * Comment: Used when there is too little space for the main title, for instance in the header.
 
-_____Adding subsections_____
+===== Adding subsections =====
 
 Class `SubSection` is added in the same way as `Section`. If a subsection
 is added before a section is added, an error is issued and the generation of
@@ -603,7 +604,7 @@ defined. It has two keyword arguments:
    * Type: str
    * Comment: Used when there is no space for the main title, for instance in the header.
 
-_____Organizing the objects_____
+===== Organizing the objects =====
 
 Instead of creating a slide and adding it immediately to the initial `Slides`
 object using the the function `add_slide` in `Slides`, it might be better to
@@ -628,9 +629,9 @@ slides.add_slides(collection)
 The list of slide objects can be generated automatically, more about this in
 the next section.
 
-_______Additional scripts_______
+======= Additional scripts =======
 
-_____Naming slide objects_____
+===== Naming slide objects =====
 
 The slide object that one creates need to be stored in a Python variable, and
 instead of naming these object `slide1`, `slide2` etc. it would be preferable
@@ -676,7 +677,7 @@ create_slidenames exampletalk.py
 would result in `exampletalk.py` now containing the variable names as well,
 whereas `exampletalk.py.old~~` would contain the original file.
 
-_____Extracting slide names_____ 
+===== Extracting slide names =====
 
 Once you are finished writing the talk you need to add all the slide objects
 to the main instance of the `Slides` class used (e.g. `BeamerSlides`). The
@@ -697,14 +698,14 @@ extract_slidenames exampletalk.py >> exampletalk.py
 !ec
 Note that if we add or remove slides, we need to regenerate this list.
 
-_____Converting talks to the OpenOffice format_____
+===== Converting talks to the OpenOffice format =====
 
 Another script that comes as part of Latexslides is `pdf2odp`. It is used for
 converting PDF files in general to a format recognized by OpenOffice. This
 script is described in more detail in the section 'Using talks in OpenOffice'
 further down.
 
-_______Writing to file_______
+======= Writing to file =======
 
 When finished writing the presentation, we can dump the LaTeX code to
 file. This is done by simply calling the function `write` for the
@@ -741,14 +742,14 @@ you would write
 slides.add_slide(titleslide.hide)
 !ec
 
-_______Compiling the talk_______
+======= Compiling the talk =======
 
 If the function `slides.write()` is used, the necessary commands for
 compiling the talk are output to screen. If not, one simply uses
 `latex mytalk.tex`. Please note that the generation of HTML slides
 requires running `tex4ht` and `t4ht` afterwards.
 
-_______About figure support_______
+======= About figure support =======
 
 Because Prosper cannot be used with `pdflatex`, `latex` is recommended. This
 means, however, that only .ps images can be used, not .png, if portability
@@ -756,7 +757,7 @@ between Prosper and Beamer is desirable. It is recommended that you use the
 ImageMagick `convert` tool for converting the PNG image to PostScript, and including them as
 .ps or .eps files.
 
-_______Using talks in OpenOffice_______
+======= Using talks in OpenOffice =======
 
 Latexslides includes a script for converting presentations in the PDF format
 to the OpenOffice Impress format (.odp). OpenOffice Impress is a presentation
@@ -801,15 +802,15 @@ the slides. These links will now simply be part of the image, and
 cannot be clicked. Also, as all the text is part of an image, it is no
 longer possible to copy the text or index the file in any way.
 
-_______Package specific information_______
+======= Package specific information =======
 
-_____ProsperSlides_____
+===== ProsperSlides =====
 
 Some of the keyword arguments are only available to BeamerSlides and
 HTMLSlides. If these keyword arguments are present when using ProsperSlides,
 they are simply ignored.
 
-_____HTMLSlides_____
+===== HTMLSlides =====
 
 HTMLSlides is really the same as BeamerSlides, with the following modifications:
  * The `html` keyword for Slides is set to `True`.
@@ -818,7 +819,7 @@ HTMLSlides is really the same as BeamerSlides, with the following modifications:
 After Latexslides has generated the LaTeX code, the commands `tex4ht` and
 `t4ht` are used to generate the actual HTML file.
 
-_______Styles_______
+======= Styles =======
 
 Several LaTeX styles are included with this package. These are:
  * beamerthemsimula.sty
@@ -837,7 +838,7 @@ Note the first `'.'`; it ensures that the system-wide directories are
 searched first. More information on how to install the style files to the
 correct directories is found in the README file.
 
-_______Emacs bindings_______
+======= Emacs bindings =======
 
 The following Emacs command (Alt + up-arrow) starts a slide object
 without a variable name:
@@ -858,7 +859,7 @@ this Emacs command (Alt + down-arrow):
 In order for these to work, the commands need to be included in the file
 `.emacs` in your home directory. Sorry, no vim bindings!
 
-_______Oldlatexslides_______
+======= Oldlatexslides =======
 
 The source code from the old version of this package can still be used. 
 However it needs a few modifications. We start by importing the module:
@@ -875,7 +876,7 @@ end of the talk. Finally, the `header_footer` argument that was used for each
 bullet-slide in the old package is now a global variable set in the
 initialization of the main slides class, and is the same for all slides.
 
-_______Support_______
+======= Support =======
 
 Please contact the authors,
 `ilmarw@simula.no` or `hpl@simula.no`, for bug reports, 
