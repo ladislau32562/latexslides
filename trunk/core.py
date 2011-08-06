@@ -1,1 +1,0 @@
-lib/latexslides/core.py

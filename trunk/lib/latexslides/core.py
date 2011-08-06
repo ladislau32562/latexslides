@@ -1,18 +1,23 @@
 """
 Module for writing presentations in Python.
 
-A presentation is represented by an instance of the class L{Slides}. Such an instance consists of a set of slides,
-which can be divided into a set of sections (which can themselves be divided into subsections). A slide is constructed
-from primitives, instances of class L{Content}. A special type of Content is the L{Block} class, which encapsulates other
-content in a certain area. The area is painted in a certain colour and can also be equipped with a heading.
+A presentation is represented by an instance of the class
+L{Slides}. Such an instance consists of a set of slides, which can be
+divided into a set of sections (which can themselves be divided into
+subsections). A slide is constructed from primitives, instances of
+class L{Content}. A special type of Content is the L{Block} class,
+which encapsulates other content in a certain area. The area is
+painted in a certain colour and can also be equipped with a heading.
 
-Primitive content is represented by different subclasses of class Content. There are classes for text, bullet lists,
-figures and computer code.
+Primitive content is represented by different subclasses of class
+Content. There are classes for text, bullet lists, figures and
+computer code.
 """
 __all__ = ["BulletSlide", "Slide", "TextSlide", "TableSlide", "RawSlide", 
            "MappingSlide", "Block", "Content", "TextBlock", "CodeBlock", 
            "BulletBlock", "TableBlock", "Text", "Table", "BulletList", 
-           "Code", "generate", "Section", "SubSection", "Slides"]
+           "Code", "generate", "Section", "SubSection", "Slides",
+           "hide", "set_hide_text"]
 
 import re, os, sys
 from cStringIO import StringIO
@@ -122,11 +127,32 @@ class Text(Content):
             text = str(text)
         Content.__init__(self, text)
 
+# _hide_text is a module variable, which can be turn on from the command line,
+# or by calling set_hide_text(True).
+# with hide('long explanation'), the text is replaced by '', or by
+# a shorter alternative: hide('long explanation', 'short alt.')
+
+_hide_text = False  
+import sys
+if '--hide-text' in sys.argv:
+    _hide_text = True
+    
+def set_hide_text(on_off):
+    global _hide_text
+    _hide_text = on_off
+    
+def hide(text, alternative=''):
+    """Used to hide text in slides."""
+    return alternative if _hide_text else text
+
 class BulletList(Content):
     def __init__(self, bullets, dim=True):
         self.bullets = bullets
         self._dim = dim
         Content.checkVerbatim(self, bullets)
+        # Remove empty strings (which occur when note bullets are hidden,
+        # the string is then replaced by '')
+        self.bullets = [bullet for bullet in self.bullets if bullet]
 
 class Raw(Content):
     def __init__(self, text):
