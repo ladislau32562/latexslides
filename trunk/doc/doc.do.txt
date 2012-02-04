@@ -30,6 +30,40 @@ https://latexslides.googlecode.com/svn/trunk/doc/latexslides_doc.pdf<PDF> file.
 
 
 
+===== Quick Start =====
+
+ * Each slide is a Python object.
+ * A slide consists of *elements*, typically a bullet list (`BulletBlock`) or a text (`TextBlock`). You define such elements as Python objects and put them in a list.
+ * Easy to insert dimming of bullet items or of complete blocks.
+ * Very easy to insert and move figures (above, under, or left or right of text blocks).
+ * The names of each slide object (can be automatically generated, to reflect
+   the slide title) are collected in a list, which defines the presentation.
+ * Code blocks can be typeset in `ptex2tex` enviroments, if desired.
+ * A top object (collection) is made, all slides in the list are added to the collection, and then some code puts the slides in latex beamer (or prosper or
+HTML) format on file. This file is compiled in the standard way with
+latex or pdflatex.
+
+Note: backslashes in latex code requires Python raw strings, r'$\mbox{}$'
+
+How to run:
+!bc shpro
+python mytalk.py
+latex tmp_mytalk
+dvipdf tmp_mytalk
+acroread tmp_mytalk.pdf
+!ec
+Or if `ptex2tex` code environments are specified:
+!bc shpro
+python mytalk.py
+ptex2tex -DMINTED tmp_mytalk
+latex tmp_mytalk
+dvipdf tmp_mytalk
+acroread tmp_mytalk.pdf
+!ec
+If JPEG or PNG files are used instead of PostScript you must run `pdflatex`
+instead of `latex` and skip `dvipdf`.
+
+
 ===== Background =====
 
 If the background doesn't interest you, and you just want to get started with
@@ -97,6 +131,53 @@ which demonstrates many of the functionalities that are
 available. Going through the source code of this talk at the same time
 as reading the PDF generated from it, should get you started in less
 than half an hour.
+
+===== Installation =====
+
+Latexslides is a Python package with a `setup.py` script. Just check out
+the source code from Googlecode and run `setup.py` the usual way:
+!bc shpro
+svn checkout http://latexslides.googlecode.com/svn/trunk latexslides
+cd latexslides
+sudo python setup.py install
+cd styles
+!ec
+
+Latexslides depends on Ptex2tex, which depends on `preprocess` and Pygments.
+The relvant steps go as
+!bc shpro
+svn checkout https://ptex2tex.googlecode.com/svn/trunk/ ptex2tex
+cd ptex2tex
+sudo python setup.py install
+cd latex
+sh cp2texmf.sh  # on Unix/Linux systems: copies latex style files
+cd ../../
+
+hg clone ssh://hg@bitbucket.org/birkenfeld/pygments-main pygments
+cd pygments
+sudo python setup.py install
+cd ..
+
+svn checkout http://preprocess.googlecode.com/svn/trunk/ preprocess
+cd preprocess
+sudo python setup.py install
+cd ..
+!ec
+
+Try to compile the Latexslides presentation `demo.py` in `doc`:
+!bc shpro
+cd ../latexslides/doc
+python demo.py
+ptex2tex -DMINTED tmp_demo
+latex -shell-escape tmp_demo
+dvipdf tmp_demo
+# check out tmp_demo.pdf
+!ec
+
+You do not need to install Pygments and Ptex2tex and run `latex -shell-escape`
+if 1) your presentation does not contain computer code snippets, and 2)
+you typeset computer code snippet the default way (Verbatim LaTeX
+environment).
 
 ===== Introductory example =====
 
@@ -433,7 +514,7 @@ a start and a stop expression:
  * `code`
    * Default: `None`
    * Type: str
-   * Comment: The code to be inserted. Is ignored if reading from file is chosen.
+   * Comment: The code to be inserted. Is ignored if `file` is specified.
  * `file`
    * Default: `None`
    * Type: str
@@ -449,11 +530,15 @@ a start and a stop expression:
  * `leftmargin`
    * Default: `"7mm"`
    * Type: str
-   * Comment: Sets the left margin for the code.
+   * Comment: Sets the left margin for the code in case of the default Verbatim environment.
  * `fontsize`
    * Default: `"footnotesize"` (if the string does not start with a backslash, it is added automatically).
    * Type: str
-   * Comment: Sets the size of the code font. Needs to be a valid LaTeX command ranging from `tiny` to `Huge` (if the string does not start with a backslash, it as added automatically).
+   * Comment: Sets the size of the code font in case of the default Verbatim environment. Needs to be a valid LaTeX command ranging from `tiny` to `Huge` (if the string does not start with a backslash, it as added automatically).
+ * `ptex2tex_envir`
+   * Default: `None`
+   * Type: str
+   * Comment: Enables `ptex2tex` environments. Specifying (say) `pycod` means that the code is wrapped in the begin/end `pycod` environment, which is defined in a local `.ptex2tex.cfg` file, a similar file in the user's home directory, or a system-side similar file. The `ptex2tex_envir` value also applies if the code is read from file. The code environment can also be explicitly manually inserted in the code text, e.g., a `\bcpycod` and `\epycod' text inserted before and after the code, respectively. If the `ptex2tex_envir` argument is given, this value is substituted for the explicitly specified environment in `code`. Finally, the `ptex2tex` environment can be specified "globally" by a class variable `Code.ptex2tex_envir` in order to set the code environment once and for all in a file. The `ptex2tex_envir` argument to a specific `Code` object will override the `Code.ptex2tex_envir` value.
 
 `Table` gives us the possibility for creating LaTeX tables directly based on
 (nested) Python lists. Writing tables in LaTeX is a tedious task, so automatically generating

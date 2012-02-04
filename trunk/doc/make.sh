@@ -1,6 +1,15 @@
+#!/bin/sh
+
+python exampletalk.py
+ptex2tex -DMINTED tmp_exampletalk
+latex -shell-escape tmp_exampletalk
+dvipdf tmp_exampletalk
+mv tmp_exampletalk.pdf exampletalk.pdf
+
 python intro.py
-latex intro.tex; latex intro.tex;
-dvips intro.dvi
+ptex2tex intro
+latex intro
+dvips intro
 psselect -p1 intro.ps > intro1.eps
 psselect -p2 intro.ps > intro2.eps
 

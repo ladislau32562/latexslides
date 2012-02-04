@@ -3,17 +3,14 @@
 Example on using the latexlides module, i.e., writing (LaTeX)
 slides in Python.
 
-Usage:
-
-unix> python exampletalk.py
-unix> # run last output line from the above command:
-unix> latex tmp_exampletalk.tex; dvipdf tmp_exampletalk.dvi; acroread tmp_exampletalk.pdf
+Usage: see make.sh for compiling
 
 Read the PDF file and this source code file in parallel. It takes 10 minutes,
 and afterwards you are probably ready to write your own talk.
 """
 
 from latexslides import *
+Code.ptex2tex_envir = 'cod'
 
 # We recommend to use raw strings (r'some string') because a backslash
 # is then a backslash and that's convenient when writing LaTeX.
@@ -143,13 +140,13 @@ BulletSlide('How to dim blocks and bullet points',
              'Just add an argument' +
              Code("""dim='progressive'"""),
              r'Want one bullet visible and the other dimmed? Just add' +
-             Code("dim='single' #dim=False (default) turns off dimming") +
+             Code("""dim='single' #dim=False (default) turns off dimming""") +
              r'Note that subbullets appear at the same time:',
              ['Subbullet 1',],
              r'Want the previous effect but with all bullets appearing '
              'at the end? Just add' +
              Code("""dim='single_then_all'"""),
-             r'Changing these arguments is very much easier than editing '
+             r'This is much easier than editing '
              r'the underlying \LaTeX{} code!',
              ],
             dim=True)
@@ -282,8 +279,8 @@ def mypyfunc(somearg):
 
 code_obj2 = \
 BulletSlide('Code objects can also use ptex2tex enviroments',
-            [r'Can set \texttt{Code.ptex2tex\_envir = "cod"} for instance, which then applies to all \texttt{Code} objects',
-             r'Can provide \texttt{ptex2tex\_envir} argument to \texttt{Code} constructor:' + Code('''
+            [r'Can set \texttt{Code.ptex2tex\_envir = "pycod"} (for instance), which then applies to all \texttt{Code} objects',
+             r'Can alternatively provide \texttt{ptex2tex\_envir} argument to \texttt{Code} constructor:' + Code('''
 bullets=[r'Here is an example:' +
 Code("""
 def mypyfunc(somearg):
@@ -311,34 +308,39 @@ def mypyfunc(somearg):
         else:
             return None
 """, ptex2tex_envir='pycod'),
+                     r'Here \texttt{pycod} corresponds to \texttt{Python\_ANS}',
                      r'Note that the slides should be written to a file with extension \texttt{.p.tex}',
                      r'Note that ptex2tex must be installed and used'])
 
 
+# Note that we below have indented the code 1 char to avoid ptex2tex
+# substituting the inner \bpycod and \epycod with their latex definitions
+# according to .ptex2tex.cfg.
 code_obj3 = \
 BulletSlide('Code objects take care of verbatim text',
             [r'Can also just insert ptex2tex environment delimiters in the code:' + Code('''
-bullets=[r'Here is an example (recall to use raw strings because of \\b...!!):'  + Code(r"""
-%sbpycod
-def mypyfunc(somearg):
-    for i in somearg:
-        p = process(i)
-        if p in mylist:
-            return p
-        else:
-            return None
-\epycod
-""")
+ # Recall to use raw strings because of \\b...!!
+ bullets=[r'Here is an example:'  + Code(r"""
+ %sbpycod
+ def mypyfunc(somearg):
+     for i in somearg:
+         p = process(i)
+         if p in mylist:
+             return p
+         else:
+             return None
+ \epycod
+ """)
 '''  % '\\'  # trick to get the \b character right here with Code inside Code...
 ),
-             r'Any \texttt{ptex2tex\_envir} argument overrules \texttt{\\bpycod} here'
+             r'Any \texttt{ptex2tex\_envir} argument will overrule \texttt{pycod} here'
              ,],)
 
 code_obj3_result = \
 BulletSlide('Result of using Code objects',
             block_heading='Here is the result of the constructions on the '
                           'previous slide:',
-            bullets=[r'Here is an example (recall to use raw strings because of \b...!!):' + Code(r"""
+            bullets=[r'Here is an example:' + Code(r"""
 \bpycod
 def mypyfunc(somearg):
     for i in somearg:
@@ -350,6 +352,47 @@ def mypyfunc(somearg):
 \epycod
 """),],)
 
+code_obj4 = \
+BulletSlide('Code objects can also use ptex2tex enviroments',
+            [r'Set \texttt{Code.ptex2tex\_envir = "cod"}' + Code('''
+Code.ptex2tex_envir = "cod"
+...
+Slide(...
+bullets=[r'Here is an example:' +
+Code("""
+def mypyfunc(somearg):
+    for i in somearg:
+        p = process(i)
+        if p in mylist:
+            return p
+        else:
+            return None
+""")
+'''),
+             ],)
+
+Code.ptex2tex_envir = "cod"
+
+code_obj4_result = \
+BulletSlide('Result of using Code objects',
+            block_heading='Here is the result of the constructions on the '
+                          'previous slide:',
+            bullets=[r'Here is an example:' +
+                     Code("""
+def mypyfunc(somearg):
+    for i in somearg:
+        p = process(i)
+        if p in mylist:
+            return p
+        else:
+            return None
+"""),
+  r'This code style requires pygmentize to be installed and \LaTeX\ to be invoked by \texttt{latex -shell-escape}',
+  r'Here \texttt{cod} corresponds to \texttt{Minted\_Python}',
+                     
+])
+
+#Code.ptex2tex_envir = None  # set back
 
 sec_specials = Section('More information', 'More')
 
@@ -383,7 +426,7 @@ from latexslides import *
 
 # First set some module variables:
 package = BeamerSlides
-theme = 'hpl1'
+theme = 'blue2'
 header_footer = True
 
 # Add newcommands:
@@ -601,6 +644,8 @@ code_obj2,
 code_obj2_result,
 code_obj3,
 code_obj3_result,
+code_obj4,
+code_obj4_result,
 sec_specials,
 sections,
 navigation,

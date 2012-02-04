@@ -34,4 +34,4 @@ collection = [slide1, slide2]
 slides.add_slides(collection)
 
 # Dump to file:
-slides.write("intro.tex")
+slides.write("intro.p.tex")
