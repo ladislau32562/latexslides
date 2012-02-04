@@ -290,7 +290,7 @@ Here is a list of keyword arguments for the constructor of a `Slide` instance:
  * `latexpackages`
    * Default: `""`
    * Type: str
-   * Comment: Adds additional packages to the list of packages at the beginning of the LaTeX file. In order to allow options to the packages, it is a simple multi-line string, e.g. the exact string otherwise written in the LaTeX file.
+   * Comment: Adds additional packages to the list of packages at the beginning of the LaTeX file. The string is the exact, complete LaTeX command for including the package(s), e.g., `\usepackage{mypack,yourpack}`. For complicated instructions with many packages and long options, use a multi-line string.
 
 ===== Adding slides =====
 

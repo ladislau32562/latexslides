@@ -18,44 +18,6 @@ from latexslides import *
 # We recommend to use raw strings (r'some string') because a backslash
 # is then a backslash and that's convenient when writing LaTeX.
 
-# Now for the official title page of the talk; we can define
-# Python variables and use these in text strings to make things
-# more compact and easier to change.
-
-# First set a few module variables:
-package = BeamerSlides # Can also be 'ProsperSlides' and 'HTMLSlides'
-beamer_theme = 'hpl1' #'shadow', 'Darmstadt' are other themes
-prosper_style = 'hplplainsmall' # 'default', 'hplplain' are other themes
-header_footer = True # Decorations are turned on
-
-# Add newcommands:
-newcommands = r"""\newcommand{\OBS}[1]{\marginpar{\scriptsize##1}}"""
-
-# Set institutions:
-ifi = "Dept.~of Informatics, University of Oslo"
-math = "Dept.~of Mathematics, University of Oslo"
-simula = "Simula Research Laboratory"
-
-# Set authors:
-hpl = 'Hans Petter Langtangen'
-ilmarw = 'Ilmar M. Wilbers'
-
-slides = package(title='Using Python and Latexslides to Make Slides',
-                 author_and_inst=[(hpl,simula,ifi), (ilmarw,simula,math)],
-                 date='June 2010',
-                 beamer_theme=beamer_theme,
-                 prosper_style=prosper_style,
-                 header_footer=header_footer,
-                 titlepage_figure='figs/wave-dueto-slide.ps',
-                 titlepage_figure_pos='s', # Figure to the south
-                 titlepage_figure_fraction_width=0.5,
-                 #titlepage_left_column_width=1., # If figure to the east 
-                 toc_heading='List of Topics',
-                 toc_figure='figs/python1.ps',
-                 toc_figure_fraction_width=1,
-                 toc_left_column_width=0.5,
-                 handout=False,
-                 newcommands=newcommands)
 
 # Exemplify raw LaTeX, please note that the code is for Beamer,
 # so if you want to use Prosper, you should comment out this slide
@@ -284,11 +246,10 @@ figure_pos='n',
 
 subsec_code = SubSection('Computer Code', 'Code')
 
-code_obj = \
+code_obj1 = \
 BulletSlide('Code objects take care of verbatim text',
             [r'Want to include computer code or some '
-             r'other verbatim text?\\ ' +
-             Code('''
+             r'other verbatim text? ' + Code('''
 bullets=[r'Here is an example:' +
 Code("""
 def mypyfunc(somearg):
@@ -300,10 +261,10 @@ def mypyfunc(somearg):
             return None
 """)
 '''),
-             r'Code objects are wrapped in fancyvrb verbatim environments'
+             r'Code objects are wrapped in fancyvrb "Verbatim" environments'
              ,],)
 
-code_obj_result = \
+code_obj1_result = \
 BulletSlide('Result of using Code objects',
             block_heading='Here is the result of the constructions on the '
                           'previous slide:',
@@ -317,6 +278,78 @@ def mypyfunc(somearg):
         else:
             return None
 """),],)
+
+
+code_obj2 = \
+BulletSlide('Code objects can also use ptex2tex enviroments',
+            [r'Can set \texttt{Code.ptex2tex\_envir = "cod"} for instance, which then applies to all \texttt{Code} objects',
+             r'Can provide \texttt{ptex2tex\_envir} argument to \texttt{Code} constructor:' + Code('''
+bullets=[r'Here is an example:' +
+Code("""
+def mypyfunc(somearg):
+    for i in somearg:
+        p = process(i)
+        if p in mylist:
+            return p
+        else:
+            return None
+""", ptex2tex_envir='pycod')
+'''),
+             ],)
+
+code_obj2_result = \
+BulletSlide('Result of using Code objects',
+            block_heading='Here is the result of the constructions on the '
+                          'previous slide:',
+            bullets=[r'Here is an example:' +
+                     Code("""
+def mypyfunc(somearg):
+    for i in somearg:
+        p = process(i)
+        if p in mylist:
+            return p
+        else:
+            return None
+""", ptex2tex_envir='pycod'),
+                     r'Note that the slides should be written to a file with extension \texttt{.p.tex}',
+                     r'Note that ptex2tex must be installed and used'])
+
+
+code_obj3 = \
+BulletSlide('Code objects take care of verbatim text',
+            [r'Can also just insert ptex2tex environment delimiters in the code:' + Code('''
+bullets=[r'Here is an example (recall to use raw strings because of \\b...!!):'  + Code(r"""
+%sbpycod
+def mypyfunc(somearg):
+    for i in somearg:
+        p = process(i)
+        if p in mylist:
+            return p
+        else:
+            return None
+\epycod
+""")
+'''  % '\\'  # trick to get the \b character right here with Code inside Code...
+),
+             r'Any \texttt{ptex2tex\_envir} argument overrules \texttt{\\bpycod} here'
+             ,],)
+
+code_obj3_result = \
+BulletSlide('Result of using Code objects',
+            block_heading='Here is the result of the constructions on the '
+                          'previous slide:',
+            bullets=[r'Here is an example (recall to use raw strings because of \b...!!):' + Code(r"""
+\bpycod
+def mypyfunc(somearg):
+    for i in somearg:
+        p = process(i)
+        if p in mylist:
+            return p
+        else:
+            return None
+\epycod
+"""),],)
+
 
 sec_specials = Section('More information', 'More')
 
@@ -382,8 +415,8 @@ simula = "Simula Research Laboratory"
 hpl = 'Hans Petter Langtangen'
 ilmarw = 'Ilmar M. Wilbers'
 
-slides = \
-package(title='Using Python and Latexslides to Make Slides',
+slides = BeamerSlides(
+        title='Using Python and Latexslides to Make Slides',
         author_and_inst=[(hpl, simula, ifi),
                          (ilmarw, simula, math)],
         date='March 2008',
@@ -562,8 +595,12 @@ ex_fig2,
 ex_fig3,
 multiple_figs,
 subsec_code,
-code_obj,
-code_obj_result,
+code_obj1,
+code_obj1_result,
+code_obj2,
+code_obj2_result,
+code_obj3,
+code_obj3_result,
 sec_specials,
 sections,
 navigation,
@@ -582,10 +619,50 @@ dummy1,
 dummy2,
 ]
 
+# Now for the official title page of the talk; we can define
+# Python variables and use these in text strings to make things
+# more compact and easier to change.
+
+# First set a few module variables:
+package = BeamerSlides # Can also be 'ProsperSlides' and 'HTMLSlides'
+beamer_theme = 'hpl1' #'shadow', 'Darmstadt' are other themes
+prosper_style = 'hplplainsmall' # 'default', 'hplplain' are other themes
+header_footer = True # Decorations are turned on
+
+# Add newcommands:
+newcommands = r"""\newcommand{\OBS}[1]{\marginpar{\scriptsize##1}}"""
+
+# Set institutions:
+ifi = "Dept.~of Informatics, University of Oslo"
+math = "Dept.~of Mathematics, University of Oslo"
+simula = "Simula Research Laboratory"
+
+# Set authors:
+hpl = 'Hans Petter Langtangen'
+ilmarw = 'Ilmar M. Wilbers'
+
+slides = package(title='Using Python and Latexslides to Make Slides',
+                 author_and_inst=[(hpl,simula,ifi), (ilmarw,simula,math)],
+                 date='June 2010',
+                 beamer_theme=beamer_theme,
+                 prosper_style=prosper_style,
+                 header_footer=header_footer,
+                 titlepage_figure='figs/wave-dueto-slide.ps',
+                 titlepage_figure_pos='s', # Figure to the south
+                 titlepage_figure_fraction_width=0.5,
+                 #titlepage_left_column_width=1., # If figure to the east 
+                 toc_heading='List of Topics',
+                 toc_figure='figs/python1.ps',
+                 toc_figure_fraction_width=1,
+                 toc_left_column_width=0.5,
+                 handout=False,
+                 newcommands=newcommands)
+
 for c in collection:
     slides.add_slide(c)
-# Write slides to file:
-filename = 'tmp_exampletalk.tex'
+# Write slides to file: (note that we use ptex2tex styles in Code, so
+# the output file should have the extension .p.tex)
+filename = 'tmp_exampletalk.p.tex'
 slides.write(filename)
 
 

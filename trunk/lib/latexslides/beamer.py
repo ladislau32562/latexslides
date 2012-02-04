@@ -57,6 +57,7 @@ class BeamerSlides(Slides):
 %%\usecolortheme{seahorse}
 
 
+\usepackage{ptex2tex}
 \usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
 \usepackage{graphicx}
 \usepackage{epsfig}
@@ -528,6 +529,44 @@ class BeamerSlides(Slides):
 
     def write(self, filename):
         Slides.write(self, filename)
-        filename = os.path.splitext(filename)[0]
-        print 'latex %s.tex; latex %s.tex;' %(filename, filename),
-        print 'dvipdf %s.dvi' % (filename)
+        basename, ext = os.path.splitext(filename)
+        if basename[-2:] == '.p':
+            basename = basename[:-2]
+            ptex2tex_line = 'ptex2tex %s; ' % basename
+        else:
+            ptex2tex_line = ''
+        # Check if latex or pdflatex, depending on figure extensions
+        text = self.get_latex()
+        import re
+        pattern = 'includegraphics\[.+?\]\{(.+?)\}'
+        figfiles = re.findall(pattern, text)
+        figfiletypes = {}
+        for fname in figfiles:
+            ext = os.path.splitext(fname)[1]
+            if not ext in figfiletypes:
+                figfiletypes[ext] = 1
+            else:
+                figfiletypes[ext] += 1
+        def check(illegal):
+            # Check if other illegal image types are present
+            for name in illegal:
+                if name in figfiletypes:
+                    return True
+
+        if '.ps' in figfiletypes or '.eps' in figfiletypes:
+            latex = 'latex'
+            if check(['.jpg', '.jpeg', '.png']):
+                print 'Cannot have jpeg/png files and ps/eps files mixed!'
+                sys.exit(1)
+        elif '.jpg' in figfiletypes or '.jpeg' in figfiletypes or \
+                 '.png' in figfiletypes:
+            latex = 'pdflatex'
+            if check(['.eps', '.ps']):
+                print 'Cannot have jpeg/png files and ps/eps files mixed!'
+                sys.exit(1)
+        else:
+            # No figures
+            latex = 'latex'
+
+        print '%s%s %s;' % (ptex2tex_line, latex, basename),
+        print 'dvipdf %s' % basename if latex == 'latex' else ''

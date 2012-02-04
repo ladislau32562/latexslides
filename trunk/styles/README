@@ -1,0 +1,18 @@
+Themes:
+
+red1 is a simple theme with red headlines.
+blue1 is similar to red1, but using blue color instead.
+
+red2 features shaded blocks with red headlines and is a more
+pronouced theme than red1. blue2 is similar to red2, but 
+using blue color instead.
+
+The theme in cbc-beamer is much like red2, but with the 
+logo of Center for Biomedical Computing (where latexslides
+was developed and used).
+
+The theme in simula-beamer is the orange-flavored theme
+used by Simula Research Laboratory.
+
+The directory math.umbc.edu-beamer features four themes
+umbc1-umbc4 by Rouben Rostamian <rostamian@umbc.edu>.

@@ -1,23 +1,18 @@
 """
 Module for writing presentations in Python.
 
-A presentation is represented by an instance of the class
-L{Slides}. Such an instance consists of a set of slides, which can be
-divided into a set of sections (which can themselves be divided into
-subsections). A slide is constructed from primitives, instances of
-class L{Content}. A special type of Content is the L{Block} class,
-which encapsulates other content in a certain area. The area is
-painted in a certain colour and can also be equipped with a heading.
+A presentation is represented by an instance of the class L{Slides}. Such an instance consists of a set of slides,
+which can be divided into a set of sections (which can themselves be divided into subsections). A slide is constructed
+from primitives, instances of class L{Content}. A special type of Content is the L{Block} class, which encapsulates other
+content in a certain area. The area is painted in a certain colour and can also be equipped with a heading.
 
-Primitive content is represented by different subclasses of class
-Content. There are classes for text, bullet lists, figures and
-computer code.
+Primitive content is represented by different subclasses of class Content. There are classes for text, bullet lists,
+figures and computer code.
 """
 __all__ = ["BulletSlide", "Slide", "TextSlide", "TableSlide", "RawSlide", 
            "MappingSlide", "Block", "Content", "TextBlock", "CodeBlock", 
            "BulletBlock", "TableBlock", "Text", "Table", "BulletList", 
-           "Code", "generate", "Section", "SubSection", "Slides",
-           "hide", "set_hide_text"]
+           "Code", "generate", "Section", "SubSection", "Slides"]
 
 import re, os, sys
 from cStringIO import StringIO
@@ -127,39 +122,18 @@ class Text(Content):
             text = str(text)
         Content.__init__(self, text)
 
-# _hide_text is a module variable, which can be turn on from the command line,
-# or by calling set_hide_text(True).
-# with hide('long explanation'), the text is replaced by '', or by
-# a shorter alternative: hide('long explanation', 'short alt.')
-
-_hide_text = False  
-import sys
-if '--hide-text' in sys.argv:
-    _hide_text = True
-    
-def set_hide_text(on_off):
-    global _hide_text
-    _hide_text = on_off
-    
-def hide(text, alternative=''):
-    """Used to hide text in slides."""
-    return alternative if _hide_text else text
-
 class BulletList(Content):
     def __init__(self, bullets, dim=True):
         self.bullets = bullets
         self._dim = dim
         Content.checkVerbatim(self, bullets)
-        # Remove empty strings (which occur when note bullets are hidden,
-        # the string is then replaced by '')
-        self.bullets = [bullet for bullet in self.bullets if bullet]
 
 class Raw(Content):
     def __init__(self, text):
         Content.__init__(self, text)
 
 def verbatimCode(code, file, from_regex, to_regex,
-                 leftmargin, fontsize):
+                 leftmargin, fontsize, ptex2tex_envir):
     if file is not None:
         # Read code from file
         f = open(file, 'r')
@@ -178,19 +152,78 @@ def verbatimCode(code, file, from_regex, to_regex,
             # Use the whole file:
             lines = f.readlines()
         code = ''.join(lines)
+        code = code.strip()  # remove blank lines at the file top and bottom
         f.close()
+
+    # Note: we don't use code.strip() because when specifying Code("""...
+    # the user must be able to put in blank lines at the top and bottom
+    # if that fits the text better. This doesn't make sense if the code
+    # block is read from file.
     
-    #code = '\n'.join([line for line in code.splitlines() if line])
-    code = '\n'.join([line for line in code.splitlines()])
-    return r"""\begin{Verbatim}[fontsize=%s,tabsize=4,baselinestretch=0.85,fontfamily=tt,xleftmargin=%s]
+    lines = [line for line in code.splitlines()]
+    #lines = [line for line in code.splitlines() if line]
+
+    #code = '\n'.join(lines)
+
+    #import pprint
+    #pprint.pprint(lines)
+    
+    # Check if ptex2tex environments are present
+    ptex2tex = False
+    envir = None
+    end = None
+    # First non-empty line *must* contain a begin envir
+    line_no = 0
+    while lines[line_no].strip() == '':
+        line_no += 1
+    if lines[line_no].startswith(r'\b'):
+        # Found ptex2tex begin envir, find the end closing tag
+        envir = line[2:]
+        for line in lines:
+            if line.startswith(r'\e'):
+                end = True
+                end_envir = line[2:]
+        if end_envir != envir:
+            print 'Wrong ptex2tex end match "%s" of environment "%s" in Code:\n%s' % (line[2:], envir, code)
+            sys.exit(1)
+        if not envir:
+            print 'Found no matching begin for end of environment "%s" in Code:\n%s' % (line[2:], code)
+            sys.exit(1)
+    if envir:
+        # Found ptex2tex environment
+
+        # Replace envir by ptex2tex_envir, if specified:
+        if ptex2tex_envir is not None:
+            code = code.replace(r'\b%s' % envir, r'\b%s' % ptex2tex_envir)
+            code = code.replace(r'\e%s' % envir, r'\e%s' % ptex2tex_envir)
+    else:
+        if ptex2tex_envir is None:
+            # Use plain Verbatim
+            code = r"""
+\begin{Verbatim}[fontsize=%s,tabsize=4,baselinestretch=0.85,fontfamily=tt,xleftmargin=%s]
 %s
 \end{Verbatim}
-""" % (fontsize, leftmargin, code) # Used to be code.strip()
-#"""\noindent """
+""" % (fontsize, leftmargin, code) 
+            #"""\noindent """
+        else:
+            # Use ptex2tex environment
+            code = '\n' + r'\b%s' % ptex2tex_envir + code + r'\e%s' % ptex2tex_envir
+    
+    return code
 
 class Code(Content):
+    ptex2tex_envir = None  # implies Verbatim LaTeX environment
+    
     def __init__(self, code='', file=None, from_regex=None, to_regex=None,
-                 leftmargin='7mm', fontsize=r'\footnotesize'):
+                 leftmargin='7mm', fontsize=r'\footnotesize',  # Verbatim
+                 ptex2tex_envir=None):
+
+        if ptex2tex_envir is None:
+            if Code.ptex2tex_envir is not None:
+                # Use class "global" variable, set by the user
+                ptex2tex_envir = Code.ptex2tex_envir
+        #else:
+        # for Verbatim environment
         if not fontsize.startswith('\\'):
             fontsize = '\\' + fontsize
         if Content.font_scale:
@@ -199,10 +232,11 @@ class Code(Content):
                 fontsize = r'\tiny'
             elif fontsize == r'\small':
                 fontsize = r'\footnotesize'
-                
+        
         ltx = verbatimCode(code, file, from_regex, to_regex,
-                           leftmargin, fontsize)
+                           leftmargin, fontsize, ptex2tex_envir)
         Content.__init__(self, ltx)
+        
     def __str__(self):
         return str(self._ltx)
     def __repr__(self):
@@ -258,14 +292,16 @@ class BulletBlock(Block):
 class CodeBlock(Block):
     """ Block with code. """
     def __init__(self, code='', file=None, from_regex=None, to_regex=None,
-                 leftmargin='7mm', fontsize=r'\footnotesize', heading=""):
+                 leftmargin='7mm', fontsize=r'\footnotesize', heading="",
+                 ptex2tex_envir=None):
         self.heading = heading
         Block.__init__(self, heading=heading, code=True,
                        content=[Code(code=code, file=file,
                                      from_regex=from_regex,
                                      to_regex=to_regex,
                                      leftmargin=leftmargin,
-                                     fontsize=fontsize)])
+                                     fontsize=fontsize,
+                                     ptex2tex_envir=ptex2tex_envir)])
 
 class TableBlock(Block):
     """ Block with table."""
@@ -282,7 +318,14 @@ def _verbatim_text(bullets):
     in a beamer frame).
     """
     verbatim = False
-    phrases = [r'\bcc', r'\bccq', '{Verbatim}', '{verbatim}', 'SaveVerbatim']
+
+    pro = ' pro pypro cypro cpppro cpro fpro pl pro shpro mpro'
+    cod = pro.replace('pro', 'cod')
+    ptex2tex_envirs = 'ccq cc ccl cppans pyans bashans swigans uflans sni dat dsni sys slin py rpy plin' + pro + cod
+    ptex2tex_phrases = ['\\e' + envir for envir in ptex2tex_envirs]
+    
+    phrases = ['{Verbatim}', '{verbatim}', 'SaveVerbatim'] + ptex2tex_phrases
+    
     for item in bullets:
         if isinstance(item, (list,tuple)):
             for item2 in item:
@@ -460,8 +503,11 @@ class LatexBuffer(object):
         return self._buf.tell()
     
     def write(self, txt, validate=True):
-        """ Write text to buffer after, after optionally checking whether LaTeX backslashes are there or raw strings have
-        been forgotten. """
+        """
+        Write text to buffer after, after optionally checking
+        whether LaTeX backslashes are there or raw strings have
+        been forgotten.
+        """
         if validate:
             for rp in self.__rePhrases:
                 #print 'checking "%s" in %s' % (p, string)
@@ -470,6 +516,9 @@ class LatexBuffer(object):
                           'This text,\n----\n%s\n----\ncontains '\
                           'LaTeX commands but was not typed as a raw string' \
                           % txt
+
+        # Why this??? Nothing happens and actions for verbatim envirs
+        # are taken in _verbatim_text
         if not self._verbatim:
             phrases = [r'\bcc', r'\bccq', '{Verbatim}', '{verbatim}']
             for p in phrases:
@@ -543,6 +592,7 @@ class Slides(object):
                  latexpackages="",
                  html=False,
                  titlepage=True):
+        """See the documentation for what the arguments mean."""
 
         elements = locals()
         del elements['self']
@@ -738,7 +788,8 @@ class Slides(object):
         tableblock.render(self.buf)
 
     def write(self, filename):
+        text = self.get_latex()
         of = open(filename, 'w')
-        of.write(self.get_latex())
+        of.write(text)
         of.close()
          
