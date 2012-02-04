@@ -1,4 +1,12 @@
-from latexslides
+from latexslides import *
+
+# Note: Code.ptex2tex_envir must be set *before* Code objects
+# are created
+try:
+    ptenvir = sys.argv[2]  # ptex2tex code envir
+except IndexError:
+    ptenvir = None
+Code.ptex2tex_envir = ptenvir
 
 # Define latex newcommands
 newcommands = r"""
@@ -7,6 +15,7 @@ newcommands = r"""
 \renewcommand{\u}{\pmb{u}}
 \renewcommand{\v}{\pmb{v}}
 \newcommand{\f}{\pmb{f}}
+\newcommand{\s}{\pmb{s}}
 \newcommand{\strainr}{{1\over2}(\nabla\u + \nabla\u^T)}
 """
 
@@ -14,10 +23,15 @@ mapping_slide3 = \
 MappingSlide([
     ('Why Python?', 'clipart/python1.png'),
     ('FEniCS PDE tools', 'clipart/fenics_logo.png', 0.8),
-    ('PDE systems tools', 'figs-pdesys/mechanics_eqs_white.jpg', 1.5),
+    ('PDE systems tools', 'clipart/mechanics_eqs_white.jpg', 1.5),
               ])
 
-from Why_Python import wip_lots
+wip_lots \
+= Slide(r'Python is a convenient programming environment',
+figure='clipart/wip_lots.png',
+figure_fraction_width=0.7,
+)
+
 
 RANS_modeling \
 = Slide('What are the problems with computing turbulent flows?',
@@ -126,6 +140,7 @@ second_rank_tensor_PDE,
 
 # Convenient variables for institutions
 simula = r'Center for Biomedical Computing\\ Simula Research Laboratory'
+ifi = r'Dept.~of Informatics, University of Oslo'
 mi = r'Dept.~of Mathematics, University of Oslo'
 ffi = r'Norwegian Defence Research Establishment (FFI)'
 
@@ -149,9 +164,6 @@ def make_talk(slides, title, date, handout=False, theme='blue2'):
         #prosper_style='ffipres',
         newcommands=newcommands,
         latexpackages=r'\usepackage{tikz}',
-        #titlepage_figure=('figs-pdesys/diffusor_R12.png'),
-        #titlepage_figure=('figs-pdesys/diffusor_R11.png'),
-        titlepage_figure=('figs-pdesys/turbulent_flow1.jpg'),
         titlepage_figure_fraction_width=0.5,
         titlepage_figure_pos='s',
         toc_figure='clipart/fenics_logo.png',
@@ -178,12 +190,7 @@ if __name__ == '__main__':
         theme = sys.argv[1]
     except IndexError:
         theme = 'red2'
-    try:
-        ptenvir = sys.argv[2]  # ptex2tex code envir
-    except IndexError:
-        ptenvir = None
-    Code.ptex2tex_envir = ptenvir
-    
+
     make_talk(slides=pdesys_slides,
               title="Flexible Specification of Large Systems of Nonlinear PDEs",
               date='KAUST, Feb 6, 2012',
