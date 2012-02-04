@@ -36,6 +36,9 @@ class ProsperSlides(Slides):
 
         self.buf.write(r"""
 \usepackage{ptex2tex}
+%% #ifdef MINTED
+\usepackage{minted}  %% required pygments and latex -shell-escape filename
+%% #endif
 \usepackage{relsize,fancybox,epsfig}
 \usepackage{subfigure}
 \usepackage{color}  % may be problematic
@@ -254,7 +257,7 @@ class ProsperSlides(Slides):
         basename, ext = os.path.splitext(filename)
         if basename[-2:] == '.p':
             basename = basename[:-2]
-            ptex2tex_line = 'ptex2tex %s; ' % basename
+            ptex2tex_line = 'ptex2tex -DMINTED %s; ' % basename
         else:
             ptex2tex_line = ''
         # Check if latex or pdflatex, depending on figure extensions
@@ -276,12 +279,12 @@ class ProsperSlides(Slides):
                     return True
 
         if '.ps' in figfiletypes or '.eps' in figfiletypes:
-            latex = 'latex'
+            latex = 'latex -shell-escape'
             if check(['.jpg', '.jpeg', '.png']):
                 print 'Cannot have jpeg/png files and ps/eps files mixed!'
                 sys.exit(1)
         else:
-            latex = 'pdflatex'
+            latex = 'pdflatex -shell-escape'
             if check(['.eps', '.ps']):
                 print 'Cannot have jpeg/png files and ps/eps files mixed!'
                 sys.exit(1)

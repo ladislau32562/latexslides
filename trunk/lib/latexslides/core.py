@@ -87,7 +87,6 @@ slides.write("%s.tex")
 
 class Content(object):
     """Basic primitive that can be rendered into LaTeX code."""
-    __phrases = [r'\bcc', r'\bccq', '{Verbatim}', '{verbatim}', 'SaveVerbatim']
     fig_scale = 1.0
     font_scale = False
     def __init__(self, latex_code, dim=True):
@@ -95,7 +94,7 @@ class Content(object):
         self._ltx = latex_code
         self._dim = dim
         self._verbatim = False
-        for p in self.__phrases:
+        for p in _verbatim_phrases():
             if self._ltx.find(p) != -1:
                 self._verbatim = True
                 break
@@ -177,26 +176,29 @@ def verbatimCode(code, file, from_regex, to_regex,
     while lines[line_no].strip() == '':
         line_no += 1
     if lines[line_no].startswith(r'\b'):
-        # Found ptex2tex begin envir, find the end closing tag
+        # Found ptex2tex begin envir
         envir = line[2:]
-        for line in lines:
-            if line.startswith(r'\e'):
-                end = True
-                end_envir = line[2:]
-        if end_envir != envir:
-            print 'Wrong ptex2tex end match "%s" of environment "%s" in Code:\n%s' % (line[2:], envir, code)
-            sys.exit(1)
-        if not envir:
-            print 'Found no matching begin for end of environment "%s" in Code:\n%s' % (line[2:], code)
-            sys.exit(1)
-    if envir:
-        # Found ptex2tex environment
-
-        # Replace envir by ptex2tex_envir, if specified:
+        #print 'Found begin %s at line' % envir, line_no
         if ptex2tex_envir is not None:
             code = code.replace(r'\b%s' % envir, r'\b%s' % ptex2tex_envir)
-            code = code.replace(r'\e%s' % envir, r'\e%s' % ptex2tex_envir)
-    else:
+
+        # Find the final end closing tag, searching backwards from the end
+        line_no = len(lines)-1
+        while lines[line_no].strip() == '':
+            line_no -= 1
+        if not lines[line_no].startswith(r'\e'):
+            print 'No end match for begin of ptex2tex envir "%s"\n%s' % (envir, code)
+            sys.exit(1)
+        else:
+            #print 'Found end %s at line' % envir, line_no
+            if ptex2tex_envir is not None:
+                code = code.replace(r'\e%s' % envir, r'\e%s' % ptex2tex_envir)
+
+    #if envir:
+    #    print 'Code after detection of envir %s' % envir
+    #    print code
+        
+    if not envir:  # no explicit ptex2tex environments
         if ptex2tex_envir is None:
             # Use plain Verbatim
             code = r"""
@@ -207,7 +209,13 @@ def verbatimCode(code, file, from_regex, to_regex,
             #"""\noindent """
         else:
             # Use ptex2tex environment
-            code = '\n' + r'\b%s' % ptex2tex_envir + code + r'\e%s' % ptex2tex_envir
+
+            if code[0] != '\n':       # make sure there is a \n before \b...
+                code = '\n' + code
+            if code[-1] != '\n':
+                code = code + '\n'    # make sure there is a \n before \e...
+                
+            code = '\n' + r'\b%s' % ptex2tex_envir + code + r'\e%s' % ptex2tex_envir + '\n'
     
     return code
 
@@ -311,20 +319,23 @@ class TableBlock(Block):
         self.center = center
         Block.__init__(self, heading=heading, 
                        content=[Table(table, column_headline_pos, column_pos)])
-                                                             
+
+
+def _verbatim_phrases():
+    pro = ' pro pypro cypro cpppro cpro fpro pl pro shpro mpro'
+    cod = pro.replace('pro', 'cod')
+    ptex2tex_envirs = 'ccq cc ccl cod pro cppans pyans bashans swigans uflans sni dat dsni sys slin py rpy plin' + pro + cod
+    ptex2tex_phrases = ['\\e' + envir for envir in ptex2tex_envirs]
+    phrases = ['{Verbatim}', '{verbatim}', 'SaveVerbatim'] + ptex2tex_phrases
+    return phrases
+    
 def _verbatim_text(bullets):
     """
     Check if we have verbatim text (i.e., if we need a fragile command
     in a beamer frame).
     """
     verbatim = False
-
-    pro = ' pro pypro cypro cpppro cpro fpro pl pro shpro mpro'
-    cod = pro.replace('pro', 'cod')
-    ptex2tex_envirs = 'ccq cc ccl cppans pyans bashans swigans uflans sni dat dsni sys slin py rpy plin' + pro + cod
-    ptex2tex_phrases = ['\\e' + envir for envir in ptex2tex_envirs]
-    
-    phrases = ['{Verbatim}', '{verbatim}', 'SaveVerbatim'] + ptex2tex_phrases
+    phrases = _verbatim_phrases()
     
     for item in bullets:
         if isinstance(item, (list,tuple)):
@@ -520,7 +531,7 @@ class LatexBuffer(object):
         # Why this??? Nothing happens and actions for verbatim envirs
         # are taken in _verbatim_text
         if not self._verbatim:
-            phrases = [r'\bcc', r'\bccq', '{Verbatim}', '{verbatim}']
+            phrases = _verbatim_phrases()
             for p in phrases:
                 if txt.find(p) != -1:
                     self._verbatim = True

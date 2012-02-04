@@ -46,14 +46,14 @@ latex or pdflatex.
 Note: backslashes in latex code requires Python raw strings, r'$\mbox{}$'
 
 How to run:
-!bc shpro
+!bc
 python mytalk.py
 latex tmp_mytalk
 dvipdf tmp_mytalk
 acroread tmp_mytalk.pdf
 !ec
 Or if `ptex2tex` code environments are specified:
-!bc shpro
+!bc
 python mytalk.py
 ptex2tex -DMINTED tmp_mytalk
 latex tmp_mytalk
@@ -136,7 +136,7 @@ than half an hour.
 
 Latexslides is a Python package with a `setup.py` script. Just check out
 the source code from Googlecode and run `setup.py` the usual way:
-!bc shpro
+!bc
 svn checkout http://latexslides.googlecode.com/svn/trunk latexslides
 cd latexslides
 sudo python setup.py install
@@ -145,7 +145,7 @@ cd styles
 
 Latexslides depends on Ptex2tex, which depends on `preprocess` and Pygments.
 The relvant steps go as
-!bc shpro
+!bc
 svn checkout https://ptex2tex.googlecode.com/svn/trunk/ ptex2tex
 cd ptex2tex
 sudo python setup.py install
@@ -165,7 +165,7 @@ cd ..
 !ec
 
 Try to compile the Latexslides presentation `demo.py` in `doc`:
-!bc shpro
+!bc
 cd ../latexslides/doc
 python demo.py
 ptex2tex -DMINTED tmp_demo
@@ -371,7 +371,11 @@ Here is a list of keyword arguments for the constructor of a `Slide` instance:
  * `latexpackages`
    * Default: `""`
    * Type: str
-   * Comment: Adds additional packages to the list of packages at the beginning of the LaTeX file. The string is the exact, complete LaTeX command for including the package(s), e.g., `\usepackage{mypack,yourpack}`. For complicated instructions with many packages and long options, use a multi-line string.
+   * Comment: Adds additional packages to the list of packages at the beginning of the LaTeX file. The string is the exact, complete LaTeX command for including the package(s), e.g., 
+!bc
+\usepackage{mypack,yourpack}
+!ec
+For complicated instructions with many packages and long options, use a multi-line string.
 
 ===== Adding slides =====
 
@@ -538,7 +542,7 @@ a start and a stop expression:
  * `ptex2tex_envir`
    * Default: `None`
    * Type: str
-   * Comment: Enables `ptex2tex` environments. Specifying (say) `pycod` means that the code is wrapped in the begin/end `pycod` environment, which is defined in a local `.ptex2tex.cfg` file, a similar file in the user's home directory, or a system-side similar file. The `ptex2tex_envir` value also applies if the code is read from file. The code environment can also be explicitly manually inserted in the code text, e.g., a `\bcpycod` and `\epycod' text inserted before and after the code, respectively. If the `ptex2tex_envir` argument is given, this value is substituted for the explicitly specified environment in `code`. Finally, the `ptex2tex` environment can be specified "globally" by a class variable `Code.ptex2tex_envir` in order to set the code environment once and for all in a file. The `ptex2tex_envir` argument to a specific `Code` object will override the `Code.ptex2tex_envir` value.
+   * Comment: Enables `ptex2tex` environments. Specifying (say) `pycod` means that the code is wrapped in the begin/end `pycod` environment, which is defined in a local `.ptex2tex.cfg` file, a similar file in the user's home directory, or a system-side similar file. The `ptex2tex_envir` value also applies if the code is read from file. The code environment can also be explicitly manually inserted in the code text, e.g., a `\bcpycod` and `\epycod` text inserted before and after the code, respectively. If the `ptex2tex_envir` argument is given, this value is substituted for the explicitly specified environment in `code`. Finally, the `ptex2tex` environment can be specified "globally" by a class variable `Code.ptex2tex_envir` in order to set the code environment once and for all in a file. The `ptex2tex_envir` argument to a specific `Code` object will override the `Code.ptex2tex_envir` value.
 
 `Table` gives us the possibility for creating LaTeX tables directly based on
 (nested) Python lists. Writing tables in LaTeX is a tedious task, so automatically generating

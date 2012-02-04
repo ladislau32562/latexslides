@@ -1,7 +1,9 @@
 #!/bin/sh
 
-# Copies beamer/latex style files and other required files to
+# Copies *all* beamer/latex style files and other required files to
 # ~/texmf/tex/latex/misc on a Linux machine
+# (setup.py copies the red1, red2, blue1 and blue2 styles, but not
+# the special cbc, simula, hpl, umbc styles)
 
 dir=$HOME/texmf/tex/latex/misc
 if [ ! -d $dir ]; then

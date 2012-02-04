@@ -58,6 +58,9 @@ class BeamerSlides(Slides):
 
 
 \usepackage{ptex2tex}
+%% #ifdef MINTED
+\usepackage{minted}  %% required pygments and latex -shell-escape filename
+%% #endif
 \usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
 \usepackage{graphicx}
 \usepackage{epsfig}
@@ -285,6 +288,7 @@ class BeamerSlides(Slides):
 
 \begin{frame}%s
 \frametitle{%s}
+
 """ % (options, slide.title))
 
         # If figure is to the north:
@@ -532,7 +536,7 @@ class BeamerSlides(Slides):
         basename, ext = os.path.splitext(filename)
         if basename[-2:] == '.p':
             basename = basename[:-2]
-            ptex2tex_line = 'ptex2tex %s; ' % basename
+            ptex2tex_line = 'ptex2tex -DMINTED %s; ' % basename
         else:
             ptex2tex_line = ''
         # Check if latex or pdflatex, depending on figure extensions
@@ -554,13 +558,13 @@ class BeamerSlides(Slides):
                     return True
 
         if '.ps' in figfiletypes or '.eps' in figfiletypes:
-            latex = 'latex'
+            latex = 'latex -shell-escape'
             if check(['.jpg', '.jpeg', '.png']):
                 print 'Cannot have jpeg/png files and ps/eps files mixed!'
                 sys.exit(1)
         elif '.jpg' in figfiletypes or '.jpeg' in figfiletypes or \
                  '.png' in figfiletypes:
-            latex = 'pdflatex'
+            latex = 'pdflatex -shell-escape'
             if check(['.eps', '.ps']):
                 print 'Cannot have jpeg/png files and ps/eps files mixed!'
                 sys.exit(1)

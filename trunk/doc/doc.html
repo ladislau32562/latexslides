@@ -1,28 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Automatically generated HTML file from Doconce source
+(http://code.google.com/p/doconce/)
+-->
 
-<HTML>
-<BODY BGCOLOR="white">
-    <TITLE>Latexslides: From Python Slide Objects to LaTeX Beamer Code</TITLE>
-<CENTER><H1>Latexslides: From Python Slide Objects to LaTeX Beamer Code</H1></CENTER>
-<CENTER>
-<B>Ilmar Wilbers</B> [1]
-</CENTER>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Doconce: http://code.google.com/p/doconce/" />
+</head>
 
-<CENTER>
-<B>Hans Petter Langtangen</B> [1, 2]
-</CENTER>
+<body bgcolor="white">
+    <title>Latexslides: From Python Slide Objects to LaTeX Beamer Code</title>
+<center><h1>Latexslides: From Python Slide Objects to LaTeX Beamer Code</h1></center>
+<center>
+<b>Ilmar Wilbers</b> [1]
+</center>
 
-<P>
-[1] <B>Simula Research Laboratory</B>
-<P>
-[2] <B>University of Oslo</B>
-<P>
+<center>
+<b>Hans Petter Langtangen</b> [1, 2]
+</center>
+
+<p>
+<center>[1] <b>Simula Research Laboratory</b></center>
+<center>[2] <b>University of Oslo</b></center>
 
 
-<CENTER><H3>September 2, 2010</H3></CENTER>
+<center><h3>September 2, 2010</h3></center>
 <P>
-<H1>Introduction</H1>
+<h2>Introduction</h2>
 <P>
-<H3>What Is Latexslides?</H3>
+<h3>What Is Latexslides?</h3>
 <P>
 Latexslides is a tool that allows you to write slides in Python:
 each slide is a Python object, and a talk is a list of such objects.
@@ -37,21 +45,67 @@ a bullet list by simply specifying its position as n, s, e, w (north,
 south, east, or west). Each slide object is composed of various Python
 objects reflecting basic building blocks in slides: text block,
 bullet block, figure, etc. Take a look at a
-<A HREF="https://latexslides.googlecode.com/svn/trunk/doc/exampletalk.pdf">sample talk</A>,
+<a href="https://latexslides.googlecode.com/svn/trunk/doc/exampletalk.pdf">sample talk</a>,
 which explains the basics of Latexslides, and compare this PDF file
 with the Latexslides 
-<A HREF="https://latexslides.googlecode.com/svn/trunk/doc/exampletalk.py">source</A>
+<a href="https://latexslides.googlecode.com/svn/trunk/doc/exampletalk.py">source</a>
 in Python. A more manual-style documentation is also available as a
-<A HREF="https://latexslides.googlecode.com/svn/trunk/doc/latexslides_doc.html">web page</A>
+<a href="https://latexslides.googlecode.com/svn/trunk/doc/latexslides_doc.html">web page</a>
 or as a
-<A HREF="https://latexslides.googlecode.com/svn/trunk/doc/latexslides_doc.pdf">PDF</A> file.
+<a href="https://latexslides.googlecode.com/svn/trunk/doc/latexslides_doc.pdf">PDF</a> file.
 
 <P>
 
 <P>
 
 <P>
-<H3>Background</H3>
+<h3>Quick Start</h3>
+<P>
+
+<ul>
+ <li> Each slide is a Python object.
+ <li> A slide consists of <em>elements</em>, typically a bullet list (<tt>BulletBlock</tt>) or a text (<tt>TextBlock</tt>). You define such elements as Python objects and put them in a list.
+ <li> Easy to insert dimming of bullet items or of complete blocks.
+ <li> Very easy to insert and move figures (above, under, or left or right of text blocks).
+ <li> The names of each slide object (can be automatically generated, to reflect
+   the slide title) are collected in a list, which defines the presentation.
+ <li> Code blocks can be typeset in <tt>ptex2tex</tt> enviroments, if desired.
+ <li> A top object (collection) is made, all slides in the list are added to the collection, and then some code puts the slides in latex beamer (or prosper or
+</ul>
+
+HTML) format on file. This file is compiled in the standard way with
+latex or pdflatex.
+
+<P>
+Note: backslashes in latex code requires Python raw strings, r'$\mbox{}$'
+
+<P>
+How to run:
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
+python mytalk.py
+latex tmp_mytalk
+dvipdf tmp_mytalk
+acroread tmp_mytalk.pdf
+</pre>
+</blockquote>   <! -- end verbatim block -->
+Or if <tt>ptex2tex</tt> code environments are specified:
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
+python mytalk.py
+ptex2tex -DMINTED tmp_mytalk
+latex tmp_mytalk
+dvipdf tmp_mytalk
+acroread tmp_mytalk.pdf
+</pre>
+</blockquote>   <! -- end verbatim block -->
+If JPEG or PNG files are used instead of PostScript you must run <tt>pdflatex</tt>
+instead of <tt>latex</tt> and skip <tt>dvipdf</tt>.
+
+<P>
+
+<P>
+<h3>Background</h3>
 <P>
 If the background doesn't interest you, and you just want to get started with
 Latexslides, jump to the 'Getting started' section.
@@ -88,7 +142,7 @@ From these points, it became natural to specify slides as program code
 and automate the generation of the specific syntax for different
 LaTeX packages. Our solution is Latexslides, which is written in Python
 and requires you to write your slides in Python. Typically, each
-slide is a <TT>Slide</TT> object, to which you assign a name, and then you
+slide is a <tt>Slide</tt> object, to which you assign a name, and then you
 can collect the names in lists to compose a particular presentation.
 It is easy to have your slides in modules such that new presentations
 can import slides from other presentations. This gives great flexibility
@@ -105,7 +159,7 @@ should be done in Python :-) Also slides...
 <P>
 
 <P>
-<H3>History</H3>
+<h3>History</h3>
 <P>
 Initially, this software was a module and script written by Hans
 Petter Langtangen and later improved by &#197;smund &#216;deg&#229;rd, both at Simula
@@ -118,25 +172,82 @@ Latexslide package for slide generation in Python. (The old API is
 still supported for backward compatibility.)
 
 <P>
-<H1>Getting started</H1>
+<h2>Getting started</h2>
 <P>
 If you want to get started with a more advanced example, it is
-recommended that you take a look at the file <TT>doc/exampletalk.py</TT>,
+recommended that you take a look at the file <tt>doc/exampletalk.py</tt>,
 which demonstrates many of the functionalities that are
 available. Going through the source code of this talk at the same time
 as reading the PDF generated from it, should get you started in less
 than half an hour.
 
 <P>
-<H3>Introductory example</H3>
+<h3>Installation</h3>
+<P>
+Latexslides is a Python package with a <tt>setup.py</tt> script. Just check out
+the source code from Googlecode and run <tt>setup.py</tt> the usual way:
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
+svn checkout http://latexslides.googlecode.com/svn/trunk latexslides
+cd latexslides
+sudo python setup.py install
+cd styles
+</pre>
+</blockquote>   <! -- end verbatim block -->
+
+<P>
+Latexslides depends on Ptex2tex, which depends on <tt>preprocess</tt> and Pygments.
+The relvant steps go as
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
+svn checkout https://ptex2tex.googlecode.com/svn/trunk/ ptex2tex
+cd ptex2tex
+sudo python setup.py install
+cd latex
+sh cp2texmf.sh  # on Unix/Linux systems: copies latex style files
+cd ../../
+
+hg clone ssh://hg@bitbucket.org/birkenfeld/pygments-main pygments
+cd pygments
+sudo python setup.py install
+cd ..
+
+svn checkout http://preprocess.googlecode.com/svn/trunk/ preprocess
+cd preprocess
+sudo python setup.py install
+cd ..
+</pre>
+</blockquote>   <! -- end verbatim block -->
+
+<P>
+Try to compile the Latexslides presentation <tt>demo.py</tt> in <tt>doc</tt>:
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
+cd ../latexslides/doc
+python demo.py
+ptex2tex -DMINTED tmp_demo
+latex -shell-escape tmp_demo
+dvipdf tmp_demo
+# check out tmp_demo.pdf
+</pre>
+</blockquote>   <! -- end verbatim block -->
+
+<P>
+You do not need to install Pygments and Ptex2tex and run <tt>latex -shell-escape</tt>
+if 1) your presentation does not contain computer code snippets, and 2)
+you typeset computer code snippet the default way (Verbatim LaTeX
+environment).
+
+<P>
+<h3>Introductory example</h3>
 <P>
 You can generate a new, empty presentation by typing
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 python -c 'import latexslides; latexslides.generate("myfile.py")'
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
-Just invoke and edit the file <TT>myfile.py</TT>.
+</pre>
+</blockquote>   <! -- end verbatim block -->
+Just invoke and edit the file <tt>myfile.py</tt>.
 
 <P>
 We will now look at a short example introducing the main functionalities of
@@ -144,10 +255,10 @@ Latexslides. We look at the source code of two slides, and the result for
 Beamer can be viewed in the figures below. The first slide consists of two
 parts, the left part contains a figure, and the right part contains some text
 as well as a few lines of code, see Figures
-<A HREF="#fig:intro1">fig:intro1</a> and <A HREF="#fig:intro2">fig:intro2</a>. The Python code used for generating these
+<a href="#fig:intro1">fig:intro1</a> and <a href="#fig:intro2">fig:intro2</a>. The Python code used for generating these
 slides is as follows:
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 from latexslides import *
 
 author_and_inst = [("John Doe", "Royal University of Nothing")]
@@ -162,7 +273,7 @@ slide1 = Slide("Slide 1",
 Program for computing the height of a ball thrown up in the air:
 $y=v_0t- {1\over 2} gt^2$""") ,
                         Code(file='sample_code.py')],
-               figure='brainhurts.ps',
+               figure='figs/brainhurts.ps',
                figure_pos='w',
                figure_fraction_width=0.4,
                left_column_width=0.3,
@@ -184,16 +295,16 @@ collection = [slide1, slide2]
 slides.add_slides(collection)
 
 # Dump to file:
-slides.write("intro.tex")
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
+slides.write("intro.p.tex")
+</pre>
+</blockquote>   <! -- end verbatim block -->
 Before dissecting each individual slide, we will take a look at the general layout
 of this code. 
 First, we need to import the Python module. Then, we define the parts of the
 presentation that are common for all slides, including the name and
 affiliation of the authors and the date. This is done by creating an instance
-of one of the subclasses of <TT>Slides</TT>, meaning either <TT>BeamerSlides</TT>, <TT>ProsperSlides</TT>
-or <TT>HTMLSlides</TT>, hereafter referred to as the main instance. Here we also
+of one of the subclasses of <tt>Slides</tt>, meaning either <tt>BeamerSlides</tt>, <tt>ProsperSlides</tt>
+or <tt>HTMLSlides</tt>, hereafter referred to as the main instance. Here we also
 define what both the title page and the rest of the
 presentation should look like, and how it should behave. The details on this
 can be found further down in this tutorial. For this introductory example, we
@@ -207,34 +318,40 @@ the order we would like them to appear. Finally, we dump the whole
 presentation to file.
 
 <P>
-Our first slide is a general <TT>Slide</TT> object. The title is set to "Slide 1", and
+Our first slide is a general <tt>Slide</tt> object. The title is set to "Slide 1", and
 a figure is included on the slide. The figure is placed to the left of the
 slide, and set not to exceed more than 3/10 of the slide. It also had to be
 shrunk to 4/10 of its original size to fit on the slide. The right side of the
-slide consists of two elements, a <TT>TextBlock</TT> and some code. It is worth
+slide consists of two elements, a <tt>TextBlock</tt> and some code. It is worth
 noticing that the Python code displayed on this slide is not part of the code
-defining the slide. Rather, we give the <TT>Code</TT> class an argument <TT>file=code.py</TT>,
-resulting in the Python code being read from the file <TT>code.py</TT>. Figure
-<A HREF="#fig:intro1">fig:intro1</a> displays the first slide.
+defining the slide. Rather, we give the <tt>Code</tt> class an argument <tt>file=code.py</tt>,
+resulting in the Python code being read from the file <tt>code.py</tt>. Figure
+<a href="#fig:intro1">fig:intro1</a> displays the first slide.
 
 <P>
-<IMG SRC="intro1.png"  height=2000> First slide of introductory example.  
+<center><hr>
+<caption><i>First slide of introductory example.</i></caption>
+<p><img src="intro1.png" align="bottom" height=2000></p>
+</center>
 
 <P>
-The second slide is a <TT>BulletSlide</TT>, which is less general than the super class
-<TT>Slide</TT>. This means that we have a less complicated interface at the cost of
+The second slide is a <tt>BulletSlide</tt>, which is less general than the super class
+<tt>Slide</tt>. This means that we have a less complicated interface at the cost of
 flexibility. The bullets are lists of string elements, but nested lists are
 allowed, as is shown. Finally, we opted to add a heading to the block making
-up the bullets. If omitted, no heading is displayed. Figure <A HREF="#fig:intro2">fig:intro2</a>
+up the bullets. If omitted, no heading is displayed. Figure <a href="#fig:intro2">fig:intro2</a>
 displays the second slide.
 
 <P>
-<IMG SRC="intro2.png"  height=2000> Second slide of introductory example.
+<center><hr>
+<caption><i>Second slide of introductory example.</i></caption>
+<p><img src="intro2.png" align="bottom" height=2000></p>
+</center>
 
 <P>
-<H1>Documentation of the classes</H1>
+<h2>Documentation of the classes</h2>
 <P>
-<H3>Keyword arguments</H3>
+<h3>Keyword arguments</h3>
 <P>
 Objects in Latexslides makes heavily use of keyword arguments. This
 means that when creating a new object, there are very few, if any,
@@ -242,872 +359,891 @@ arguments that are mandatory. A lot of arguments are optional, and will
 be ignored if not present, or suitable default values will be used.
 
 <P>
-<H3>Initialization</H3>
+<h3>Initialization</h3>
 <P>
 After an 
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 from latexslides import *
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
+</pre>
+</blockquote>   <! -- end verbatim block -->
 the first instance we need to create is
-an instance of a subclass of the class <TT>Slides</TT>. This can be (at this time)
-either <TT>ProsperSlides</TT>, <TT>BeamerSlides</TT> or <TT>HTMLSlides</TT>. The default values and
+an instance of a subclass of the class <tt>Slides</tt>. This can be (at this time)
+either <tt>ProsperSlides</tt>, <tt>BeamerSlides</tt> or <tt>HTMLSlides</tt>. The default values and
 the Python data types for each keyword argument will be given below as
 'Default' and 'Type'. If a keyword argument not works for all packages
 (subclasses), the name of the packages for which it works for will be given as
 well under 'Package'. Finally, necessary comments will be given under
-'Comments'. It is worth noting the use of the keyword arguments <TT>n</TT>, <TT>s</TT>, <TT>e</TT>,
-and <TT>w</TT>. These correspond to north, south, east, and west,
+'Comments'. It is worth noting the use of the keyword arguments <tt>n</tt>, <tt>s</tt>, <tt>e</tt>,
+and <tt>w</tt>. These correspond to north, south, east, and west,
 respectively. North indicates the top of a page, east the left of a page
 etc. 
 
 <P>
-Here is a list of keyword arguments for the constructor of a <TT>Slide</TT> instance:
+Here is a list of keyword arguments for the constructor of a <tt>Slide</tt> instance:
 
-<UL>
- <LI> <TT>title</TT>           
+<ul>
+ <li> <tt>title</tt>           
 
-<UL>
-   <LI> Default: <TT>"Here goes the title of the talk"</TT>
-   <LI> Type: str
-</UL>
+<ul>
+   <li> Default: <tt>"Here goes the title of the talk"</tt>
+   <li> Type: str
+</ul>
 
- <LI> <TT>author_and_inst</TT>
+ <li> <tt>author_and_inst</tt>
 
-<UL>
-   <LI> Default: <TT>[('author1', 'inst1'), ('author2', 'inst2', 'inst3')]</TT>
-   <LI> Type: list of tuples of str
-</UL>
+<ul>
+   <li> Default: <tt>[('author1', 'inst1'), ('author2', 'inst2', 'inst3')]</tt>
+   <li> Type: list of tuples of str
+</ul>
 
- <LI> <TT>date</TT>
+ <li> <tt>date</tt>
 
-<UL>
-   <LI> Default: <TT>None</TT>
-   <LI> Type: str
-   <LI> Comment: Today's date is chosen if not set.
-</UL>
+<ul>
+   <li> Default: <tt>None</tt>
+   <li> Type: str
+   <li> Comment: Today's date is chosen if not set.
+</ul>
 
- <LI> <TT>titlepage</TT>
+ <li> <tt>titlepage</tt>
 
-<UL>
-   <LI> Default: <TT>True</TT>
-   <LI> Type: bool
-   <LI> Comment: If set to <TT>False</TT>, the title page is skipped.
-</UL>
+<ul>
+   <li> Default: <tt>True</tt>
+   <li> Type: bool
+   <li> Comment: If set to <tt>False</tt>, the title page is skipped.
+</ul>
 
- <LI> <TT>titlepage_figure</TT>
+ <li> <tt>titlepage_figure</tt>
 
-<UL>
-   <LI> Default: <TT>None</TT>
-   <LI> Type: str
-   <LI> Package: Beamer
-   <LI> Comment: Give name of figure file to appear on title page.
-</UL>
+<ul>
+   <li> Default: <tt>None</tt>
+   <li> Type: str
+   <li> Package: Beamer
+   <li> Comment: Give name of figure file to appear on title page.
+</ul>
 
- <LI> <TT>titlepage_figure_pos</TT>
+ <li> <tt>titlepage_figure_pos</tt>
 
-<UL>
-   <LI> Default: <TT>"s"</TT>
-   <LI> Type: str
-   <LI> Package: Beamer
-   <LI> Comments: Position of figure on the title page. Values can be either <TT>e</TT>, or <TT>s</TT>. Really, anything but <TT>s</TT> results in <TT>e</TT>.
-</UL>
+<ul>
+   <li> Default: <tt>"s"</tt>
+   <li> Type: str
+   <li> Package: Beamer
+   <li> Comments: Position of figure on the title page. Values can be either <tt>e</tt>, or <tt>s</tt>. Really, anything but <tt>s</tt> results in <tt>e</tt>.
+</ul>
 
- <LI> <TT>titlepage_figure_fraction_width</TT>
+ <li> <tt>titlepage_figure_fraction_width</tt>
 
-<UL>
-   <LI> Default: <TT>1.0</TT>
-   <LI> Type: float
-   <LI> Package: Beamer
-   <LI> Comment: Scales the picture, while keeping aspect ratio.
-</UL>
+<ul>
+   <li> Default: <tt>1.0</tt>
+   <li> Type: float
+   <li> Package: Beamer
+   <li> Comment: Scales the picture, while keeping aspect ratio.
+</ul>
 
- <LI> <TT>titlepage_left_column_width</TT>
+ <li> <tt>titlepage_left_column_width</tt>
 
-<UL>
-   <LI> Default: <TT>0.5</TT>
-   <LI> Type: float
-   <LI> Package: Beamer
-   <LI> Comment: If the figure is positioned to the left or right, two columns are used. This value sets the relative size of the left column, and should be between <TT>0</TT> and <TT>1</TT>. The size of the right column is 1 minus this value.
-</UL>
+<ul>
+   <li> Default: <tt>0.5</tt>
+   <li> Type: float
+   <li> Package: Beamer
+   <li> Comment: If the figure is positioned to the left or right, two columns are used. This value sets the relative size of the left column, and should be between <tt>0</tt> and <tt>1</tt>. The size of the right column is 1 minus this value.
+</ul>
 
- <LI> <TT>short_title</TT>
+ <li> <tt>short_title</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Package: Beamer 
-   <LI> Comment: This value, if present, is used instead of the main title if it is too large to fit somewhere in the presentation.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Package: Beamer 
+   <li> Comment: This value, if present, is used instead of the main title if it is too large to fit somewhere in the presentation.
+</ul>
 
- <LI> <TT>short_author</TT>
+ <li> <tt>short_author</tt>
 
-<UL>
-   <LI> Default: <TT>None</TT>
-   <LI> Type: str
-   <LI> Package: Beamer
-   <LI> Comment: If the name of the authors(s) is too long to fit, this value, if present, is used instead. Else a string consisting of the first author's last name with 'et al.' added to it is used.
-</UL>
+<ul>
+   <li> Default: <tt>None</tt>
+   <li> Type: str
+   <li> Package: Beamer
+   <li> Comment: If the name of the authors(s) is too long to fit, this value, if present, is used instead. Else a string consisting of the first author's last name with 'et al.' added to it is used.
+</ul>
 
- <LI> <TT>copyright_text</TT>
+ <li> <tt>copyright_text</tt>
 
-<UL>
-   <LI> Default: <TT>None</TT>
-   <LI> Type: str
-   <LI> Package: Prosper
-</UL>
+<ul>
+   <li> Default: <tt>None</tt>
+   <li> Type: str
+   <li> Package: Prosper
+</ul>
 
- <LI> <TT>toc_heading</TT>
+ <li> <tt>toc_heading</tt>
 
-<UL>
-   <LI> Default: <TT>"Outline"</TT>
-   <LI> Type: str
-   <LI> Package: Beamer
-   <LI> Comment: The heading of table of contents, shown between all sections and subsections. If set to <TT>None</TT> or an empty string, the table of contents is skipped. This might be preferable for shorter presentations.
-</UL>
+<ul>
+   <li> Default: <tt>"Outline"</tt>
+   <li> Type: str
+   <li> Package: Beamer
+   <li> Comment: The heading of table of contents, shown between all sections and subsections. If set to <tt>None</tt> or an empty string, the table of contents is skipped. This might be preferable for shorter presentations.
+</ul>
 
- <LI> <TT>toc_figure</TT>
+ <li> <tt>toc_figure</tt>
 
-<UL>
-   <LI> Default: <TT>None</TT>
-   <LI> Type: str
-   <LI> Package: Beamer
-   <LI> Comment: Give name of file containing the figure to be shown on the table of contents slide.
-</UL>
+<ul>
+   <li> Default: <tt>None</tt>
+   <li> Type: str
+   <li> Package: Beamer
+   <li> Comment: Give name of file containing the figure to be shown on the table of contents slide.
+</ul>
 
- <LI> <TT>toc_figure_fraction_width</TT>
+ <li> <tt>toc_figure_fraction_width</tt>
 
-<UL>
-   <LI> Default: <TT>1.0</TT>
-   <LI> Type: float
-   <LI> Package: Beamer
-   <LI> Comment: Scales the picture, while keeping aspect ratio. 
-</UL>
+<ul>
+   <li> Default: <tt>1.0</tt>
+   <li> Type: float
+   <li> Package: Beamer
+   <li> Comment: Scales the picture, while keeping aspect ratio. 
+</ul>
 
- <LI> <TT>toc_left_column_width</TT>
+ <li> <tt>toc_left_column_width</tt>
 
-<UL>
-   <LI> Default: <TT>0.5</TT>
-   <LI> Type: float
-   <LI> Package: Beamer
-   <LI> Comment: The figure is positioned to the left of the table of contents, hence two columns are used. This value sets the size of the left column, the size of the right column is 1 minus this value.
-</UL>
+<ul>
+   <li> Default: <tt>0.5</tt>
+   <li> Type: float
+   <li> Package: Beamer
+   <li> Comment: The figure is positioned to the left of the table of contents, hence two columns are used. This value sets the size of the left column, the size of the right column is 1 minus this value.
+</ul>
 
- <LI> <TT>colour</TT>
+ <li> <tt>colour</tt>
 
-<UL>
-   <LI> Default: <TT>True</TT>
-   <LI> Type: bool
-   <LI> Comment: A <TT>False</TT> value makes the slides more suited for printing. Table of contents is dropped, and colours are removed from the background. Different behaviour for the different packages. Beamer forces the use of the theme <TT>seahorse</TT> when the value is <TT>False</TT>.
-</UL>
+<ul>
+   <li> Default: <tt>True</tt>
+   <li> Type: bool
+   <li> Comment: A <tt>False</tt> value makes the slides more suited for printing. Table of contents is dropped, and colours are removed from the background. Different behaviour for the different packages. Beamer forces the use of the theme <tt>seahorse</tt> when the value is <tt>False</tt>.
+</ul>
 
- <LI> <TT>handout</TT>
+ <li> <tt>handout</tt>
 
-<UL>
-   <LI> Default: <TT>False</TT>
-   <LI> Type: bool
-   <LI> Package: Beamer
-   <LI> Comment: Makes the slides more suited for printing. The table of contents is dropped, and colours are removed from the background. Different behaviour for the different packages. The same as <TT>colour</TT>, but without <TT>seahorse</TT> as the forced colour theme.
-</UL>
+<ul>
+   <li> Default: <tt>False</tt>
+   <li> Type: bool
+   <li> Package: Beamer
+   <li> Comment: Makes the slides more suited for printing. The table of contents is dropped, and colours are removed from the background. Different behaviour for the different packages. The same as <tt>colour</tt>, but without <tt>seahorse</tt> as the forced colour theme.
+</ul>
 
- <LI> <TT>beamer_theme</TT>
+ <li> <tt>beamer_theme</tt>
 
-<UL>
-   <LI> Default: <TT>"shadow"</TT>
-   <LI> Type: str
-   <LI> Package: Beamer
-   <LI> Comment: All default Beamer themes are available. In addition the themes <TT>simula</TT> and <TT>hpl1</TT> are included with the Latexslides package. Different themes might lead to different output. The use of <TT>simula</TT> or <TT>hpl1</TT> is recommended. Read more about styles in the section "Styles".
-</UL>
+<ul>
+   <li> Default: <tt>"shadow"</tt>
+   <li> Type: str
+   <li> Package: Beamer
+   <li> Comment: All default Beamer themes are available. In addition the themes <tt>simula</tt> and <tt>hpl1</tt> are included with the Latexslides package. Different themes might lead to different output. The use of <tt>simula</tt> or <tt>hpl1</tt> is recommended. Read more about styles in the section "Styles".
+</ul>
 
- <LI> <TT>beamer_colour_theme</TT>
+ <li> <tt>beamer_colour_theme</tt>
 
-<UL>
-   <LI> Default: <TT>"default"</TT>
-   <LI> Type: str
-   <LI> Package: Beamer
-   <LI> Comment: All default Beamer colour themes are available. For printing, the colour theme <TT>seahorse</TT> is recommended, as it is almost black and white. Take care not to use the <TT>simula</TT> theme with this one, as not all colours that are set there are overridden by this colour theme, resulting in some orange. If <TT>colour</TT> is set to <TT>False</TT>, this argument is overridden and the theme set to <TT>seahorse</TT>.
-</UL>
+<ul>
+   <li> Default: <tt>"default"</tt>
+   <li> Type: str
+   <li> Package: Beamer
+   <li> Comment: All default Beamer colour themes are available. For printing, the colour theme <tt>seahorse</tt> is recommended, as it is almost black and white. Take care not to use the <tt>simula</tt> theme with this one, as not all colours that are set there are overridden by this colour theme, resulting in some orange. If <tt>colour</tt> is set to <tt>False</tt>, this argument is overridden and the theme set to <tt>seahorse</tt>.
+</ul>
 
- <LI> <TT>prosper_style</TT>
+ <li> <tt>prosper_style</tt>
 
-<UL>
-   <LI> Default: <TT>"default"</TT>
-   <LI> Type: str
-   <LI> Package: Prosper
-   <LI> Comment: all default Prosper styles are available. In addition the style <TT>hplplainsmall</TT> is included with the Latexslides package. The use of <TT>hplplainsmall</TT> is recommended, as it matches the font sizes of the Beamer themes better, making it less likely for text not to fit on the slides when switching from Beamer to Prosper than with <TT>default</TT>.
-</UL>
+<ul>
+   <li> Default: <tt>"default"</tt>
+   <li> Type: str
+   <li> Package: Prosper
+   <li> Comment: all default Prosper styles are available. In addition the style <tt>hplplainsmall</tt> is included with the Latexslides package. The use of <tt>hplplainsmall</tt> is recommended, as it matches the font sizes of the Beamer themes better, making it less likely for text not to fit on the slides when switching from Beamer to Prosper than with <tt>default</tt>.
+</ul>
 
- <LI> <TT>header_footer</TT>
+ <li> <tt>header_footer</tt>
 
-<UL>
-   <LI> Default: <TT>True</TT>
-   <LI> Type: bool
-   <LI> Package: Beamer
-   <LI> Comment: Removes the top and bottom of the slide. On the top, the index over sections is removed, at the bottom the authors and title are removed. Theme dependent.
-</UL>
+<ul>
+   <li> Default: <tt>True</tt>
+   <li> Type: bool
+   <li> Package: Beamer
+   <li> Comment: Removes the top and bottom of the slide. On the top, the index over sections is removed, at the bottom the authors and title are removed. Theme dependent.
+</ul>
 
- <LI> <TT>html</TT>
+ <li> <tt>html</tt>
 
-<UL>
-   <LI> Default: <TT>False</TT>
-   <LI> Type: bool
-   <LI> Package: Beamer
-   <LI> Comment: This enables the possibility to dump the slides to HTML. Setting this variable to <TT>True</TT> and <TT>toc_heading</TT> to an empty string gives the same result as using HTMLSlides instead of BeamerSlides (HTMLSlides simply sets this variable to <TT>True</TT> and <TT>toc_heading</TT> to an empty string). Requires the package TeX4ht to be installed.
-</UL>
+<ul>
+   <li> Default: <tt>False</tt>
+   <li> Type: bool
+   <li> Package: Beamer
+   <li> Comment: This enables the possibility to dump the slides to HTML. Setting this variable to <tt>True</tt> and <tt>toc_heading</tt> to an empty string gives the same result as using HTMLSlides instead of BeamerSlides (HTMLSlides simply sets this variable to <tt>True</tt> and <tt>toc_heading</tt> to an empty string). Requires the package TeX4ht to be installed.
+</ul>
 
- <LI> <TT>newcommands</TT>
+ <li> <tt>newcommands</tt>
 
-<UL>
-   <LI> Default: <TT>[]</TT>
-   <LI> Type: list or str
-   <LI> Comment: Adds the user's own commands to the top of the LaTeX file, useful because Latexslides supports raw LaTeX code. Can be given as a list of strings or a string separated by newline. Only <TT>\newcommand</TT> LaTeX commands can be given. The initial command (<TT>\newcommand</TT>) can be skipped.
-</UL>
+<ul>
+   <li> Default: <tt>[]</tt>
+   <li> Type: list or str
+   <li> Comment: Adds the user's own commands to the top of the LaTeX file, useful because Latexslides supports raw LaTeX code. Can be given as a list of strings or a string separated by newline. Only <tt>\newcommand</tt> LaTeX commands can be given. The initial command (<tt>\newcommand</tt>) can be skipped.
+</ul>
 
- <LI> <TT>latexpackages</TT>
+ <li> <tt>latexpackages</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: Adds additional packages to the list of packages at the beginning of the LaTeX file. In order to allow options to the packages, it is a simple multi-line string, e.g. the exact string otherwise written in the LaTeX file.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: Adds additional packages to the list of packages at the beginning of the LaTeX file. The string is the exact, complete LaTeX command for including the package(s), e.g., 
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
+\usepackage{mypack,yourpack}
+</pre>
+</blockquote>   <! -- end verbatim block -->
+</ul>
 
-</UL>
-<H3>Adding slides</H3>
+</ul>
+
+For complicated instructions with many packages and long options, use a multi-line string.
+
 <P>
-After having created the <TT>BeamerSlides</TT> or <TT>ProsperSlides</TT> object,
+<h3>Adding slides</h3>
+<P>
+After having created the <tt>BeamerSlides</tt> or <tt>ProsperSlides</tt> object,
 we are ready to start creating individual slides. 
 There are six types of slides:
 
-<UL>
- <LI> <TT>TextSlide</TT>
- <LI> <TT>BulletSlide</TT>
- <LI> <TT>RawSlide</TT>
- <LI> <TT>MappingSlide</TT>
- <LI> <TT>TableSlide</TT>
- <LI> <TT>Slide</TT>
-</UL>
+<ul>
+ <li> <tt>TextSlide</tt>
+ <li> <tt>BulletSlide</tt>
+ <li> <tt>RawSlide</tt>
+ <li> <tt>MappingSlide</tt>
+ <li> <tt>TableSlide</tt>
+ <li> <tt>Slide</tt>
+</ul>
 
 The last one can consist of several objects, whereas the first four slides are
 meant for plain text, plain bullet lists, creation of LaTeX tables based on
 Python lists, or plain LaTeX, respectively. For these, blocks are used when available.
 
 <P>
-<TT>TextSlide</TT> has the following keyword arguments:
+<tt>TextSlide</tt> has the following keyword arguments:
 
-<UL>
- <LI> <TT>title</TT>
+<ul>
+ <li> <tt>title</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: When empty string is given, no title is displayed.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: When empty string is given, no title is displayed.
+</ul>
 
- <LI> <TT>text</TT>
+ <li> <tt>text</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: The text to be placed on the slide.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: The text to be placed on the slide.
+</ul>
 
- <LI> <TT>block_heading</TT>
+ <li> <tt>block_heading</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: Additional title for the block. When empty string is given, no title is displayed.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: Additional title for the block. When empty string is given, no title is displayed.
+</ul>
 
- <LI> <TT>hidden</TT>
+ <li> <tt>hidden</tt>
 
-<UL>
-   <LI> Default: <TT>False</TT>
-   <LI> Type: bool
-   <LI> Comment: If <TT>True</TT>, the slide is skipped. The properties <TT>hide</TT> and <TT>unhide</TT> can also be used, and will return the slide element itself, see the sections 'Organizing the objects' and 'Writing to file' further down.
-</UL>
+<ul>
+   <li> Default: <tt>False</tt>
+   <li> Type: bool
+   <li> Comment: If <tt>True</tt>, the slide is skipped. The properties <tt>hide</tt> and <tt>unhide</tt> can also be used, and will return the slide element itself, see the sections 'Organizing the objects' and 'Writing to file' further down.
+</ul>
 
-</UL>
+</ul>
 
-<TT>BulletSlide</TT> has four keyword arguments:
+<tt>BulletSlide</tt> has four keyword arguments:
 
-<UL>
- <LI> <TT>title</TT>
+<ul>
+ <li> <tt>title</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: When empty string is given, no title is displayed.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: When empty string is given, no title is displayed.
+</ul>
 
- <LI> <TT>bullets</TT>
+ <li> <tt>bullets</tt>
 
-<UL>
-   <LI> Default: <TT>[]</TT>
-   <LI> Type: list of strings
-   <LI> Comment: Each element in the list represents a bullet. The list can be nested, so that if one of the elements of the main list is a list, the items in that list will show up as sub-bullets.
-</UL>
+<ul>
+   <li> Default: <tt>[]</tt>
+   <li> Type: list of strings
+   <li> Comment: Each element in the list represents a bullet. The list can be nested, so that if one of the elements of the main list is a list, the items in that list will show up as sub-bullets.
+</ul>
 
- <LI> <TT>block_heading</TT>
+ <li> <tt>block_heading</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: Additional title for the block. When empty string is given, no title is displayed.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: Additional title for the block. When empty string is given, no title is displayed.
+</ul>
 
- <LI> <TT>hidden</TT>
+ <li> <tt>hidden</tt>
 
-<UL>
-   <LI> Default: <TT>False</TT>
-   <LI> Type: bool
-   <LI> Comment: If <TT>True</TT>, the slide is skipped.
-</UL>
+<ul>
+   <li> Default: <tt>False</tt>
+   <li> Type: bool
+   <li> Comment: If <tt>True</tt>, the slide is skipped.
+</ul>
 
- <LI> <TT>dim</TT>
+ <li> <tt>dim</tt>
 
-<UL>
-   <LI> Default: <TT>None</TT>
-   <LI> Type: str
-   <LI> Package: Beamer
-   <LI> Comment: Available dimming settings are: <TT>progressive</TT> (one by one bullet), <TT>single</TT> (only one bullet at the time), <TT>single_then_all</TT> (only one bullet at the time, then all), and <TT>blocks</TT> (one block at the time, not relevant for <TT>BulletSlide</TT>).
-</UL>
+<ul>
+   <li> Default: <tt>None</tt>
+   <li> Type: str
+   <li> Package: Beamer
+   <li> Comment: Available dimming settings are: <tt>progressive</tt> (one by one bullet), <tt>single</tt> (only one bullet at the time), <tt>single_then_all</tt> (only one bullet at the time, then all), and <tt>blocks</tt> (one block at the time, not relevant for <tt>BulletSlide</tt>).
+</ul>
 
-</UL>
+</ul>
 
-<TT>RawSlide</TT> has two keyword arguments:
+<tt>RawSlide</tt> has two keyword arguments:
 
-<UL>
- <LI> <TT>rawtext</TT>
+<ul>
+ <li> <tt>rawtext</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: Enables the user to design her own slide using LaTeX commands directly. For example, one can include pure LaTeX code from old presentations. One should ensure that the string is a raw string preserving backslash and the like. If this class is used, changing between the different packages (e.g. Beamer and Prosper) would no longer be possible, as the code for these two differ quite a bit. As <TT>HTMLSlides</TT> is compatible with <TT>BeamerSlides</TT> these two, however, can still be interchanged.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: Enables the user to design her own slide using LaTeX commands directly. For example, one can include pure LaTeX code from old presentations. One should ensure that the string is a raw string preserving backslash and the like. If this class is used, changing between the different packages (e.g. Beamer and Prosper) would no longer be possible, as the code for these two differ quite a bit. As <tt>HTMLSlides</tt> is compatible with <tt>BeamerSlides</tt> these two, however, can still be interchanged.
+</ul>
 
- <LI> <TT>hidden</TT>
+ <li> <tt>hidden</tt>
 
-<UL>
-   <LI> Default: <TT>False</TT>
-   <LI> Type: bool
-   <LI> Comment: If <TT>True</TT>, the slide is skipped.
-</UL>
+<ul>
+   <li> Default: <tt>False</tt>
+   <li> Type: bool
+   <li> Comment: If <tt>True</tt>, the slide is skipped.
+</ul>
 
-</UL>
+</ul>
 
-<TT>MappingSlide</TT> has one argument:
+<tt>MappingSlide</tt> has one argument:
 
-<UL>
- <LI> <TT>heading_figure_pairs</TT>
+<ul>
+ <li> <tt>heading_figure_pairs</tt>
 
-<UL>
-   <LI> Default: <TT>[]</TT>
-   <LI> Type: list
-   <LI> Comment: This is a list of (heading,figure) pairs, with a heading for each section of the talk and a filename for a corresponding figure. One can also add a relative width of the figure, i.e., supply (heading,figure,width) if the figure needs to be shrinked. The headings are placed to the right of the figures, and the figure-heading pairs appear along the "diagonal" of the slide, according to a traditional Michael Alley mapping slide layout.
-</UL>
+<ul>
+   <li> Default: <tt>[]</tt>
+   <li> Type: list
+   <li> Comment: This is a list of (heading,figure) pairs, with a heading for each section of the talk and a filename for a corresponding figure. One can also add a relative width of the figure, i.e., supply (heading,figure,width) if the figure needs to be shrinked. The headings are placed to the right of the figures, and the figure-heading pairs appear along the "diagonal" of the slide, according to a traditional Michael Alley mapping slide layout.
+</ul>
 
-</UL>
+</ul>
 
-<TT>TableSlide</TT> enables the generation of LaTeX tables based on nested Python lists, and has seven keyword arguments:
+<tt>TableSlide</tt> enables the generation of LaTeX tables based on nested Python lists, and has seven keyword arguments:
 
-<UL>
-<LI> <TT>title</TT>
+<ul>
+<li> <tt>title</tt>
 
-<UL>
-  <LI> Default: <TT>""</TT>
-  <LI> Type: str
-  <LI> Comment: When empty string is given, no title is displayed.
-</UL>
+<ul>
+  <li> Default: <tt>""</tt>
+  <li> Type: str
+  <li> Comment: When empty string is given, no title is displayed.
+</ul>
 
-<LI> <TT>table</TT>:
+<li> <tt>table</tt>:
 
-<UL>
-  <LI> Default: <TT>[[],[]]</TT>
-  <LI> Type: Nested list of strings
-  <LI> Comment: The first entry in the outer list should contain the column heading for the LaTeX table to be generated. The remaining entries are the lines in the table. See also the documentation of <TT>Table</TT> further down.
-</UL>
+<ul>
+  <li> Default: <tt>[[],[]]</tt>
+  <li> Type: Nested list of strings
+  <li> Comment: The first entry in the outer list should contain the column heading for the LaTeX table to be generated. The remaining entries are the lines in the table. See also the documentation of <tt>Table</tt> further down.
+</ul>
 
-<LI> <TT>column_heading_pos</TT>
+<li> <tt>column_heading_pos</tt>
 
-<UL>
-   <LI> Default: <TT>"c"</TT>
-   <LI> Type: str
-   <LI> Comment: See documentation of <TT>Table</TT>.
-</UL>
+<ul>
+   <li> Default: <tt>"c"</tt>
+   <li> Type: str
+   <li> Comment: See documentation of <tt>Table</tt>.
+</ul>
 
-<LI> <TT>column_pos</TT>
+<li> <tt>column_pos</tt>
 
-<UL>
-   <LI> Default: <TT>"c"</TT>
-   <LI> Type: str
-   <LI> Comment: See documentation of <TT>Table</TT>.
-</UL>
+<ul>
+   <li> Default: <tt>"c"</tt>
+   <li> Type: str
+   <li> Comment: See documentation of <tt>Table</tt>.
+</ul>
 
-<LI> <TT>center</TT>
+<li> <tt>center</tt>
 
-<UL>
-   <LI> Default: <TT>False</TT>
-   <LI> Type: bool
-   <LI> Comment: See documentation of <TT>Table</TT>.
-</UL>
+<ul>
+   <li> Default: <tt>False</tt>
+   <li> Type: bool
+   <li> Comment: See documentation of <tt>Table</tt>.
+</ul>
 
-<LI> <TT>block_heading</TT>
+<li> <tt>block_heading</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: Additional title for the block. When empty string is given, no title is displayed.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: Additional title for the block. When empty string is given, no title is displayed.
+</ul>
 
- <LI> <TT>hidden</TT>
+ <li> <tt>hidden</tt>
 
-<UL>
-   <LI> Default: <TT>False</TT>
-   <LI> Type: bool
-   <LI> Comment: If <TT>True</TT>, the slide is skipped.
-</UL>
+<ul>
+   <li> Default: <tt>False</tt>
+   <li> Type: bool
+   <li> Comment: If <tt>True</tt>, the slide is skipped.
+</ul>
 
-</UL>
-<H3>Slide</H3>
+</ul>
+<h3>Slide</h3>
 <P>
 A general slide can consist of several
 objects, and we will look at them now:
 
-<UL>
- <LI> <TT>Text</TT>
- <LI> <TT>BulletList</TT>
- <LI> <TT>Code</TT>
- <LI> <TT>Table</TT>
- <LI> <TT>Block</TT>
- <LI> <TT>TextBlock</TT>
- <LI> <TT>BulletBlock</TT>
- <LI> <TT>CodeBlock</TT>
- <LI> <TT>TableBlock</TT>
-</UL>
+<ul>
+ <li> <tt>Text</tt>
+ <li> <tt>BulletList</tt>
+ <li> <tt>Code</tt>
+ <li> <tt>Table</tt>
+ <li> <tt>Block</tt>
+ <li> <tt>TextBlock</tt>
+ <li> <tt>BulletBlock</tt>
+ <li> <tt>CodeBlock</tt>
+ <li> <tt>TableBlock</tt>
+</ul>
 
-The difference between a plain object (like <TT>BulletList</TT>) and a block object
-(like <TT>BulletBlock</TT>), is that the
+The difference between a plain object (like <tt>BulletList</tt>) and a block object
+(like <tt>BulletBlock</tt>), is that the
 latter is surrounded by a shadowed box (depending on the slide format,
 Beamer or Prosper, for instance), and has an optional heading for that
 box. It is possible to turn off the block formatting for all slides
-of type <TT>TextBlock</TT>, <TT>BulletBlock</TT>, <TT>CodeBlock</TT>, and <TT>TableBlock</TT>.
+of type <tt>TextBlock</tt>, <tt>BulletBlock</tt>, <tt>CodeBlock</tt>, and <tt>TableBlock</tt>.
 
 <P>
-<TT>Text</TT> takes only one argument, and that is the text.
+<tt>Text</tt> takes only one argument, and that is the text.
 
 <P>
-<TT>BulletList</TT> has <TT>bullets</TT> as argument and <TT>dim</TT> as keyword argument:
+<tt>BulletList</tt> has <tt>bullets</tt> as argument and <tt>dim</tt> as keyword argument:
 
-<UL>
- <LI> <TT>bullets</TT>
+<ul>
+ <li> <tt>bullets</tt>
 
-<UL>
-   <LI> Default: <TT>[]</TT>
-   <LI> Type: list of strings
-   <LI> Comment: Each element in the list represents a bullet. The list can be nested, so that if one of the elements of the main list is a list, the items in that list will show up as sub-bullets.
-</UL>
+<ul>
+   <li> Default: <tt>[]</tt>
+   <li> Type: list of strings
+   <li> Comment: Each element in the list represents a bullet. The list can be nested, so that if one of the elements of the main list is a list, the items in that list will show up as sub-bullets.
+</ul>
 
- <LI> <TT>dim</TT>
+ <li> <tt>dim</tt>
 
-<UL>
-   <LI> Default: <TT>True</TT>
-   <LI> Type: bool
-   <LI> Package: Beamer
-   <LI> Comment: This one is only used to override dimming if dimming is turned on for the whole slide, so that the whole block is displayed at once even though the rest of the bullet objects on the slide appear one by one.
-</UL>
+<ul>
+   <li> Default: <tt>True</tt>
+   <li> Type: bool
+   <li> Package: Beamer
+   <li> Comment: This one is only used to override dimming if dimming is turned on for the whole slide, so that the whole block is displayed at once even though the rest of the bullet objects on the slide appear one by one.
+</ul>
 
-</UL>
+</ul>
 
-<TT>Code</TT> has a number of keyword arguments, mainly because it supports the
+<tt>Code</tt> has a number of keyword arguments, mainly because it supports the
 option of reading the code from a file, or even only reading the text in between
 a start and a stop expression:
 
-<UL>
- <LI> <TT>code</TT>
+<ul>
+ <li> <tt>code</tt>
 
-<UL>
-   <LI> Default: <TT>None</TT>
-   <LI> Type: str
-   <LI> Comment: The code to be inserted. Is ignored if reading from file is chosen.
-</UL>
+<ul>
+   <li> Default: <tt>None</tt>
+   <li> Type: str
+   <li> Comment: The code to be inserted. Is ignored if <tt>file</tt> is specified.
+</ul>
 
- <LI> <TT>file</TT>
+ <li> <tt>file</tt>
 
-<UL>
-   <LI> Default: <TT>None</TT>
-   <LI> Type: str
-   <LI> Comment: The name of the file to include code from. If <TT>from_regex</TT> or <TT>to_regex</TT> is not set, the whole file is included.
-</UL>
+<ul>
+   <li> Default: <tt>None</tt>
+   <li> Type: str
+   <li> Comment: The name of the file to include code from. If <tt>from_regex</tt> or <tt>to_regex</tt> is not set, the whole file is included.
+</ul>
 
- <LI> <TT>from_regex</TT>
+ <li> <tt>from_regex</tt>
 
-<UL>
-   <LI> Default: <TT>None</TT>
-   <LI> Type: str
-   <LI> Comment: Can only be used if <TT>to_regex</TT> is set as well. The file in inspected line for line, and if the regular expression matches, that line is included. All further lines are then included, until there is a match for <TT>to_regex</TT>. The line that matches <TT>to_regex</TT> itself is not included.
-</UL>
+<ul>
+   <li> Default: <tt>None</tt>
+   <li> Type: str
+   <li> Comment: Can only be used if <tt>to_regex</tt> is set as well. The file in inspected line for line, and if the regular expression matches, that line is included. All further lines are then included, until there is a match for <tt>to_regex</tt>. The line that matches <tt>to_regex</tt> itself is not included.
+</ul>
 
- <LI> <TT>to_regex</TT>
+ <li> <tt>to_regex</tt>
 
-<UL>
-   <LI> Default: <TT>None</TT>
-   <LI> Type: str
-   <LI> Comment: See <TT>from_regex</TT>
-</UL>
+<ul>
+   <li> Default: <tt>None</tt>
+   <li> Type: str
+   <li> Comment: See <tt>from_regex</tt>
+</ul>
 
- <LI> <TT>leftmargin</TT>
+ <li> <tt>leftmargin</tt>
 
-<UL>
-   <LI> Default: <TT>"7mm"</TT>
-   <LI> Type: str
-   <LI> Comment: Sets the left margin for the code.
-</UL>
+<ul>
+   <li> Default: <tt>"7mm"</tt>
+   <li> Type: str
+   <li> Comment: Sets the left margin for the code in case of the default Verbatim environment.
+</ul>
 
- <LI> <TT>fontsize</TT>
+ <li> <tt>fontsize</tt>
 
-<UL>
-   <LI> Default: <TT>"footnotesize"</TT> (if the string does not start with a backslash, it is added automatically).
-   <LI> Type: str
-   <LI> Comment: Sets the size of the code font. Needs to be a valid LaTeX command ranging from <TT>tiny</TT> to <TT>Huge</TT> (if the string does not start with a backslash, it as added automatically).
-</UL>
+<ul>
+   <li> Default: <tt>"footnotesize"</tt> (if the string does not start with a backslash, it is added automatically).
+   <li> Type: str
+   <li> Comment: Sets the size of the code font in case of the default Verbatim environment. Needs to be a valid LaTeX command ranging from <tt>tiny</tt> to <tt>Huge</tt> (if the string does not start with a backslash, it as added automatically).
+</ul>
 
-</UL>
+ <li> <tt>ptex2tex_envir</tt>
 
-<TT>Table</TT> gives us the possibility for creating LaTeX tables directly based on
+<ul>
+   <li> Default: <tt>None</tt>
+   <li> Type: str
+   <li> Comment: Enables <tt>ptex2tex</tt> environments. Specifying (say) <tt>pycod</tt> means that the code is wrapped in the begin/end <tt>pycod</tt> environment, which is defined in a local <tt>.ptex2tex.cfg</tt> file, a similar file in the user's home directory, or a system-side similar file. The <tt>ptex2tex_envir</tt> value also applies if the code is read from file. The code environment can also be explicitly manually inserted in the code text, e.g., a <tt>\bcpycod</tt> and <tt>\epycod</tt> text inserted before and after the code, respectively. If the <tt>ptex2tex_envir</tt> argument is given, this value is substituted for the explicitly specified environment in <tt>code</tt>. Finally, the <tt>ptex2tex</tt> environment can be specified "globally" by a class variable <tt>Code.ptex2tex_envir</tt> in order to set the code environment once and for all in a file. The <tt>ptex2tex_envir</tt> argument to a specific <tt>Code</tt> object will override the <tt>Code.ptex2tex_envir</tt> value.
+</ul>
+
+</ul>
+
+<tt>Table</tt> gives us the possibility for creating LaTeX tables directly based on
 (nested) Python lists. Writing tables in LaTeX is a tedious task, so automatically generating
 it based on the Python lists saves us the effort of having to do it
 manually. Also, if we need to make changes to our table, we can simply change
 the Python lists, as the LaTeX table is built over again every time we run Latexslides.
-<TT>Table</TT> has <TT>table</TT> as argument in addition to two keyword arguments:
+<tt>Table</tt> has <tt>table</tt> as argument in addition to two keyword arguments:
 
-<UL>
- <LI> <TT>table</TT>
+<ul>
+ <li> <tt>table</tt>
 
-<UL>
-   <LI> Default: <TT>[[],[]]</TT>
-   <LI> Type: Nested list of strings
-   <LI> Comment: The first entry in the main list will be column headlines. The next entries in the list are the rows following the headline. All nested lists (i.e. each element in the main list) should have the same length. For example: <TT>table=[[r"$h$", r"$\Omega$", "n"], [0.1, 0.001, 100]]</TT>. If an element encountered in one of the sub-lists is not a string, the class will try to cast it to a string.
-</UL>
+<ul>
+   <li> Default: <tt>[[],[]]</tt>
+   <li> Type: Nested list of strings
+   <li> Comment: The first entry in the main list will be column headlines. The next entries in the list are the rows following the headline. All nested lists (i.e. each element in the main list) should have the same length. For example: <tt>table=[[r"$h$", r"$\Omega$", "n"], [0.1, 0.001, 100]]</tt>. If an element encountered in one of the sub-lists is not a string, the class will try to cast it to a string.
+</ul>
 
- <LI> <TT>column_headline_pos</TT>
+ <li> <tt>column_headline_pos</tt>
 
-<UL>
-   <LI> Default: <TT>"c"</TT>
-   <LI> Type: str
-   <LI> Comment: The position of the columns for the headline row, valid values are <TT>l</TT>, <TT>c</TT>, and <TT>r</TT> for left, center, and right, respectively. If only a single character, it is the same for every column. Else, the characters in the string are used one-by-one for every column. For instance, the string <TT>crl</TT> would mean that the first headline column is centered, the second one right justified, and the third one left justified. Unless omitted or given as a string with length one, it should be the same length as the numbers of columns.
-</UL>
+<ul>
+   <li> Default: <tt>"c"</tt>
+   <li> Type: str
+   <li> Comment: The position of the columns for the headline row, valid values are <tt>l</tt>, <tt>c</tt>, and <tt>r</tt> for left, center, and right, respectively. If only a single character, it is the same for every column. Else, the characters in the string are used one-by-one for every column. For instance, the string <tt>crl</tt> would mean that the first headline column is centered, the second one right justified, and the third one left justified. Unless omitted or given as a string with length one, it should be the same length as the numbers of columns.
+</ul>
 
- <LI> <TT>column_pos</TT>
+ <li> <tt>column_pos</tt>
 
-<UL>
-   <LI> Default: <TT>"c"</TT>
-   <LI> Type: str
-   <LI> Comment: The position of the text for each column. If only a single character, it is the same for every column. Else, the characters in the string are used one-by-one for every column. For instance, the string <TT>crl</TT> would mean that the first ordinary column (not he headline) is centered, the second one right justified, and the third one left justified. Unless omitted or given with length one, it should be the same length as the numbers of columns given.
-</UL>
+<ul>
+   <li> Default: <tt>"c"</tt>
+   <li> Type: str
+   <li> Comment: The position of the text for each column. If only a single character, it is the same for every column. Else, the characters in the string are used one-by-one for every column. For instance, the string <tt>crl</tt> would mean that the first ordinary column (not he headline) is centered, the second one right justified, and the third one left justified. Unless omitted or given with length one, it should be the same length as the numbers of columns given.
+</ul>
 
-</UL>
+</ul>
 
-<TT>Block</TT> allows for the creation of block object consisting of a combination
-of the three previous types (<TT>Text</TT>, <TT>BulletList</TT>, and <TT>Code</TT>). Hence it is more
+<tt>Block</tt> allows for the creation of block object consisting of a combination
+of the three previous types (<tt>Text</tt>, <tt>BulletList</tt>, and <tt>Code</tt>). Hence it is more
 general than the three block objects that follow:
 
-<UL>
- <LI> <TT>heading</TT>
+<ul>
+ <li> <tt>heading</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: If given, used as block title.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: If given, used as block title.
+</ul>
 
- <LI> <TT>content</TT>
+ <li> <tt>content</tt>
 
-<UL>
-   <LI> Default: <TT>[]</TT>
-   <LI> Type: list
-   <LI> Comment:  All objects to be placed within the block are sent as a list.
-</UL>
+<ul>
+   <li> Default: <tt>[]</tt>
+   <li> Type: list
+   <li> Comment:  All objects to be placed within the block are sent as a list.
+</ul>
 
-</UL>
+</ul>
 
-<TT>TextBlock</TT> is the same as <TT>Text</TT>, but has an additional keyword argument:
+<tt>TextBlock</tt> is the same as <tt>Text</tt>, but has an additional keyword argument:
 
-<UL>
- <LI> <TT>heading</TT>
+<ul>
+ <li> <tt>heading</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: If given, used as block title.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: If given, used as block title.
+</ul>
 
-</UL>
+</ul>
 
-<TT>BulletBlock</TT> is the same as <TT>BulletList</TT>, but has an additional keyword argument:
+<tt>BulletBlock</tt> is the same as <tt>BulletList</tt>, but has an additional keyword argument:
 
-<UL>
- <LI> <TT>heading</TT>
+<ul>
+ <li> <tt>heading</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: If given, used as block title.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: If given, used as block title.
+</ul>
 
-</UL>
+</ul>
 
-<TT>CodeBlock</TT> is the same as <TT>Code</TT>, but has an additional keyword argument:
+<tt>CodeBlock</tt> is the same as <tt>Code</tt>, but has an additional keyword argument:
 
-<UL>
- <LI> <TT>heading</TT>
+<ul>
+ <li> <tt>heading</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: If given, used as block title.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: If given, used as block title.
+</ul>
 
-</UL>
+</ul>
 
-<TT>TableBlock</TT> is the same as <TT>Table</TT>, but has these additional keyword arguments:
+<tt>TableBlock</tt> is the same as <tt>Table</tt>, but has these additional keyword arguments:
 
-<UL>
- <LI> <TT>heading</TT>
+<ul>
+ <li> <tt>heading</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: If given, used as block title.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: If given, used as block title.
+</ul>
 
- <LI> <TT>center</TT>
+ <li> <tt>center</tt>
 
-<UL>
-   <LI> Default: <TT>False</TT>
-   <LI> Type: bool
-   <LI> Comment: If <TT>True</TT>, center the table within the block.
-</UL>
+<ul>
+   <li> Default: <tt>False</tt>
+   <li> Type: bool
+   <li> Comment: If <tt>True</tt>, center the table within the block.
+</ul>
 
-</UL>
+</ul>
 
-The special formatting of the <TT>Block</TT> slides can be turned off by setting
-the class variable <TT>unblock</TT> to <TT>False</TT> before the slides are rendered
+The special formatting of the <tt>Block</tt> slides can be turned off by setting
+the class variable <tt>unblock</tt> to <tt>False</tt> before the slides are rendered
 a particular format:
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 Block.unblock = True
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
+</pre>
+</blockquote>   <! -- end verbatim block -->
 Sometimes unblocking blocks is desired for achieving a simpler layout.
 If you want to turn off the block format for some selected slides only,
 you have to explicitly change the slide object from, e.g.,
-<TT>TextBlock</TT> to <TT>Text</TT> and comment out the <TT>heading</TT> argument if that is
+<tt>TextBlock</tt> to <tt>Text</tt> and comment out the <tt>heading</tt> argument if that is
 present.
 
 <P>
-<H4>Creating the slide instance</H4>
+<h4>Creating the slide instance</h4>
 <P>
 Once we have all the objects we want a slide to consist of, we can create the
 slide instance itself. All arguments are keyword arguments:
 
-<UL>
- <LI> <TT>title</TT>
+<ul>
+ <li> <tt>title</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: When empty string is given, no title is displayed.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: When empty string is given, no title is displayed.
+</ul>
 
- <LI> <TT>content</TT>
+ <li> <tt>content</tt>
 
-<UL>
-   <LI> Default: <TT>[]</TT>
-   <LI> Type: list
-   <LI> Comment: All objects to be placed on the slide are sent as a list.
-</UL>
+<ul>
+   <li> Default: <tt>[]</tt>
+   <li> Type: list
+   <li> Comment: All objects to be placed on the slide are sent as a list.
+</ul>
 
- <LI> <TT>figure</TT>
+ <li> <tt>figure</tt>
 
-<UL>
-   <LI> Default: <TT>None</TT>
-   <LI> Type: str or tuple of str
-   <LI> Comment: Give name of file or tuple of file names.
-</UL>
+<ul>
+   <li> Default: <tt>None</tt>
+   <li> Type: str or tuple of str
+   <li> Comment: Give name of file or tuple of file names.
+</ul>
 
- <LI> <TT>figure_pos</TT>
+ <li> <tt>figure_pos</tt>
 
-<UL>
-   <LI> Default: <TT>s</TT>
-   <LI> Type: str
-   <LI> Comments: Figure can be placed north (<TT>n</TT>), east (<TT>e</TT>), south (<TT>s</TT>), and west (<TT>w</TT>) on the slide. The same for all figures.
-</UL>
+<ul>
+   <li> Default: <tt>s</tt>
+   <li> Type: str
+   <li> Comments: Figure can be placed north (<tt>n</tt>), east (<tt>e</tt>), south (<tt>s</tt>), and west (<tt>w</tt>) on the slide. The same for all figures.
+</ul>
 
- <LI> <TT>figure_fraction_width</TT>
+ <li> <tt>figure_fraction_width</tt>
 
-<UL>
-   <LI> Default: <TT>1.0</TT>
-   <LI> Type: float or tuple of floats
-   <LI> Comment: Scales the picture, but keeps aspect ratio. <TT>figure_size</TT> can be used as well (in case both options are given, <TT>figure_size</TT> is chosen). If multiple figures are given with <TT>figure</TT>, <TT>figure_fraction_width</TT> is assumed to be a tuple with figure fractions (the length corresponding to the number of figures given), or else the program exits with an error. The exception is if the length of the argument is 1 (or it is omitted), then this value (or the default of 1) will be used for all figures.
-</UL>
+<ul>
+   <li> Default: <tt>1.0</tt>
+   <li> Type: float or tuple of floats
+   <li> Comment: Scales the picture, but keeps aspect ratio. <tt>figure_size</tt> can be used as well (in case both options are given, <tt>figure_size</tt> is chosen). If multiple figures are given with <tt>figure</tt>, <tt>figure_fraction_width</tt> is assumed to be a tuple with figure fractions (the length corresponding to the number of figures given), or else the program exits with an error. The exception is if the length of the argument is 1 (or it is omitted), then this value (or the default of 1) will be used for all figures.
+</ul>
 
- <LI> <TT>figure_angle</TT>
+ <li> <tt>figure_angle</tt>
 
-<UL>
-   <LI> Default: <TT>None</TT>
-   <LI> Type: int or str
-   <LI> Comment: Give angle in degrees in the counter-clockwise direction to rotate image. Negative values can be used. The same for all figures.
-</UL>
+<ul>
+   <li> Default: <tt>None</tt>
+   <li> Type: int or str
+   <li> Comment: Give angle in degrees in the counter-clockwise direction to rotate image. Negative values can be used. The same for all figures.
+</ul>
 
- <LI> <TT>left_column_width</TT>
+ <li> <tt>left_column_width</tt>
 
-<UL>
-   <LI> Default: <TT>0.5</TT>
-   <LI> Type: float
-   <LI> Comment: If the figure is positioned to the left or right, two columns are used. This value sets the size of the left column, the size of the right column is 1 minus this value. 
-</UL>
+<ul>
+   <li> Default: <tt>0.5</tt>
+   <li> Type: float
+   <li> Comment: If the figure is positioned to the left or right, two columns are used. This value sets the size of the left column, the size of the right column is 1 minus this value. 
+</ul>
 
- <LI> <TT>hidden</TT>
+ <li> <tt>hidden</tt>
 
-<UL>
-   <LI> Default: <TT>False</TT>
-   <LI> Type: bool
-   <LI> Comment: If <TT>True</TT>, the slide is skipped.
-</UL>
+<ul>
+   <li> Default: <tt>False</tt>
+   <li> Type: bool
+   <li> Comment: If <tt>True</tt>, the slide is skipped.
+</ul>
 
- <LI> <TT>dim</TT>
+ <li> <tt>dim</tt>
 
-<UL>
-   <LI> Default: <TT>None</TT>
-   <LI> Type: str
-   <LI> Package: Beamer
-   <LI> Comment: Available dimming settings are: <TT>progressive</TT> (one by one bullet), <TT>single</TT> (only one bullet at the time), <TT>single_then_all</TT> (only one bullet at the time, then all), and <TT>blocks</TT> (one block at the time). Sub-items will always be shown together with their parent. If a specific block has the option <TT>dim</TT> set to <TT>False</TT>, the <TT>dim</TT> option for the slide is overridden. Setting <TT>dim</TT> for a block to <TT>False</TT> should only be used with <TT>progressive</TT>, as adding something to a slide that is not part of a block, can cuase the result to be unsatisfactory.
-</UL>
+<ul>
+   <li> Default: <tt>None</tt>
+   <li> Type: str
+   <li> Package: Beamer
+   <li> Comment: Available dimming settings are: <tt>progressive</tt> (one by one bullet), <tt>single</tt> (only one bullet at the time), <tt>single_then_all</tt> (only one bullet at the time, then all), and <tt>blocks</tt> (one block at the time). Sub-items will always be shown together with their parent. If a specific block has the option <tt>dim</tt> set to <tt>False</tt>, the <tt>dim</tt> option for the slide is overridden. Setting <tt>dim</tt> for a block to <tt>False</tt> should only be used with <tt>progressive</tt>, as adding something to a slide that is not part of a block, can cuase the result to be unsatisfactory.
+</ul>
 
-</UL>
-<H3>Adding sections</H3>
+</ul>
+<h3>Adding sections</h3>
 <P>
-One can insert special slides to mark sections in the talk. The section slides
-will automatically appear in a table of contents and optionally in the header in Beamer
-(but not in Prosper).
-Sections are added in the same way as normal slides, except they are of
-type <TT>Section</TT>. If no section is defined, normal slides are simply added to a
-list of slides. If a section is defined, all slides added after that object
-will be part of this section, until a new section is defined. It has two
-keyword arguments:
+One can insert special slides to mark sections in the talk. The
+section slides will automatically appear in a table of contents and
+optionally in the header in Beamer (but not in Prosper).  Sections are
+added in the same way as normal slides, except they are of type
+<tt>Section</tt>. If no section is defined, normal slides are simply added to
+a list of slides. If a section is defined, all slides added after that
+object will be part of this section, until a new section is
+defined. It has two keyword arguments:
 
-<UL>
- <LI> <TT>title</TT>
-
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: The title of the section
-</UL>
-
- <LI> <TT>short_title</TT>
-
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: Used when there is no space for the main title, for instance in the header.
-</UL>
-
-</UL>
-<H3>Adding subsections</H3>
 <P>
-Class <TT>SubSection</TT> is added in the same way as <TT>Section</TT>. If a subsection
+
+<ul>
+ <li> <tt>title</tt>
+
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: The title of the section
+</ul>
+
+ <li> <tt>short_title</tt>
+
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: Used when there is too little space for the main title, for instance in the header.
+</ul>
+
+</ul>
+<h3>Adding subsections</h3>
+<P>
+Class <tt>SubSection</tt> is added in the same way as <tt>Section</tt>. If a subsection
 is added before a section is added, an error is issued and the generation of
 slides terminated. If a subsection is defined, all slides added after that object
 will be part of this subsection, until a new section or subsection is
 defined. It has two keyword arguments:
 
-<UL>
- <LI> <TT>title</TT>
+<ul>
+ <li> <tt>title</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: The title of the section
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: The title of the section
+</ul>
 
- <LI> <TT>short_title</TT>
+ <li> <tt>short_title</tt>
 
-<UL>
-   <LI> Default: <TT>""</TT>
-   <LI> Type: str
-   <LI> Comment: Used when there is no space for the main title, for instance in the header.
-</UL>
+<ul>
+   <li> Default: <tt>""</tt>
+   <li> Type: str
+   <li> Comment: Used when there is no space for the main title, for instance in the header.
+</ul>
 
-</UL>
-<H3>Organizing the objects</H3>
+</ul>
+<h3>Organizing the objects</h3>
 <P>
-Instead of creating a slide and adding it immediately to the initial <TT>Slides</TT>
-object using the the function <TT>add_slide</TT> in <TT>Slides</TT>, it might be better to
+Instead of creating a slide and adding it immediately to the initial <tt>Slides</tt>
+object using the the function <tt>add_slide</tt> in <tt>Slides</tt>, it might be better to
 generate all the slide objects, and then add all the slides at the end of the
 file. This way, it is easier to change the order of the slides. This is done
-in both the introductory example and the <TT>exampletalk.py</TT> script. One can
-either use a `for`-loop and call the function <TT>add_slide</TT> for each element in
-the list, or call the function <TT>add_slides</TT> which takes the whole list as
-argument. If the presentation exists of the objects <TT>slide1</TT>, <TT>section1</TT>,
-<TT>slide2</TT>, <TT>subsection1</TT>, <TT>slide3</TT>, one can add all those to a list at the end
-of the presentation. If <TT>slides</TT> is the initial <TT>Slide</TT> object, and
-<TT>collection</TT> is a list of slides, one can use any of the two following ways of
-adding the slides in the list to the <TT>slides</TT> object:
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+in both the introductory example and the <tt>exampletalk.py</tt> script. One can
+either use a `for`-loop and call the function <tt>add_slide</tt> for each element in
+the list, or call the function <tt>add_slides</tt> which takes the whole list as
+argument. If the presentation exists of the objects <tt>slide1</tt>, <tt>section1</tt>,
+<tt>slide2</tt>, <tt>subsection1</tt>, <tt>slide3</tt>, one can add all those to a list at the end
+of the presentation. If <tt>slides</tt> is the initial <tt>Slide</tt> object, and
+<tt>collection</tt> is a list of slides, one can use any of the two following ways of
+adding the slides in the list to the <tt>slides</tt> object:
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 for slide in collection:
     slides.add_slide(slide)
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
+</pre>
+</blockquote>   <! -- end verbatim block -->
 or
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 slides.add_slides(collection)
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
+</pre>
+</blockquote>   <! -- end verbatim block -->
 The list of slide objects can be generated automatically, more about this in
 the next section.
 
 <P>
-<H1>Additional scripts</H1>
+<h2>Additional scripts</h2>
 <P>
-<H3>Naming slide objects</H3>
+<h3>Naming slide objects</h3>
 <P>
 The slide object that one creates need to be stored in a Python variable, and
-instead of naming these object <TT>slide1</TT>, <TT>slide2</TT> etc. it would be preferable
+instead of naming these object <tt>slide1</tt>, <tt>slide2</tt> etc. it would be preferable
 to name them according to the slide title. When writing many slides, it would
 be easier to just create the slide objects without naming them, and to run a
 script to automatically name these objects when finished. The executable
-<TT>create_slidenames</TT>, which is part of Latexslides, does exactly that. Running
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+<tt>create_slidenames</tt>, which is part of Latexslides, does exactly that. Running
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 create_slidenames exampletalk.py
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
-means the script searches the given file for lines starting with <TT>= Slide</TT>, 
-<TT>= Section</TT>, or <TT>= SubSection</TT>, and adds a line consisting of the title of the
+</pre>
+</blockquote>   <! -- end verbatim block -->
+means the script searches the given file for lines starting with <tt>= Slide</tt>, 
+<tt>= Section</tt>, or <tt>= SubSection</tt>, and adds a line consisting of the title of the
 slide before these lines. Special characters as well as spaces and Norwegian
 characters are substituted so the variable name is valid in Python. Spaces
-and the character <TT>'='</TT> are substituted by underscores.
+and the character <tt>'='</tt> are substituted by underscores.
 For example,
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 = Section('More about {if "__name__" == __main__}',)
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
+</pre>
+</blockquote>   <! -- end verbatim block -->
 becomes
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 More_about_if___name________main__ \ 
 = Section('More about {if "__name__" == __main__}',)
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
+</pre>
+</blockquote>   <! -- end verbatim block -->
 In this way, we don't need to worry about naming the Python objects. Note that
 one needs to use the exact same syntax, i.e. starting a line with the
-character <TT>'='</TT> followed by the name of the class to be used. The space
+character <tt>'='</tt> followed by the name of the class to be used. The space
 between those two can be skipped. Also note that the created name of the
 object does not change automatically if the title is changed. When running,
 the script examines the previous line to see if we already have assigned the
@@ -1117,120 +1253,120 @@ variable name, however, this also results in the variable name not being
 updated when the title of the slide or section is changed. Deleting the line
 containing the variable name and running the script again should fix this. Any
 instance that already has a variable assigned to it manually on the same line,
-for instance when writing <TT>myslide = Slide('This is the title',)</TT>, is also
+for instance when writing <tt>myslide = Slide('This is the title',)</tt>, is also
 skipped. This script changes the actual file, however a backup is made with
-the extension <TT>.old~~</TT>, so running
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+the extension <tt>.old~~</tt>, so running
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 create_slidenames exampletalk.py
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
-would result in <TT>exampletalk.py</TT> now containing the variable names as well,
-whereas <TT>exampletalk.py.old~~</TT> would contain the original file.
+</pre>
+</blockquote>   <! -- end verbatim block -->
+would result in <tt>exampletalk.py</tt> now containing the variable names as well,
+whereas <tt>exampletalk.py.old~~</tt> would contain the original file.
 
 <P>
-<H3>Extracting slide names</H3>
+<h3>Extracting slide names</h3>
 <P>
 Once you are finished writing the talk you need to add all the slide objects
-to the main instance of the <TT>Slides</TT> class used (e.g. <TT>BeamerSlides</TT>). The
+to the main instance of the <tt>Slides</tt> class used (e.g. <tt>BeamerSlides</tt>). The
 easiest way of keeping an overview is to do this at the end of the Python
 file, rather then after creating each slide, as discussed in the previous
 section. We included a script for extracting the variable names of all slides
-in the file in the script <TT>extract_slidenames</TT>. It runs through the file
+in the file in the script <tt>extract_slidenames</tt>. It runs through the file
 scanning for the variable names, and prints out a Python list in the terminal
 that can be copied directly in the the bottom of the Python file. So when
 running
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 extract_slidenames exampletalk.py
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
-the file <TT>exampletalk.py</TT> remains the same. Instead of copying the test we
+</pre>
+</blockquote>   <! -- end verbatim block -->
+the file <tt>exampletalk.py</tt> remains the same. Instead of copying the test we
 could add the list to the bottom of the file automatically:
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
-extract_slidenames exampletalk.py >> exampletalk.py
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
+extract_slidenames exampletalk.py &gt;&gt; exampletalk.py
+</pre>
+</blockquote>   <! -- end verbatim block -->
 Note that if we add or remove slides, we need to regenerate this list.
 
 <P>
-<H3>Converting talks to the OpenOffice format</H3>
+<h3>Converting talks to the OpenOffice format</h3>
 <P>
-Another script that comes as part of Latexslides is <TT>pdf2odp</TT>. It is used for
+Another script that comes as part of Latexslides is <tt>pdf2odp</tt>. It is used for
 converting PDF files in general to a format recognized by OpenOffice. This
 script is described in more detail in the section 'Using talks in OpenOffice'
 further down.
 
 <P>
-<H1>Writing to file</H1>
+<h2>Writing to file</h2>
 <P>
 When finished writing the presentation, we can dump the LaTeX code to
-file. This is done by simply calling the function <TT>write</TT> for the
-initial <TT>Slides</TT> object (of class <TT>BeamerSlides</TT>, <TT>ProsperSlides</TT>
-etc.). The argument is the file name. The <TT>write</TT> function also
+file. This is done by simply calling the function <tt>write</tt> for the
+initial <tt>Slides</tt> object (of class <tt>BeamerSlides</tt>, <tt>ProsperSlides</tt>
+etc.). The argument is the file name. The <tt>write</tt> function also
 outputs the necessary commands one needs to run for creating the
 slides for the specific package used (Prosper, Beamer, HTML). So if
-all slide instances are collected in a list <TT>collection</TT>, these are
+all slide instances are collected in a list <tt>collection</tt>, these are
 dumped to file by writing
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 for c in collection:
     slides.add_slide(c)
 filename = 'mytalk.tex'
 slides.write(filename)
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
+</pre>
+</blockquote>   <! -- end verbatim block -->
 or (even simpler)
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 slides.add_slides(collection)
 filename = 'mytalk.tex'
 slides.write(filename)
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
+</pre>
+</blockquote>   <! -- end verbatim block -->
 If there are some slides that you do not want to be part of the presentation,
 you do not have to delete them. You can either remove the slides you do not
 want to include from the list, or even simpler, mark them as hidden. This can
 be done in three ways.
 
-<OL>
-<LI> Set the keyword argument <TT>hidden</TT> to <TT>True</TT> when creating the slide.
-<LI> Set the attribute <TT>hidden</TT> to <TT>True</TT>. If you slide instance is called <TT>titleslide</TT>, it will not be printed if you write <TT>titleslide.hidden=True</TT>.
-<LI> Add the property <TT>hide</TT> to an object when adding it. It returns the object with the attribute <TT>hidden</TT> set to <TT>True</TT>. So instead of writing
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+<ol>
+<li> Set the keyword argument <tt>hidden</tt> to <tt>True</tt> when creating the slide.
+<li> Set the attribute <tt>hidden</tt> to <tt>True</tt>. If you slide instance is called <tt>titleslide</tt>, it will not be printed if you write <tt>titleslide.hidden=True</tt>.
+<li> Add the property <tt>hide</tt> to an object when adding it. It returns the object with the attribute <tt>hidden</tt> set to <tt>True</tt>. So instead of writing
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 slides.add_slide(titleslide)
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
-</OL>
+</pre>
+</blockquote>   <! -- end verbatim block -->
+</ol>
 
 you would write
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 slides.add_slide(titleslide.hide)
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
+</pre>
+</blockquote>   <! -- end verbatim block -->
 
 <P>
-<H1>Compiling the talk</H1>
+<h2>Compiling the talk</h2>
 <P>
-If the function <TT>slides.write()</TT> is used, the necessary commands for
+If the function <tt>slides.write()</tt> is used, the necessary commands for
 compiling the talk are output to screen. If not, one simply uses
-<TT>latex mytalk.tex</TT>. Please note that the generation of HTML slides
-requires running <TT>tex4ht</TT> and <TT>t4ht</TT> afterwards.
+<tt>latex mytalk.tex</tt>. Please note that the generation of HTML slides
+requires running <tt>tex4ht</tt> and <tt>t4ht</tt> afterwards.
 
 <P>
-<H1>About figure support</H1>
+<h2>About figure support</h2>
 <P>
-Because Prosper cannot be used with <TT>pdflatex</TT>, <TT>latex</TT> is recommended. This
+Because Prosper cannot be used with <tt>pdflatex</tt>, <tt>latex</tt> is recommended. This
 means, however, that only .ps images can be used, not .png, if portability
 between Prosper and Beamer is desirable. It is recommended that you use the
-ImageMagick <TT>convert</TT> tool for converting the PNG image to PostScript, and including them as
+ImageMagick <tt>convert</tt> tool for converting the PNG image to PostScript, and including them as
 .ps or .eps files.
 
 <P>
-<H1>Using talks in OpenOffice</H1>
+<h2>Using talks in OpenOffice</h2>
 <P>
 Latexslides includes a script for converting presentations in the PDF format
 to the OpenOffice Impress format (.odp). OpenOffice Impress is a presentation
@@ -1238,12 +1374,12 @@ tool similar to Microsoft Office PowerPoint. OpenOffice is a free, open source
 alternative to Microsoft Office. One could convert the .odp file further to a
 PowerPoint file (.ppt), either by opening it in Impress and opting to save it
 as a .ppt file, or through a commandline script like 
-<A HREF="http://www.artofsolving.com/opensource/pyodconverter">PyODConverter</A>
-(<A HREF="http://www.artofsolving.com/opensource/pyodconverter). 
+<a href="http://www.artofsolving.com/opensource/pyodconverter">PyODConverter</a>
+(http://www.artofsolving.com/opensource/pyodconverter). 
 
-">P</A>
+<P>
 Sometimes when giving a presentation, you might experience that the
-organizers only accept .ppt or .odp files. <TT>pdf2odp</TT>, which comes as
+organizers only accept .ppt or .odp files. <tt>pdf2odp</tt>, which comes as
 part of Latexslides, solves this problem. Of course, not accepting PDF
 files these days would be surprising, and hence this is not the main
 objective of the script. The reason it was written is that sometimes,
@@ -1257,13 +1393,13 @@ best from two worlds; the simplicity of Latexslides and the advanced
 interactive functionality of Impress or PowerPoint.
 
 <P>
-The script <TT>pdf2odp</TT> uses a Python module called <TT>odfpy</TT>. An error is
+The script <tt>pdf2odp</tt> uses a Python module called <tt>odfpy</tt>. An error is
 given before exiting the script in case this module is unavailable. If
 the module is found, Ghostscript is used for converting the input
 file, which should be a PDF file, to a set of PNG files, one for each
 page in the input file. This conversion process can take some time. If
 Ghostscript is unavailable, the script will exit with an error. When
-the conversion is finished, <TT>odfpy</TT> is used to create the OpenOffice
+the conversion is finished, <tt>odfpy</tt> is used to create the OpenOffice
 file. Each slide in the new presentation contains an image that
 corresponds to the slide in the input file, and this image covers the
 whole slide. Finally, the OpenOffice file is saved and the scripts
@@ -1279,113 +1415,113 @@ cannot be clicked. Also, as all the text is part of an image, it is no
 longer possible to copy the text or index the file in any way.
 
 <P>
-<H1>Package specific information</H1>
+<h2>Package specific information</h2>
 <P>
-<H3>ProsperSlides</H3>
+<h3>ProsperSlides</h3>
 <P>
 Some of the keyword arguments are only available to BeamerSlides and
 HTMLSlides. If these keyword arguments are present when using ProsperSlides,
 they are simply ignored.
 
 <P>
-<H3>HTMLSlides</H3>
+<h3>HTMLSlides</h3>
 <P>
 HTMLSlides is really the same as BeamerSlides, with the following modifications:
 
-<UL>
- <LI> The <TT>html</TT> keyword for Slides is set to <TT>True</TT>.
- <LI> The <TT>toc_heading</TT> keyword for Slides is set to en empty string, removing the table of contents.
- <LI> All sections and subsections are removed.
-</UL>
+<ul>
+ <li> The <tt>html</tt> keyword for Slides is set to <tt>True</tt>.
+ <li> The <tt>toc_heading</tt> keyword for Slides is set to en empty string, removing the table of contents.
+ <li> All sections and subsections are removed.
+</ul>
 
-After Latexslides has generated the LaTeX code, the commands <TT>tex4ht</TT> and
-<TT>t4ht</TT> are used to generate the actual HTML file.
+After Latexslides has generated the LaTeX code, the commands <tt>tex4ht</tt> and
+<tt>t4ht</tt> are used to generate the actual HTML file.
 
 <P>
-<H1>Styles</H1>
+<h2>Styles</h2>
 <P>
 Several LaTeX styles are included with this package. These are:
 
-<UL>
- <LI> beamerthemsimula.sty
- <LI> beamerthemehpl1.sty
-</UL>
+<ul>
+ <li> beamerthemsimula.sty
+ <li> beamerthemehpl1.sty
+</ul>
 
 for Beamer and:
 
-<UL>
- <LI> PPRhplplain.sty
- <LI> PPRhplplain2.sty
- <LI> PPRhplplainsmall.sty
-</UL>
+<ul>
+ <li> PPRhplplain.sty
+ <li> PPRhplplain2.sty
+ <li> PPRhplplainsmall.sty
+</ul>
 
-for Prosper. These are located in the folder <TT>styles</TT>. If you want to use
+for Prosper. These are located in the folder <tt>styles</tt>. If you want to use
 these, you might want to set the following in your shell start-up file (for
-Bash, this is <TT>~/.bashrc</TT>:
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+Bash, this is <tt>~/.bashrc</tt>:
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 export TEXINPUTS=:.:/absolute/path/to/styles
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
-Note the first <TT>'.'</TT>; it ensures that the system-wide directories are
+</pre>
+</blockquote>   <! -- end verbatim block -->
+Note the first <tt>'.'</tt>; it ensures that the system-wide directories are
 searched first. More information on how to install the style files to the
 correct directories is found in the README file.
 
 <P>
-<H1>Emacs bindings</H1>
+<h2>Emacs bindings</h2>
 <P>
 The following Emacs command (Alt + up-arrow) starts a slide object
 without a variable name:
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 (global-set-key [ (meta up)] " = Slide('',
 content=[BulletBlock(bullets=[
     '',")
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
+</pre>
+</blockquote>   <! -- end verbatim block -->
 Bullet points can then be written.
-The end of the <TT>Slide</TT> object is automatically generated by
+The end of the <tt>Slide</tt> object is automatically generated by
 this Emacs command (Alt + down-arrow):
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 (global-set-key [ (meta down)] "
 ]),  # end bullets and BulletBlock
 ],   # end contents
 )")
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
+</pre>
+</blockquote>   <! -- end verbatim block -->
 In order for these to work, the commands need to be included in the file
-<TT>.emacs</TT> in your home directory. Sorry, no vim bindings!
+<tt>.emacs</tt> in your home directory. Sorry, no vim bindings!
 
 <P>
-<H1>Oldlatexslides</H1>
+<h2>Oldlatexslides</h2>
 <P>
 The source code from the old version of this package can still be used. 
 However it needs a few modifications. We start by importing the module:
-<!-- BEGIN VERBATIM BLOCK   -->
-<BLOCKQUOTE><PRE>
+<blockquote>    <!-- begin verbatim block   -->
+<pre>
 import latexslides.old as LaTeXSlides
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
-If you used the <TT>from module import things</TT> style, you might want to try 
-<!-- BEGIN VERBATIM BLOCK  -->
-<BLOCKQUOTE><PRE>
+</pre>
+</blockquote>   <! -- end verbatim block -->
+If you used the <tt>from module import things</tt> style, you might want to try 
+<blockquote>    <!-- begin verbatim block  -->
+<pre>
 from latexslides.old import *
-</PRE></BLOCKQUOTE>
-<! -- END VERBATIM BLOCK -->
+</pre>
+</blockquote>   <! -- end verbatim block -->
 The only difference is that the header, titlepage, and footer objects are to be
 omitted, meaning they should not be part of the list that is created at the
-end of the talk. Finally, the <TT>header_footer</TT> argument that was used for each
+end of the talk. Finally, the <tt>header_footer</tt> argument that was used for each
 bullet-slide in the old package is now a global variable set in the
 initialization of the main slides class, and is the same for all slides.
 
 <P>
-<H1>Support</H1>
+<h2>Support</h2>
 <P>
 Please contact the authors,
-<TT>ilmarw@simula.no</TT> or <TT>hpl@simula.no</TT>, for bug reports, 
+<tt>ilmarw@simula.no</tt> or <tt>hpl@simula.no</tt>, for bug reports, 
 feature requests and general help.
 
-</BODY>
-</HTML>
+</body>
+</html>
     
