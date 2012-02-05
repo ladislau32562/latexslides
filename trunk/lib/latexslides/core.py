@@ -132,7 +132,8 @@ class Raw(Content):
         Content.__init__(self, text)
 
 def verbatimCode(code, file, from_regex, to_regex,
-                 leftmargin, fontsize, ptex2tex_envir):
+                 leftmargin, fontsize, ptex2tex_envir,
+                 latex_envir):
     if file is not None:
         # Read code from file
         f = open(file, 'r')
@@ -175,8 +176,9 @@ def verbatimCode(code, file, from_regex, to_regex,
     line_no = 0
     while lines[line_no].strip() == '':
         line_no += 1
-    if lines[line_no].startswith(r'\b'):
-        # Found ptex2tex begin envir
+    if lines[line_no].startswith(r'\b') and \
+           not lines[line_no].startswith(r'\begin{'):
+        # Assume ptex2tex begin envir
         envir = line[2:]
         #print 'Found begin %s at line' % envir, line_no
         if ptex2tex_envir is not None:
@@ -197,41 +199,58 @@ def verbatimCode(code, file, from_regex, to_regex,
     #if envir:
     #    print 'Code after detection of envir %s' % envir
     #    print code
-        
+
     if not envir:  # no explicit ptex2tex environments
         if ptex2tex_envir is None:
-            # Use plain Verbatim
-            code = r"""
+            # Use latex envir
+            if latex_envir == 'Verbatim':
+                code = r"""
 \begin{Verbatim}[fontsize=%s,tabsize=4,baselinestretch=0.85,fontfamily=tt,xleftmargin=%s]
 %s
 \end{Verbatim}
 """ % (fontsize, leftmargin, code) 
-            #"""\noindent """
+            elif latex_envir == 'minted':
+                code = r"""
+\begin{minted}[fontsize=%s,tabsize=4,linenos=false,mathescape,baselinestretch=0.98,fontfamily=tt,xleftmargin=%s]{python}
+%s
+\end{minted}
+""" % (fontsize, leftmargin, code)
+            else:
+                print 'Wrong latex_envir="%s" (must be Verbatim or minted)\nCode object:\n%s' % (latex_envir, code)
+                sys.exit(1)
+            #add """\noindent """
+                
         else:
             # Use ptex2tex environment
-
             if code[0] != '\n':       # make sure there is a \n before \b...
                 code = '\n' + code
             if code[-1] != '\n':
                 code = code + '\n'    # make sure there is a \n before \e...
                 
             code = '\n' + r'\b%s' % ptex2tex_envir + code + r'\e%s' % ptex2tex_envir + '\n'
-    
+
     return code
 
 class Code(Content):
-    ptex2tex_envir = None  # implies Verbatim LaTeX environment
+    ptex2tex_envir = None     # implies LaTeX environment latex_envir
+    latex_envir = None        # used if ptex2tex_envir is None
     
     def __init__(self, code='', file=None, from_regex=None, to_regex=None,
                  leftmargin='7mm', fontsize=r'\footnotesize',  # Verbatim
-                 ptex2tex_envir=None):
+                 ptex2tex_envir=None, latex_envir=None):
 
         if ptex2tex_envir is None:
             if Code.ptex2tex_envir is not None:
                 # Use class "global" variable, set by the user
                 ptex2tex_envir = Code.ptex2tex_envir
-        #else:
-        # for Verbatim environment
+        if latex_envir is None:
+            if Code.latex_envir is not None:
+                # Use class "global" variable, set by the user
+                latex_envir = Code.latex_envir
+            else:
+                latex_envir = 'Verbatim'
+
+        # For Verbatim/minted environment (latex_envir)
         if not fontsize.startswith('\\'):
             fontsize = '\\' + fontsize
         if Content.font_scale:
@@ -242,7 +261,8 @@ class Code(Content):
                 fontsize = r'\footnotesize'
         
         ltx = verbatimCode(code, file, from_regex, to_regex,
-                           leftmargin, fontsize, ptex2tex_envir)
+                           leftmargin, fontsize, ptex2tex_envir,
+                           latex_envir)
         Content.__init__(self, ltx)
         
     def __str__(self):
@@ -326,7 +346,7 @@ def _verbatim_phrases():
     cod = pro.replace('pro', 'cod')
     ptex2tex_envirs = 'ccq cc ccl cod pro cppans pyans bashans swigans uflans sni dat dsni sys slin py rpy plin' + pro + cod
     ptex2tex_phrases = ['\\e' + envir for envir in ptex2tex_envirs]
-    phrases = ['{Verbatim}', '{verbatim}', 'SaveVerbatim'] + ptex2tex_phrases
+    phrases = ['{Verbatim}', '{verbatim}', 'SaveVerbatim', '{minted}'] + ptex2tex_phrases
     return phrases
     
 def _verbatim_text(bullets):
