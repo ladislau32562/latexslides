@@ -534,15 +534,19 @@ a start and a stop expression:
  * `leftmargin`
    * Default: `"7mm"`
    * Type: str
-   * Comment: Sets the left margin for the code in case of the default Verbatim environment.
+   * Comment: Sets the left margin for the code in case of the Verbatim or minted environment.
  * `fontsize`
    * Default: `"footnotesize"` (if the string does not start with a backslash, it is added automatically).
    * Type: str
-   * Comment: Sets the size of the code font in case of the default Verbatim environment. Needs to be a valid LaTeX command ranging from `tiny` to `Huge` (if the string does not start with a backslash, it as added automatically).
+   * Comment: Sets the size of the code font in case of the Verbatim or minted environment. Needs to be a valid LaTeX command ranging from `tiny` to `Huge` (if the string does not start with a backslash, it as added automatically).
  * `ptex2tex_envir`
    * Default: `None`
    * Type: str
-   * Comment: Enables `ptex2tex` environments. Specifying (say) `pycod` means that the code is wrapped in the begin/end `pycod` environment, which is defined in a local `.ptex2tex.cfg` file, a similar file in the user's home directory, or a system-side similar file. The `ptex2tex_envir` value also applies if the code is read from file. The code environment can also be explicitly manually inserted in the code text, e.g., a `\bcpycod` and `\epycod` text inserted before and after the code, respectively. If the `ptex2tex_envir` argument is given, this value is substituted for the explicitly specified environment in `code`. Finally, the `ptex2tex` environment can be specified "globally" by a class variable `Code.ptex2tex_envir` in order to set the code environment once and for all in a file. The `ptex2tex_envir` argument to a specific `Code` object will override the `Code.ptex2tex_envir` value.
+   * Comment: Enables `ptex2tex` environments. Specifying (say) `pycod` means that the code is wrapped in the begin/end `pycod` environment, which is defined in a local `.ptex2tex.cfg` file, a similar file in the user's home directory, or a system-side similar file. The `ptex2tex_envir` value also applies if the code is read from file. The code environment can also be explicitly manually inserted in the code text, e.g., a `\bcpycod` and `\epycod` text inserted before and after the code, respectively. If the `ptex2tex_envir` argument is given, this value is substituted for the explicitly specified environment in `code`. Finally, the `ptex2tex` environment can be specified "globally" by a class variable `Code.ptex2tex_envir` in order to set the code environment once and for all in a file. The `ptex2tex_envir` argument to a specific `Code` object will override the `Code.ptex2tex_envir` value. Note that if `ptex_envir` corresponds to any of the `Minted_*` environments in Ptex2tex (`minted` environment in LaTeX), you need to run `latex` or `pdflatex` with the `-shell-escape` command-line option.
+ * `latex_envir`
+   * Default: `None`
+   * Type: str
+   * Comment: Enables a hardcoded LaTeX environment (instead of using `ptex2tex`). One can specify two values: `'minted'` or `'Verbatim'` (default). The hardcoded LaTeX environment for verbatim code can also be specified "globally" by a class variable `Code.latex_envir` in order to set the Verbatim or minted environment once and for all in a file. The `latex_envir` argument to a specific `Code` object will override the `Code.latex_envir` value. Note that if `latex_envir` is `minted`, you need to run `latex` or `pdflatex` with the `-shell-escape` command-line option.
 
 `Table` gives us the possibility for creating LaTeX tables directly based on
 (nested) Python lists. Writing tables in LaTeX is a tedious task, so automatically generating

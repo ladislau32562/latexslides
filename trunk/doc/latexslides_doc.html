@@ -888,7 +888,7 @@ a start and a stop expression:
 <ul>
    <li> Default: <tt>"7mm"</tt>
    <li> Type: str
-   <li> Comment: Sets the left margin for the code in case of the default Verbatim environment.
+   <li> Comment: Sets the left margin for the code in case of the Verbatim or minted environment.
 </ul>
 
  <li> <tt>fontsize</tt>
@@ -896,7 +896,7 @@ a start and a stop expression:
 <ul>
    <li> Default: <tt>"footnotesize"</tt> (if the string does not start with a backslash, it is added automatically).
    <li> Type: str
-   <li> Comment: Sets the size of the code font in case of the default Verbatim environment. Needs to be a valid LaTeX command ranging from <tt>tiny</tt> to <tt>Huge</tt> (if the string does not start with a backslash, it as added automatically).
+   <li> Comment: Sets the size of the code font in case of the Verbatim or minted environment. Needs to be a valid LaTeX command ranging from <tt>tiny</tt> to <tt>Huge</tt> (if the string does not start with a backslash, it as added automatically).
 </ul>
 
  <li> <tt>ptex2tex_envir</tt>
@@ -904,7 +904,15 @@ a start and a stop expression:
 <ul>
    <li> Default: <tt>None</tt>
    <li> Type: str
-   <li> Comment: Enables <tt>ptex2tex</tt> environments. Specifying (say) <tt>pycod</tt> means that the code is wrapped in the begin/end <tt>pycod</tt> environment, which is defined in a local <tt>.ptex2tex.cfg</tt> file, a similar file in the user's home directory, or a system-side similar file. The <tt>ptex2tex_envir</tt> value also applies if the code is read from file. The code environment can also be explicitly manually inserted in the code text, e.g., a <tt>\bcpycod</tt> and <tt>\epycod</tt> text inserted before and after the code, respectively. If the <tt>ptex2tex_envir</tt> argument is given, this value is substituted for the explicitly specified environment in <tt>code</tt>. Finally, the <tt>ptex2tex</tt> environment can be specified "globally" by a class variable <tt>Code.ptex2tex_envir</tt> in order to set the code environment once and for all in a file. The <tt>ptex2tex_envir</tt> argument to a specific <tt>Code</tt> object will override the <tt>Code.ptex2tex_envir</tt> value.
+   <li> Comment: Enables <tt>ptex2tex</tt> environments. Specifying (say) <tt>pycod</tt> means that the code is wrapped in the begin/end <tt>pycod</tt> environment, which is defined in a local <tt>.ptex2tex.cfg</tt> file, a similar file in the user's home directory, or a system-side similar file. The <tt>ptex2tex_envir</tt> value also applies if the code is read from file. The code environment can also be explicitly manually inserted in the code text, e.g., a <tt>\bcpycod</tt> and <tt>\epycod</tt> text inserted before and after the code, respectively. If the <tt>ptex2tex_envir</tt> argument is given, this value is substituted for the explicitly specified environment in <tt>code</tt>. Finally, the <tt>ptex2tex</tt> environment can be specified "globally" by a class variable <tt>Code.ptex2tex_envir</tt> in order to set the code environment once and for all in a file. The <tt>ptex2tex_envir</tt> argument to a specific <tt>Code</tt> object will override the <tt>Code.ptex2tex_envir</tt> value. Note that if <tt>ptex_envir</tt> corresponds to any of the <tt>Minted_*</tt> environments in Ptex2tex (<tt>minted</tt> environment in LaTeX), you need to run <tt>latex</tt> or <tt>pdflatex</tt> with the <tt>-shell-escape</tt> command-line option.
+</ul>
+
+ <li> <tt>latex_envir</tt>
+
+<ul>
+   <li> Default: <tt>None</tt>
+   <li> Type: str
+   <li> Comment: Enables a hardcoded LaTeX environment (instead of using <tt>ptex2tex</tt>). One can specify two values: <tt>'minted'</tt> or <tt>'Verbatim'</tt> (default). The hardcoded LaTeX environment for verbatim code can also be specified "globally" by a class variable <tt>Code.latex_envir</tt> in order to set the Verbatim or minted environment once and for all in a file. The <tt>latex_envir</tt> argument to a specific <tt>Code</tt> object will override the <tt>Code.latex_envir</tt> value. Note that if <tt>latex_envir</tt> is <tt>minted</tt>, you need to run <tt>latex</tt> or <tt>pdflatex</tt> with the <tt>-shell-escape</tt> command-line option.
 </ul>
 
 </ul>

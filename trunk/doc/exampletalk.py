@@ -10,7 +10,8 @@ and afterwards you are probably ready to write your own talk.
 """
 
 from latexslides import *
-Code.ptex2tex_envir = 'cod'
+#Code.ptex2tex_envir = 'cod'
+Code.latex_envir = 'minted'
 
 # We recommend to use raw strings (r'some string') because a backslash
 # is then a backslash and that's convenient when writing LaTeX.
@@ -60,9 +61,10 @@ BulletSlide('What is Latexslides?',
 
 subsec_plaintext = SubSection('Plain Text Slides', 'Text')
 
+
 ex1 = \
 Slide('First example: simple bullet lists',
-      [TextBlock(Code("""
+      [TextBlock(text=Code("""
 BulletSlide('What is Latexslides?',
 ['A Python module',
  'You write slides as Python code, i.e., as function calls',
@@ -73,7 +75,7 @@ BulletSlide('What is Latexslides?',
  'From the Python code you can automatically generate '
  r'prosper or beamer \LaTeX~code and HTML'],)
 """),
-                 'Here is how we wrote the previous slide:',),
+                 heading='Here is how we wrote the previous slide:',),
        BulletBlock(heading='Explanations:',
                    bullets=[r'The first argument is the title of the slide',
                             r'Bullet lists are simply Python lists of '
@@ -243,6 +245,8 @@ figure_pos='n',
 
 subsec_code = SubSection('Computer Code', 'Code')
 
+Code.latex_envir = None  # default
+
 code_obj1 = \
 BulletSlide('Code objects take care of verbatim text',
             [r'Want to include computer code or some '
@@ -280,6 +284,7 @@ def mypyfunc(somearg):
 code_obj2 = \
 BulletSlide('Code objects can also use ptex2tex enviroments',
             [r'Can set \texttt{Code.ptex2tex\_envir = "pycod"} (for instance), which then applies to all \texttt{Code} objects',
+             r'Can set \texttt{Code.latex\_envir = "minted"} (or \texttt{"Verbatim"}, which then applies these \LaTeX{} environments to all \texttt{Code} objects',
              r'Can alternatively provide \texttt{ptex2tex\_envir} argument to \texttt{Code} constructor:' + Code('''
 bullets=[r'Here is an example:' +
 Code("""
@@ -308,7 +313,7 @@ def mypyfunc(somearg):
         else:
             return None
 """, ptex2tex_envir='pycod'),
-                     r'Here \texttt{pycod} corresponds to \texttt{Python\_ANS}',
+                     r'Here \texttt{pycod} corresponds to \texttt{ANS\_Python} in \texttt{.ptex2tex.cfg}',
                      r'Note that the slides should be written to a file with extension \texttt{.p.tex}',
                      r'Note that ptex2tex must be installed and used'])
 
@@ -387,12 +392,55 @@ def mypyfunc(somearg):
         else:
             return None
 """),
-  r'This code style requires pygmentize to be installed and \LaTeX\ to be invoked by \texttt{latex -shell-escape}',
-  r'Here \texttt{cod} corresponds to \texttt{Minted\_Python}',
+  r'Here \texttt{cod} corresponds to \texttt{CodeRule} in \texttt{.ptex2tex.cfg}',
                      
 ])
 
-#Code.ptex2tex_envir = None  # set back
+Code.ptex2tex_envir = None  # set back
+
+
+code_obj5 = \
+BulletSlide('Code objects can also avoid using ptex2tex enviroments and instead a hardcoded Verbatim or minted environments',
+            [r'Set \texttt{Code.latex\_envir = "minted"} (or \texttt{"Verbatim"})' + Code('''
+Code.latex_envir = "minted"
+...
+Slide(...
+bullets=[r'Here is an example:' +
+Code("""
+def mypyfunc(somearg):
+    for i in somearg:
+        p = process(i)
+        if p in mylist:
+            return p
+        else:
+            return None
+""", fontsize='tiny', leftmargin='15mm')
+'''),
+             r'Note that \texttt{fontsize} and \texttt{leftmargin} can only be set with effect when ptex2tex is not used'
+             ],)
+
+Code.latex_envir = "minted"
+
+code_obj5_result = \
+BulletSlide('Result of using Code objects',
+            block_heading='Here is the result of the constructions on the '
+                          'previous slide:',
+            bullets=[r'Here is an example:' +
+                     Code("""
+def mypyfunc(somearg):
+    for i in somearg:
+        p = process(i)
+        if p in mylist:
+            return p
+        else:
+            return None
+""", fontsize='tiny', leftmargin='15mm'),
+  r'This code style corresponds to \texttt{Minted\_Python}, but the \LaTeX{} environment it is hardcoded in the .tex file (no use of ptex2tex)',
+  r'This \texttt{minted} code style requires pygmentize to be installed and \LaTeX\ to be invoked by \texttt{latex -shell-escape}',
+])
+
+#Code.latex_envir = None  # set back
+
 
 sec_specials = Section('More information', 'More')
 
@@ -646,6 +694,8 @@ code_obj3,
 code_obj3_result,
 code_obj4,
 code_obj4_result,
+code_obj5,
+code_obj5_result,
 sec_specials,
 sections,
 navigation,

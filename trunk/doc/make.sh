@@ -22,7 +22,7 @@ cp doc.do.txt _tmp.do.txt
 
 # If no images, run create_images_exampletalk.py 1
 doconce format latex doc.do.txt
-ptex2tex doc
+ptex2tex -DLATEX_HEADING=traditional doc
 doconce subst '\\begin{figure}' '\\begin{figure}[ht]' doc.tex
 doconce replace 'amssymb' 'amssymb,float,subfigure,graphicx,lscape' doc.tex
 doconce replace 'documentclass' 'documentclass[a4paper]' doc.tex
