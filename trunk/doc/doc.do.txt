@@ -1,17 +1,19 @@
 TITLE: Latexslides: From Python Slide Objects to LaTeX Beamer Code
 AUTHOR: Ilmar Wilbers at Simula Research Laboratory
 AUTHOR: Hans Petter Langtangen at Simula Research Laboratory and University of Oslo
-DATE: September 2, 2010
+DATE: August 6, 2011
 
 ======= Introduction =======
 
 ===== What Is Latexslides? =====
 
-Latexslides is a tool that allows you to write slides in Python:
-each slide is a Python object, and a talk is a list of such objects.
-This list can converted to LaTeX beamer or prosper code.
-One can compose talks by importing slide objects from Python modules
-and hence reuse individual slides.
+Latexslides is a tool that allows you to write slides in Python: each
+slide is a Python object, and a talk is a list of such objects.  This
+list can converted to LaTeX beamer or prosper code.  The Python code
+is much more compact than the corresponding LaTeX format. Talks can be
+composed by just importing slide objects from Python modules and put
+them in a list. In this way, slides from previous talks can easily be
+reused.
 
 Latexslides simplifies many of the constructions in LaTeX beamer.
 For example, a figure can be placed to the right, left, under or over
