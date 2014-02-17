@@ -21,8 +21,8 @@ doconce subst '\(the URL of the image file intro2.png must be inserted here\)' '
 cp doc.do.txt _tmp.do.txt
 
 # If no images, run create_images_exampletalk.py 1
-doconce format latex doc.do.txt
-ptex2tex -DLATEX_HEADING=traditional doc
+doconce format latex doc.do.txt --latex_title_layout=std
+ptex2tex doc
 doconce subst '\\begin{figure}' '\\begin{figure}[ht]' doc.tex
 doconce replace 'amssymb' 'amssymb,float,subfigure,graphicx,lscape' doc.tex
 doconce replace 'documentclass' 'documentclass[a4paper]' doc.tex
