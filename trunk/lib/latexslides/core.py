@@ -9,9 +9,9 @@ content in a certain area. The area is painted in a certain colour and can also 
 Primitive content is represented by different subclasses of class Content. There are classes for text, bullet lists,
 figures and computer code.
 """
-__all__ = ["BulletSlide", "Slide", "TextSlide", "TableSlide", "RawSlide", 
-           "MappingSlide", "Block", "Content", "TextBlock", "CodeBlock", 
-           "BulletBlock", "TableBlock", "Text", "Table", "BulletList", 
+__all__ = ["BulletSlide", "Slide", "TextSlide", "TableSlide", "RawSlide",
+           "MappingSlide", "Block", "Content", "TextBlock", "CodeBlock",
+           "BulletBlock", "TableBlock", "Text", "Table", "BulletList",
            "Code", "generate", "Section", "SubSection", "Slides"]
 
 import re, os, sys
@@ -28,7 +28,7 @@ def _latextable(table,
         column_headline_pos = column_headline_pos*ncolumns
     if not len(column_headline_pos) == len(column_pos):
         raise IndexError, 'Mismatch between column header and column'
-        
+
     s = r"""
 \begin{tabular}{%s}
 \hline\noalign{\smallskip}
@@ -73,7 +73,7 @@ slide2 = BulletSlide("slidetitle",
                       ["subbullet1", "subbullet2"],
                       "bullet2",],
                      block_heading="heading",)
-                     
+
 collection = [sec1, slide1, sub1, slide2]
 for c in collection:
     slides.add_slide(c)
@@ -98,13 +98,13 @@ class Content(object):
             if self._ltx.find(p) != -1:
                 self._verbatim = True
                 break
-    
+
     def checkVerbatim(self, bullets):
         self._verbatim = _verbatim_text(bullets)
-                
+
     def render(self, buffer):
         """ Render to buffer.
-        
+
         LaTeX code will be written to the buffer that starts
         and ends without whitespace except for a linebreak at the end.
         """
@@ -118,7 +118,8 @@ class Content(object):
 class Text(Content):
     def __init__(self, text):
         if not isinstance(text, basestring):
-            text = str(text)
+            str(text)
+        #text = ' '.join(text.splitlines())
         Content.__init__(self, text)
 
 class BulletList(Content):
@@ -159,7 +160,7 @@ def verbatimCode(code, file, from_regex, to_regex,
     # the user must be able to put in blank lines at the top and bottom
     # if that fits the text better. This doesn't make sense if the code
     # block is read from file.
-    
+
     lines = [line for line in code.splitlines()]
     #lines = [line for line in code.splitlines() if line]
 
@@ -167,7 +168,7 @@ def verbatimCode(code, file, from_regex, to_regex,
 
     #import pprint
     #pprint.pprint(lines)
-    
+
     # Check if ptex2tex environments are present
     ptex2tex = False
     envir = None
@@ -208,25 +209,40 @@ def verbatimCode(code, file, from_regex, to_regex,
 \begin{Verbatim}[fontsize=%s,tabsize=4,baselinestretch=0.85,fontfamily=tt,xleftmargin=%s]
 %s
 \end{Verbatim}
-""" % (fontsize, leftmargin, code) 
+""" % (fontsize, leftmargin, code)
             elif latex_envir == 'minted':
                 code = r"""
 \begin{minted}[fontsize=%s,tabsize=4,linenos=false,mathescape,baselinestretch=0.98,fontfamily=tt,xleftmargin=%s]{python}
 %s
 \end{minted}
 """ % (fontsize, leftmargin, code)
+            elif latex_envir == 'doconce':
+                if '>>>' in code:
+                    tp = 'pyshell'
+                elif 'In [' in code:
+                    tp = 'ipy'
+                elif 'Terminal>' in code or 'Unix>' in code or 'Unix/DOS>' in code:
+                    tp = 'sys'
+                else:
+                    tp =' pycod'
+                code = r"""
+
+!bc %s
+%s
+!ec
+""" % (tp, code.rstrip())
             else:
                 print 'Wrong latex_envir="%s" (must be Verbatim or minted)\nCode object:\n%s' % (latex_envir, code)
                 sys.exit(1)
             #add """\noindent """
-                
+
         else:
             # Use ptex2tex environment
             if code[0] != '\n':       # make sure there is a \n before \b...
                 code = '\n' + code
             if code[-1] != '\n':
                 code = code + '\n'    # make sure there is a \n before \e...
-                
+
             code = '\n' + r'\b%s' % ptex2tex_envir + code + r'\e%s' % ptex2tex_envir + '\n'
 
     return code
@@ -234,7 +250,7 @@ def verbatimCode(code, file, from_regex, to_regex,
 class Code(Content):
     ptex2tex_envir = None     # implies LaTeX environment latex_envir
     latex_envir = None        # used if ptex2tex_envir is None
-    
+
     def __init__(self, code='', file=None, from_regex=None, to_regex=None,
                  leftmargin='7mm', fontsize=r'\footnotesize',  # Verbatim
                  ptex2tex_envir=None, latex_envir=None):
@@ -259,12 +275,12 @@ class Code(Content):
                 fontsize = r'\tiny'
             elif fontsize == r'\small':
                 fontsize = r'\footnotesize'
-        
+
         ltx = verbatimCode(code, file, from_regex, to_regex,
                            leftmargin, fontsize, ptex2tex_envir,
                            latex_envir)
         Content.__init__(self, ltx)
-        
+
     def __str__(self):
         return str(self._ltx)
     def __repr__(self):
@@ -284,7 +300,7 @@ class Table(Content):
         Translates a two-dimensional list of data, containing strings or
         numbers, optionally with row and column headings,
         to a LaTeX tabular environment.
-        
+
         @param column_headline_pos: position l/c/r for the headline row.
         @param column_pos: specify the l/c/r position of data entries in columns,
         give either (e.g.) 'llrrc' or one char (if all are equal).
@@ -333,11 +349,11 @@ class CodeBlock(Block):
 
 class TableBlock(Block):
     """ Block with table."""
-    def __init__(self, table, column_headline_pos='c', 
+    def __init__(self, table, column_headline_pos='c',
                  column_pos='c', heading='', center=False):
         self.heading = heading
         self.center = center
-        Block.__init__(self, heading=heading, 
+        Block.__init__(self, heading=heading,
                        content=[Table(table, column_headline_pos, column_pos)])
 
 
@@ -348,7 +364,7 @@ def _verbatim_phrases():
     ptex2tex_phrases = ['\\e' + envir for envir in ptex2tex_envirs]
     phrases = ['{Verbatim}', '{verbatim}', 'SaveVerbatim', '{minted}'] + ptex2tex_phrases
     return phrases
-    
+
 def _verbatim_text(bullets):
     """
     Check if we have verbatim text (i.e., if we need a fragile command
@@ -356,7 +372,7 @@ def _verbatim_text(bullets):
     """
     verbatim = False
     phrases = _verbatim_phrases()
-    
+
     for item in bullets:
         if isinstance(item, (list,tuple)):
             for item2 in item:
@@ -434,7 +450,7 @@ class Slide(object):
 
         self._left_column_width = float(left_column_width)
         self._right_column_width = 1.0 - left_column_width
-        
+
         for c in content:
             self.add_content(c)
 
@@ -487,7 +503,7 @@ def generate_mapping_slide_table(heading_figure_pairs):
     text = ""
     nrows = len(fp)
     ncolumns = len(fp) + 1
-    column_width = 1.0/ncolumns 
+    column_width = 1.0/ncolumns
     for r in range(nrows):
         text += r"""
 \begin{columns}
@@ -512,7 +528,7 @@ def generate_mapping_slide_table(heading_figure_pairs):
     return text
 
 class MappingSlide(Slide):
-    """ 
+    """
     Michael Alley-style mapping slide: tabular format of images and text
     to communicate the contents of a talk.
     """
@@ -532,7 +548,7 @@ class LatexBuffer(object):
 
     def tell(self):
         return self._buf.tell()
-    
+
     def write(self, txt, validate=True):
         """
         Write text to buffer after, after optionally checking
@@ -556,7 +572,7 @@ class LatexBuffer(object):
                 if txt.find(p) != -1:
                     self._verbatim = True
                     break
-            
+
         self._buf.write(txt)
 
     def get_text(self):
@@ -593,7 +609,7 @@ class Section(object):
             self.slides.append(slide)
         else:
             self.subsections[-1].add_slide(slide)
-    
+
 class Slides(object):
     """ Superclass for different slide packages."""
     def __init__(self,
@@ -604,7 +620,7 @@ class Slides(object):
                  figure=None,
                  titlepage_figure=None,
                  titlepage_figure_fraction_width=1.0,
-                 titlepage_left_column_width=0.5,     
+                 titlepage_left_column_width=0.5,
                  titlepage_figure_pos='s',
                  short_title='',
                  short_author=None,
@@ -637,7 +653,7 @@ class Slides(object):
                     self.newcommands.append(command)
         else:
             self.newcommands += newcommands
-    
+
         if html:
             addpackage = r"""\usepackage{tex4ht}"""
             self.latexpackages += "\n"
@@ -655,12 +671,12 @@ class Slides(object):
         # keep track of which one to call, we create a dictionary that maps
         # the type of the Content subclass to a renderfunction spesific for
         # that subclass. Hence, renderContent[BulletBlock] refers to
-        # Slide._renderBulletBlock():       
+        # Slide._renderBulletBlock():
         for i in Content.__subclasses__():
             for j in i.__subclasses__():
                 self.renderContent[j] = eval('self._render%s' %j.__name__)
             self.renderContent[i] = eval('self._render%s' %i.__name__)
-        
+
     def _header(self):
         pass
 
@@ -677,11 +693,11 @@ class Slides(object):
         if self.date is None:
             import time
             self.date = time.strftime("%B %d, %Y")
-            
+
         # Transform author_and_inst to [(author, instlist), ...]
         # from [(author, inst1, inst2, ...), ...]
         self.author_and_inst = [(elem[0], elem[1:]) for elem in self.author_and_inst]
-                      
+
         # Institutions are written only once
         # (put institutes in a set to avoid multiple items, but use
         # a list to hold the distinct institutitions for correct
@@ -694,7 +710,7 @@ class Slides(object):
                 if not inst in tmp:
                     insts.append(inst)
                     tmp.add(inst)
-        
+
         if len(self.author_and_inst) > 1:
             institute_cmd = []  # Insts with latex decorations
             # Prefix \inst{1}:
@@ -776,12 +792,12 @@ class Slides(object):
         self.buf.write(r"""
 \end{document}
 """)
-        
+
         return self.buf.getvalue()
 
     def _renderSlide(self, slide):
         pass
-        
+
     def _renderSection(self, section):
         pass
 
@@ -793,7 +809,7 @@ class Slides(object):
 
     def _renderText(self, text):
         text.render(self.buf)
-        
+
     def _renderBulletList(self, bulletlist):
         bulletlist.render(self.buf)
 
@@ -823,4 +839,4 @@ class Slides(object):
         of = open(filename, 'w')
         of.write(text)
         of.close()
-         
+
