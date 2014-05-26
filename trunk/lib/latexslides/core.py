@@ -118,7 +118,7 @@ class Content(object):
 class Text(Content):
     def __init__(self, text):
         if not isinstance(text, basestring):
-            str(text)
+            text = str(text)
         #text = ' '.join(text.splitlines())
         Content.__init__(self, text)
 
@@ -839,4 +839,3 @@ class Slides(object):
         of = open(filename, 'w')
         of.write(text)
         of.close()
-
